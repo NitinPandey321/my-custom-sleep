@@ -1,2 +1,6 @@
-<h1>Dashboards#admin</h1>
-<p>Find me in app/views/dashboards/admin.html.erb</p>
+<div class="dashboard-container">
+  <h1>Welcome to Your Admin Dashboard</h1>
+  <p>Hello, <%= current_user.first_name %>! Manage your Sleep Journey platform.</p>
+  
+  <%= link_to "Logout", logout_path, data: { "turbo-method": :delete }, class: "btn btn-primary" %>
+</div>

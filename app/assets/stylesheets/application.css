@@ -692,3 +692,26 @@ body {
     font-size: 1.25rem;
   }
 }
+
+/* Dashboard styles */
+.dashboard-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--neutral-200);
+}
+
+.dashboard-container h1 {
+  color: var(--neutral-800);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.dashboard-container p {
+  color: var(--neutral-600);
+  margin-bottom: 2rem;
+  font-size: 1.125rem;
+}

@@ -2,5 +2,5 @@
   <h1>Welcome to Your Client Dashboard</h1>
   <p>Hello, <%= current_user.first_name %>! Your sleep journey starts here.</p>
   
-  <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-primary" %>
+  <%= link_to "Logout", logout_path, data: { "turbo-method": :delete }, class: "btn btn-primary" %>
 </div>
