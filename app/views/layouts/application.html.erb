@@ -23,6 +23,19 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="app-header">
+      <div class="container">
+        <%= link_to root_path, class: "logo-link" do %>
+          <div class="logo">
+            <h1>Sleep Journey</h1>
+          </div>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <%= render 'shared/flash_messages' if flash.any? %>
+      <%= yield %>
+    </main>
   </body>
 </html>

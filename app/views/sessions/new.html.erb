@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Welcome Back</h2>
+      <p>Sign in to your Sleep Journey account</p>
+    </div>
+
+    <%= form_with url: login_path, local: true, class: "auth-form" do |form| %>
+      <div class="form-group">
+        <%= form.label :email, "Email Address", class: "form-label" %>
+        <%= form.email_field :email, 
+            class: "form-input", 
+            placeholder: "Enter your email", 
+            required: true,
+            autocomplete: "email" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, "Password", class: "form-label" %>
+        <%= form.password_field :password, 
+            class: "form-input", 
+            placeholder: "Enter your password", 
+            required: true,
+            autocomplete: "current-password" %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Sign In", class: "btn btn-primary btn-full" %>
+      </div>
+    <% end %>
+
+    <div class="auth-footer">
+      <p>Don't have an account? 
+        <%= link_to "Sign up", "#", class: "auth-link" %>
+      </p>
+    </div>
+  </div>
+</div>
