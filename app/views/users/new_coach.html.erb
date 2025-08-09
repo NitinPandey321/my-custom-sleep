@@ -1,0 +1,73 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <!-- Logo Section -->
+    <div class="auth-logo">
+      <%= link_to root_path do %>
+        <%= image_tag "my-custom-logo.jpeg", alt: "My Custom Sleep Journey", class: "brand-logo" %>
+      <% end %>
+    </div>
+
+    <div class="auth-header">
+      <h2>Sign Up as Coach</h2>
+      <p>Help clients achieve better sleep and wellness</p>
+    </div>
+
+    <%= form_with model: @user, url: signup_coach_path, local: true, class: "auth-form" do |form| %>
+      <div class="form-group">
+        <%= form.label :first_name, "First Name", class: "form-label" %>
+        <%= form.text_field :first_name, 
+            class: "form-input", 
+            placeholder: "Enter your first name", 
+            required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :last_name, "Last Name", class: "form-label" %>
+        <%= form.text_field :last_name, 
+            class: "form-input", 
+            placeholder: "Enter your last name", 
+            required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :email, "Email Address", class: "form-label" %>
+        <%= form.email_field :email, 
+            class: "form-input", 
+            placeholder: "Enter your email", 
+            required: true,
+            autocomplete: "email" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, "Password", class: "form-label" %>
+        <%= form.password_field :password, 
+            class: "form-input", 
+            placeholder: "Create a password", 
+            required: true,
+            autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
+        <%= form.password_field :password_confirmation, 
+            class: "form-input", 
+            placeholder: "Confirm your password", 
+            required: true,
+            autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Create Coach Account", class: "btn btn-primary btn-full" %>
+      </div>
+    <% end %>
+
+    <div class="auth-footer">
+      <p>Already have an account? 
+        <%= link_to "Sign in", login_path, class: "auth-link" %>
+      </p>
+      <p>
+        <%= link_to "← Back to role selection", signup_path, class: "auth-link" %>
+      </p>
+    </div>
+  </div>
+</div>

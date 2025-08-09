@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get "dashboards/client"
+  get "dashboards/coach"
+  get "dashboards/admin"
+  get "users/role_selection"
+  get "users/new_client"
+  get "users/new_coach"
+  get "users/create_client"
+  get "users/create_coach"
   get "sessions/new"
   get "sessions/create"
   get "sessions/destroy"
@@ -12,6 +20,13 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+
+  # Sign up routes
+  get '/signup', to: 'users#role_selection'
+  get '/signup/client', to: 'users#new_client'
+  get '/signup/coach', to: 'users#new_coach'
+  post '/signup/client', to: 'users#create_client'
+  post '/signup/coach', to: 'users#create_coach'
 
   # Dashboard routes (placeholder for now)
   get '/client/dashboard', to: 'dashboards#client'

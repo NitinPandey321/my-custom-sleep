@@ -1,0 +1,6 @@
+<div class="dashboard-container">
+  <h1>Welcome to Your Client Dashboard</h1>
+  <p>Hello, <%= current_user.first_name %>! Your sleep journey starts here.</p>
+  
+  <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-primary" %>
+</div>
