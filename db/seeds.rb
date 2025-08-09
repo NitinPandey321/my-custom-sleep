@@ -7,3 +7,32 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Create test users for development
+if Rails.env.development?
+  admin = User.find_or_create_by!(email: 'admin@sleepjourney.com') do |user|
+    user.first_name = 'Admin'
+    user.last_name = 'User'
+    user.password = 'password123'
+    user.role = 'admin'
+    user.onboarding_completed = true
+  end
+
+  client = User.find_or_create_by!(email: 'client@sleepjourney.com') do |user|
+    user.first_name = 'John'
+    user.last_name = 'Doe'
+    user.password = 'password123'
+    user.role = 'client'
+    user.onboarding_completed = true
+  end
+
+  coach = User.find_or_create_by!(email: 'coach@sleepjourney.com') do |user|
+    user.first_name = 'Sarah'
+    user.last_name = 'Wilson'
+    user.password = 'password123'
+    user.role = 'coach'
+    user.onboarding_completed = true
+  end
+
+  puts "Seeded test users: admin, client, and coach"
+end
