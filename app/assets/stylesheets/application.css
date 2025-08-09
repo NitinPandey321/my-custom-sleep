@@ -9,33 +9,46 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-/* CSS Variables - Brand Color Palette */
+/* CSS Variables - Enhanced Brand Color Palette */
 :root {
-  --primary-color: #4A6CF7;
-  --primary-dark: #3B5CE6;
-  --primary-light: #6B8BF9;
-  --secondary-color: #8B5CF6;
-  --secondary-dark: #7C3AED;
-  --secondary-light: #A78BFA;
+  /* Primary colors inspired by sleep and wellness */
+  --primary-color: #2D5AA0;
+  --primary-dark: #1A4480;
+  --primary-light: #4A7BC8;
+  --secondary-color: #6366F1;
+  --secondary-dark: #4F46E5;
+  --secondary-light: #818CF8;
   --accent-color: #F59E0B;
   --accent-dark: #D97706;
   --accent-light: #FCD34D;
-  --neutral-100: #F8FAFC;
-  --neutral-200: #E2E8F0;
-  --neutral-300: #CBD5E1;
-  --neutral-400: #94A3B8;
-  --neutral-500: #64748B;
-  --neutral-600: #475569;
-  --neutral-700: #334155;
-  --neutral-800: #1E293B;
-  --neutral-900: #0F172A;
+  
+  /* Neutral palette for better readability */
+  --neutral-50: #FAFAFA;
+  --neutral-100: #F4F4F5;
+  --neutral-200: #E4E4E7;
+  --neutral-300: #D4D4D8;
+  --neutral-400: #A1A1AA;
+  --neutral-500: #71717A;
+  --neutral-600: #52525B;
+  --neutral-700: #3F3F46;
+  --neutral-800: #27272A;
+  --neutral-900: #18181B;
   --white: #FFFFFF;
+  
+  /* Brand gradients */
   --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-  --shadow-soft: 0 10px 25px rgba(74, 108, 247, 0.15);
-  --shadow-medium: 0 20px 40px rgba(74, 108, 247, 0.2);
+  --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* Shadows and effects */
+  --shadow-soft: 0 10px 25px rgba(45, 90, 160, 0.15);
+  --shadow-medium: 0 20px 40px rgba(45, 90, 160, 0.2);
+  --shadow-large: 0 25px 50px rgba(45, 90, 160, 0.25);
+  
+  /* Border radius */
   --border-radius: 12px;
   --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
 }
 
 /* Reset and base styles */
@@ -49,12 +62,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   line-height: 1.6;
   color: var(--neutral-700);
-  background: var(--gradient-primary);
+  background: var(--gradient-bg);
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* Background pattern overlay */
+/* Enhanced background pattern overlay */
 body::before {
   content: '';
   position: fixed;
@@ -63,10 +77,30 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
+}
+
+/* Optional: Add subtle animation to background */
+body::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 255, 255, 0.02) 90deg, transparent 180deg, rgba(255, 255, 255, 0.02) 270deg, transparent 360deg);
+  animation: rotate 60s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .container {
@@ -124,6 +158,7 @@ body::before {
   font-weight: 500;
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .flash-notice {
@@ -171,24 +206,41 @@ body::before {
   background: var(--gradient-primary);
 }
 
-/* Logo styling */
+/* Logo styling - Enhanced for brand prominence */
 .auth-logo {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--neutral-200);
+  position: relative;
+}
+
+.auth-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
 }
 
 .brand-logo {
-  max-width: 180px;
+  max-width: 160px;
+  width: 100%;
   height: auto;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  background: var(--white);
+  padding: 0.5rem;
 }
 
 .brand-logo:hover {
-  transform: scale(1.02);
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
 
 .auth-header {
@@ -242,7 +294,7 @@ body::before {
 .form-input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+  box-shadow: 0 0 0 3px rgba(45, 90, 160, 0.15);
   transform: translateY(-1px);
 }
 
@@ -335,15 +387,16 @@ body::before {
   text-decoration: underline;
 }
 
-/* Responsive design */
+/* Enhanced responsive design */
 @media (max-width: 768px) {
   .auth-card {
     margin: 1rem;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
+    border-radius: var(--border-radius);
   }
   
   .brand-logo {
-    max-width: 150px;
+    max-width: 140px;
   }
   
   .logo h1 {
@@ -357,11 +410,21 @@ body::before {
   .main-content {
     padding: 1rem 0;
   }
+
+  .form-input {
+    padding: 1rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
 }
 
 @media (max-width: 480px) {
+  .auth-container {
+    padding: 1rem 0.5rem;
+  }
+
   .auth-card {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
+    margin: 0.5rem;
   }
   
   .brand-logo {
@@ -370,6 +433,34 @@ body::before {
   
   .auth-header h2 {
     font-size: 1.25rem;
+  }
+
+  .auth-header p {
+    font-size: 0.85rem;
+  }
+
+  .form-input {
+    padding: 0.875rem;
+  }
+
+  .btn {
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+  .auth-card {
+    padding: 3rem;
+    max-width: 450px;
+  }
+
+  .brand-logo {
+    max-width: 180px;
+  }
+
+  .auth-header h2 {
+    font-size: 2rem;
   }
 }
 
