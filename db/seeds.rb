@@ -5,7 +5,7 @@
 # Create test users for development
 if Rails.env.development?
   # Admin user
-  admin = User.find_or_create_by(email: 'admin@example.com') do |user|
+  admin = User.find_or_create_by(email: 'admin@sleepjourney.com') do |user|
     user.first_name = 'Admin'
     user.last_name = 'User'
     user.password = 'password123'
@@ -14,18 +14,27 @@ if Rails.env.development?
     user.onboarding_completed = true
   end
 
-  # Coach user
-  coach = User.find_or_create_by(email: 'sarah@example.com') do |user|
-    user.first_name = 'Sarah'
-    user.last_name = 'Wilson'
-    user.password = 'password123'
-    user.password_confirmation = 'password123'
-    user.role = 'coach'
-    user.onboarding_completed = true
+  # Create multiple coaches for round-robin testing
+  coaches_data = [
+    { email: 'sarah@sleepjourney.com', first_name: 'Sarah', last_name: 'Johnson' },
+    { email: 'mike@sleepjourney.com', first_name: 'Mike', last_name: 'Rodriguez' },
+    { email: 'emily@sleepjourney.com', first_name: 'Emily', last_name: 'Chen' },
+    { email: 'david@sleepjourney.com', first_name: 'David', last_name: 'Thompson' }
+  ]
+
+  coaches_data.each do |coach_data|
+    User.find_or_create_by(email: coach_data[:email]) do |user|
+      user.first_name = coach_data[:first_name]
+      user.last_name = coach_data[:last_name]
+      user.password = 'password123'
+      user.password_confirmation = 'password123'
+      user.role = 'coach'
+      user.onboarding_completed = true
+    end
   end
 
-  # Client user
-  client = User.find_or_create_by(email: 'john@example.com') do |user|
+  # Create a test client (without coach initially to test assignment)
+  client = User.find_or_create_by(email: 'client@sleepjourney.com') do |user|
     user.first_name = 'John'
     user.last_name = 'Doe'
     user.password = 'password123'
@@ -34,34 +43,8 @@ if Rails.env.development?
     user.onboarding_completed = true
   end
 
-  puts "Seeded #{User.count} users for development"
-end
-
-# Create test users for development
-if Rails.env.development?
-  admin = User.find_or_create_by!(email: 'admin@sleepjourney.com') do |user|
-    user.first_name = 'Admin'
-    user.last_name = 'User'
-    user.password = 'password123'
-    user.role = 'admin'
-    user.onboarding_completed = true
-  end
-
-  client = User.find_or_create_by!(email: 'client@sleepjourney.com') do |user|
-    user.first_name = 'John'
-    user.last_name = 'Doe'
-    user.password = 'password123'
-    user.role = 'client'
-    user.onboarding_completed = true
-  end
-
-  coach = User.find_or_create_by!(email: 'coach@sleepjourney.com') do |user|
-    user.first_name = 'Sarah'
-    user.last_name = 'Wilson'
-    user.password = 'password123'
-    user.role = 'coach'
-    user.onboarding_completed = true
-  end
-
-  puts "Seeded test users: admin, client, and coach"
+  puts "Seeded #{User.count} users for development:"
+  puts "- 1 Admin"
+  puts "- #{User.coaches.count} Coaches"
+  puts "- #{User.clients.count} Clients"
 end

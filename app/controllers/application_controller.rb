@@ -19,6 +19,12 @@ class ApplicationController < ActionController::Base
 
   helper_method :logged_in?
 
+  def user_signed_in?
+    logged_in?
+  end
+
+  helper_method :user_signed_in?
+
   def require_login
     unless logged_in?
       flash[:alert] = "You must be logged in to access this page"

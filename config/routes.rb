@@ -33,6 +33,11 @@ Rails.application.routes.draw do
   get '/coach/dashboard', to: 'dashboards#coach'
   get '/admin/dashboard', to: 'dashboards#admin'
 
+  # Profile picture routes
+  get '/profile-picture', to: 'profile_pictures#show'
+  post '/profile-picture', to: 'profile_pictures#create'
+  delete '/profile-picture', to: 'profile_pictures#destroy'
+
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

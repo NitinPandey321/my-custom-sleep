@@ -32,13 +32,33 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
+  # Configure Action Mailer - try SMTP first, fallback to letter_opener
+  if ENV['GMAIL_USERNAME'].present? && ENV['GMAIL_APP_PASSWORD'].present? && ENV['GMAIL_APP_PASSWORD'] != 'temp_password_for_testing'
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    
+    config.action_mailer.smtp_settings = {
+      address: 'smtp.gmail.com',
+      port: 587,
+      domain: 'gmail.com',
+      user_name: ENV['GMAIL_USERNAME'],
+      password: ENV['GMAIL_APP_PASSWORD'],
+      authentication: 'plain',
+      enable_starttls_auto: true
+    }
+  else
+    # Fallback to letter_opener
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.perform_deliveries = true
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

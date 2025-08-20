@@ -20,8 +20,18 @@ class UsersController < ApplicationController
     @user.role = 'client'
     
     if @user.save
+      # Assign a coach using round-robin
+      assigned_coach = User.assign_coach_to_client(@user)
+      
+      # Send welcome email for new clients
+      EmailService.send_welcome_email(@user)
+      
       session[:user_id] = @user.id
-      flash[:notice] = "Welcome to Sleep Journey, #{@user.first_name}!"
+      if assigned_coach
+        flash[:notice] = "Welcome to Sleep Journey, #{@user.first_name}! You've been assigned to coach #{assigned_coach.full_name}."
+      else
+        flash[:notice] = "Welcome to Sleep Journey, #{@user.first_name}! A coach will be assigned to you soon."
+      end
       redirect_to '/client/dashboard'
     else
       render :new_client, status: :unprocessable_entity

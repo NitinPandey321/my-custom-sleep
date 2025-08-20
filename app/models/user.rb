@@ -1,5 +1,21 @@
+  # Returns the coach's designation or a default value
+  def designation
+    self[:designation].presence || 'Sleep Specialist Coach'
+  end
 class User < ApplicationRecord
+  # Returns the coach's designation or a default value
+  def designation
+    self[:designation].presence || 'Sleep Specialist Coach'
+  end
   has_secure_password
+  has_many :email_logs, dependent: :destroy
+  
+  # ActiveStorage association for profile picture
+  has_one_attached :profile_picture
+  
+  # Coach-Client relationships
+  belongs_to :coach, class_name: 'User', optional: true
+  has_many :clients, class_name: 'User', foreign_key: 'coach_id'
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -9,6 +25,70 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: %w[client coach admin] }
 
   before_save :downcase_email
+
+  # Scopes
+  scope :coaches, -> { where(role: 'coach') }
+  scope :clients, -> { where(role: 'client') }
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  # Returns initials from first and last name, or email if missing
+  def initials
+    if first_name.present? && last_name.present?
+      "#{first_name.first.upcase}#{last_name.first.upcase}"
+    elsif first_name.present?
+      first_name.first.upcase
+    elsif last_name.present?
+      last_name.first.upcase
+    else
+      email[0,2].upcase
+    end
+  end
+
+  # Returns full name or email if missing
+  def full_name
+    if first_name.present? && last_name.present?
+      "#{first_name} #{last_name}"
+    elsif first_name.present?
+      first_name
+    elsif last_name.present?
+      last_name
+    else
+      email
+    end
+  end
+  def client?
+    role == 'client'
+  end
+
+  def coach?
+    role == 'coach'
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  # Round-robin coach assignment
+  def self.assign_coach_to_client(client)
+    return unless client.client? && client.coach.nil?
+
+    # Get all coaches with their client counts, sorted by count ascending, then by ID
+    coaches_with_counts = User.coaches.map do |coach|
+      { coach: coach, client_count: coach.clients.count }
+    end.sort_by { |c| [c[:client_count], c[:coach].id] }
+
+    # Assign to the coach with the fewest clients
+    if coaches_with_counts.any?
+      coach = coaches_with_counts.first[:coach]
+      client.update!(coach: coach)
+      coach
+    else
+      nil
+    end
+  end
 
   private
 

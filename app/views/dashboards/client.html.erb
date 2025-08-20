@@ -1,6 +1,299 @@
-<div class="dashboard-container">
-  <h1>Welcome to Your Client Dashboard</h1>
-  <p>Hello, <%= current_user.first_name %>! Your sleep journey starts here.</p>
-  
-  <%= link_to "Logout", logout_path, data: { "turbo-method": :delete }, class: "btn btn-primary" %>
+<!-- Client Dashboard - positioned at top below navbar -->
+<div class="container" style="margin-top: 0; padding-top: 20px;">
+  <!-- Coach Header Section - positioned at top below nav -->
+  <div class="coach-card">
+    <div class="coach-info">
+      <div class="coach-avatar">
+        <span>Dr</span>
+        <span class="online-dot"></span>
+      </div>
+      <div class="coach-details">
+        <h3>Dr. Sarah Johnson <span class="coach-role">(Your Coach)</span></h3>
+        <p class="status-online">Online now</p>
+        <p class="coach-speciality">Sleep Specialist</p>
+      </div>
+    </div>
+    <div class="coach-actions">
+      <button class="btn-chat">
+        💬 Start Chat
+      </button>
+    </div>
+  </div>
+
+  <!-- Your Wellness Pillars Section -->
+  <div class="wellness-section">
+    <h2 class="wellness-title">Your Wellness Pillars</h2>
+    <div class="wellness-cards">
+      <!-- Nutrition Card -->
+      <div class="wellness-card nutrition">
+        <div class="wellness-card-icon nutrition-icon">
+          🥗
+        </div>
+        <h3 class="pillar-name">Nutrition</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 85%;"></div>
+          </div>
+          <span class="progress-text">85%</span>
+        </div>
+        <div class="task-info">
+          <p class="task-label">Today's Task</p>
+          <p class="task-description">Eat 5 servings of fruits/vegetables (30 mins)</p>
+        </div>
+      </div>
+
+      <!-- Diet Card -->
+      <div class="wellness-card diet">
+        <div class="wellness-card-icon diet-icon">
+          🍽️
+        </div>
+        <h3 class="pillar-name">Supplements</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 72%;"></div>
+          </div>
+          <span class="progress-text">72%</span>
+        </div>
+        <div class="task-info">
+          <p class="task-label">Today's Task</p>
+          <p class="task-description">Track meal timing and portions (15 mins)</p>
+        </div>
+      </div>
+
+      <!-- Exercise Card -->
+      <div class="wellness-card exercise">
+        <div class="wellness-card-icon exercise-icon">
+          💪
+        </div>
+        <h3 class="pillar-name">Exercise</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 60%;"></div>
+          </div>
+          <span class="progress-text">60%</span>
+        </div>
+        <div class="task-info">
+          <p class="task-label">Today's Task</p>
+          <p class="task-description">Light evening walk (20 mins)</p>
+        </div>
+      </div>
+
+      <!-- Caffeine Card -->
+      <div class="wellness-card caffeine">
+        <div class="wellness-card-icon caffeine-icon">
+          ☕
+        </div>
+        <h3 class="pillar-name">Caffeine</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 45%;"></div>
+          </div>
+          <span class="progress-text">45%</span>
+        </div>
+        <div class="task-info">
+          <p class="task-label">Today's Task</p>
+          <p class="task-description">No caffeine after 2 PM (All day)</p>
+        </div>
+      </div>
+
+      <!-- Hypnosis Card -->
+      <div class="wellness-card hypnosis">
+        <div class="wellness-card-icon hypnosis-icon">
+          🧘
+        </div>
+        <h3 class="pillar-name">Hypnosis</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 90%;"></div>
+          </div>
+          <span class="progress-text">90%</span>
+        </div>
+        <div class="task-info">
+          <p class="task-label">Today's Task</p>
+          <p class="task-description">Sleep meditation session (25 mins)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plans and Achievements Section -->
+  <div class="dashboard-section">
+    
+    <!-- Left Column - Active Plans and Submissions -->
+    <div class="plans-column">
+      <!-- Active Plans for Today -->
+      <div class="plans-container active-plans-card">
+        <h2>Active Plans for Today</h2>
+        
+        <!-- Plan Card 1 -->
+        <div class="plan-card">
+          <div class="plan-info">
+            <div class="icon green">
+              🍏
+            </div>
+            <div>
+              <h3>Protein-Rich Meal</h3>
+              <p class="due">Due: 6:00 PM</p>
+            </div>
+          </div>
+          <button class="upload-btn blue">
+            📷 Upload Proof
+          </button>
+        </div>
+
+        <!-- Plan Card 2 -->
+        <div class="plan-card">
+          <div class="plan-info">
+            <div class="icon purple">
+              🏋
+            </div>
+            <div>
+              <h3>15-Minute Walk</h3>
+              <p class="due">Due: 3:00 PM</p>
+            </div>
+          </div>
+          <button class="upload-btn blue">
+            🎥 Upload Video
+          </button>
+        </div>
+      </div>
+
+      <!-- My Submissions Section -->
+      <div class="submissions-container my-submissions-card">
+        <h2>My Submissions</h2>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab active">Pending <span class="count">3</span></div>
+          <div class="tab">Approved <span class="count">4</span></div>
+          <div class="tab">Needs Attention <span class="count">1</span></div>
+        </div>
+
+        <!-- Status Row -->
+        <div class="status-row">
+          <span class="status-icon">⏳</span>
+          <span class="status-badge pending">Pending</span>
+        </div>
+
+        <!-- Submission Cards -->
+        <div class="submission-card">
+          <div class="submission-info">
+            <div class="icon purple">🏋</div>
+            <div>
+              <h3>15-Minute Walk</h3>
+              <p class="time">Uploaded 45 minutes ago</p>
+            </div>
+          </div>
+          <span class="status-badge pending">⏳ Pending</span>
+        </div>
+
+        <div class="submission-card">
+          <div class="submission-info">
+            <div class="icon green">🍏</div>
+            <div>
+              <h3>Protein-Rich Meal</h3>
+              <p class="time">Uploaded just now</p>
+            </div>
+          </div>
+          <span class="status-badge pending">⏳ Pending</span>
+        </div>
+
+        <div class="submission-card">
+          <div class="submission-info">
+            <div class="icon purple">🏋</div>
+            <div>
+              <h3>15-Minute Walk</h3>
+              <p class="time">Uploaded just now</p>
+            </div>
+          </div>
+          <span class="status-badge pending">⏳ Pending</span>
+        </div>
+      </div>
+
+      <!-- Today's Session Section -->
+      <div class="session-card">
+        <h3>Today's Session</h3>
+        
+        <div class="session-info">
+          <div class="session-details">
+            <div class="session-avatar">Dr</div>
+            <div class="session-text">
+              <strong>Dr. Sarah Johnson</strong>
+              <span>Sleep Specialist • 7:00 PM</span>
+            </div>
+          </div>
+          <button class="join-session-btn">
+            <span class="icon">📹</span> Join Session
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column - Your Achievements and Daily Reflection -->
+    <div class="achievements-and-reflection">
+      <!-- Your Achievements Card -->
+      <div class="achievements-container">
+        <h2>Your Achievements 🏆</h2>
+
+        <!-- Current Title & Points -->
+        <div class="current-title">
+          <div class="badge-icon-large">�</div>
+          <div class="title-info">
+            <h3>Circadian Champion</h3>
+            <p>Weekly Points: <strong>270 / 300</strong></p>
+          </div>
+        </div>
+
+        <!-- Progress to Next Level -->
+        <div class="progress-section">
+          <p>Progress to Chief Rest Officer</p>
+          <div class="progress-bar-modern">
+            <div class="progress-fill-modern" style="width: 90%;"></div>
+          </div>
+        </div>
+
+        <!-- My Badges Timeline -->
+        <div class="badges-section">
+          <h3>My Badges</h3>
+          <div class="badge-timeline">
+            <div class="badge earned">
+              <div class="badge-img">🌙</div>
+              <span>Rest Resident</span>
+            </div>
+            <div class="badge earned">
+              <div class="badge-img">📚</div>
+              <span>Sleep Scholar</span>
+            </div>
+            <div class="badge earned">
+              <div class="badge-img">🏆</div>
+              <span>Circadian Champion</span>
+            </div>
+            <div class="badge locked">
+              <div class="badge-img">👑</div>
+              <span>Chief Rest Officer</span>
+            </div>
+            <div class="badge locked">
+              <div class="badge-img">⭐</div>
+              <span>Recovery Luminary</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Reflection Card -->
+      <div class="daily-reflection-card">
+        <h3>Daily Reflection</h3>
+        <p>How isyour program flow going today</p>
+        <div class="emojis">
+          <span>😊</span>
+          <span>😐</span>
+          <span>😴</span>
+        </div>
+        <textarea placeholder="Share a quick note about your sleep or habits today..."></textarea>
+        <button class="save-btn">Save Reflection</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
