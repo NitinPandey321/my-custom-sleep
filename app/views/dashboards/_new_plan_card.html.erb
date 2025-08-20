@@ -1,0 +1,41 @@
+<div class="card create-plan">
+  <div class="card-header">
+    <h3>Create New Plan</h3>
+    <button class="close-btn" onclick="window.location='<%= dashboards_coach_path %>'">
+      &times;
+    </button>
+  </div>
+
+  <%= render 'dashboards/client/client', client: client %>
+
+  <%= form_with model: Plan.new, url: plans_path, local: true, class: "plan-form" do |f| %>
+    <div class="form-group">
+      <%= f.label :wellness_pillar, "Wellness Pillar" %>
+      <%= f.select :wellness_pillar,
+            Plan.wellness_pillars.keys.map { |k| [k.titleize, k] },
+            { prompt: "Select a pillar..." },
+            class: "form-control select-control" %>
+    </div>
+
+   <div class="form-group">
+      <%= f.label :details, "Plan Details" %>
+      <%= f.text_area :details, placeholder: "Enter plan details...", rows: 4, class: "form-control textarea-control" %>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <%= f.label :duration, "Duration (Hours)" %>
+        <%= f.number_field :duration, class: "form-control", min: 1, max: 200, placeholder: "e.g. 72" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :reminder_time, "Reminder Time" %>
+        <%= f.number_field :reminder_time, class: "form-control", min: 1, max: 40, placeholder: "e.g. 12" %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "+ Plan", class: "btn-plan" %>
+    </div>
+  <% end %>
+</div>

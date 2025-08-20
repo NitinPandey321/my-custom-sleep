@@ -1,0 +1,13 @@
+<div class="dashboard-cards">
+  <div class="dashboard-cards-row">
+    <div class="card--client">
+      <%= render 'client_overview_card' %>
+        <% if @client %>
+          <%= render 'new_plan_card', client: @client %>
+        <% end %>
+    </div>
+    <div class="card--chat">
+      <%= render 'active_chats_card' %>
+    </div>
+  </div>
+</div>

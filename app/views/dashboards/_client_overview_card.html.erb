@@ -1,0 +1,26 @@
+<div class="card client-overview-card">
+  <h2>Client Overview</h2>
+  <%= form_with url: dashboards_coach_path, method: :get, local: true, class: "search-filter-form" do %>
+    <div class="search-filter">
+      <input type="text" name="search" value="<%= params[:search] %>" placeholder="Search clients..." class="search-input">
+      <select name="status" class="status-filter">
+        <option value="" <%= "selected" if params[:status].blank? || params[:status] == "All Status" %>>All Status</option>
+        <option value="on_track" <%= "selected" if params[:status] == "on_track" %>>On Track</option>
+        <option value="needs_attention" <%= "selected" if params[:status] == "needs_attention" %>>Needs Attention</option>
+        <option value="falling_behind" <%= "selected" if params[:status] == "falling_behind" %>>Falling Behind</option>
+      </select>
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  <% end %>
+  <div class="client-list">
+    <% if @clients.any? %>
+      <% @clients.each do |client| %>
+        <%= render 'dashboards/client/client', client: client %>
+      <% end %>
+    <% else %>
+      <div class="no-clients-message">
+        No clients found.
+      </div>
+    <% end %>
+  </div>
+</div>

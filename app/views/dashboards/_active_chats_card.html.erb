@@ -1,0 +1,26 @@
+<div class="card active-chats-card">
+  <h2 class="chat-header">
+    Active Chats 
+    <span class="online-dot"></span>
+  </h2>
+  <div class="chat-box">
+    <div class="chat-bubble chat-client">
+      Hi Dr. <%= @coach.first_name %>! I'm struggling with staying awake during my shift tonight. Any quick tips?
+      <br><small>2 minutes ago</small>
+    </div>
+    <div class="chat-bubble chat-doctor">
+      Try the caffeine timing we discussed - 40ml at 4 PM should help! Also, do a quick 5-minute walk.
+      <div class="dr-avatar"><%= @coach.initials %></div>
+      <br><small>Just now</small>
+    </div>
+  </div>
+  <div class="quick-replies">
+    <button class="quick-reply-btn">Remember to hydrate!</button>
+    <button class="quick-reply-btn">Great progress!</button>
+    <button class="quick-reply-btn">Keep it up!</button>
+  </div>
+  <div class="chat-input">
+    <input type="text" placeholder="Type your message..." class="message-input">
+    <button class="send-btn">✈</button>
+  </div>
+</div>

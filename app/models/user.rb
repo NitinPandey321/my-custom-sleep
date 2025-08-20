@@ -8,7 +8,11 @@ class User < ApplicationRecord
     self[:designation].presence || 'Sleep Specialist Coach'
   end
   has_secure_password
+
+  enum :status, { on_track: 0, needs_attention: 1, falling_behind: 2 }, prefix: true
+
   has_many :email_logs, dependent: :destroy
+  has_many :plans, dependent: :destroy
   
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
@@ -29,7 +33,7 @@ class User < ApplicationRecord
   # Scopes
   scope :coaches, -> { where(role: 'coach') }
   scope :clients, -> { where(role: 'client') }
-
+  
   def full_name
     "#{first_name} #{last_name}"
   end
