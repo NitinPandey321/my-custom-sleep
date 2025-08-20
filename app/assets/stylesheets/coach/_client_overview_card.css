@@ -1,0 +1,131 @@
+.search-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-input,
+.status-filter {
+  padding: 10px;
+  border: 2px solid var(--neutral-200);
+  border-radius: 8px;
+  font-size: 14px;
+  flex: 1;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus,
+.status-filter:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.client-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.client-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.client-item:hover {
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.client-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.client-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+}
+
+.client-avatar.green { background: #22c55e; }
+.client-avatar.yellow { background: #facc15; color: #000; }
+.client-avatar.red { background: #ef4444; }
+
+.client-text h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.on_track { 
+  background: #dcfce7; 
+  color: #166534; 
+}
+
+.status-badge.needs_attention { 
+  background: #fef9c3; 
+  color: #854d0e; 
+}
+
+.status-badge.falling_behind { 
+  background: #fee2e2; 
+  color: #991b1b; 
+}
+
+.client-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.btn-plan {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-plan:hover {
+  background: #0f172a;
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-icon:hover {
+  background: var(--neutral-100);
+}

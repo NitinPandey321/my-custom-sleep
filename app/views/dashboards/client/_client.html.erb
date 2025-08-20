@@ -1,0 +1,18 @@
+<div class="client-item">
+  <div class="client-info">
+    <% if client.profile_picture.attached? %>
+      <%= image_tag profile_picture.variant(resize_to_limit: [50, 50]), class: "client-avatar" %>
+    <% else %>
+      <div class="client-avatar red"><%= client.initials %></div>
+    <% end %>
+    <div class="client-text">
+      <h4><%= client.full_name %></h4>
+      <p>Factory Worker • 0-day streak</p>
+    </div>
+  </div>
+  <div class="client-actions">
+    <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
+    <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
+    <button class="btn-icon">👁</button>
+  </div>
+</div>
