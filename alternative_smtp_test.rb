@@ -15,15 +15,15 @@ puts
 
 begin
   puts "📡 Connecting to smtp.gmail.com:465 with SSL..."
-  
+
   smtp = Net::SMTP.new('smtp.gmail.com', 465)
   smtp.enable_ssl  # Use SSL instead of STARTTLS
-  
+
   smtp.start('gmail.com', username, password, :plain) do |smtp_session|
     puts "✅ SSL SMTP authentication successful!"
     puts "🎉 Gmail connection established with alternative settings!"
   end
-  
+
 rescue => e
   puts "❌ SSL SMTP also failed: #{e.message}"
   puts

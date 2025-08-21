@@ -7,7 +7,11 @@
         <% end %>
     </div>
     <div class="card--chat">
-      <%= render 'active_chats_card' %>
+      <% if @conversation.present? %>
+        <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
+      <% else %>
+        <p>Select a client to start chatting.</p>
+      <% end %>
     </div>
   </div>
 </div>

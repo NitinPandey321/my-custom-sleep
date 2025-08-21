@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :redirect_if_logged_in, only: [:new, :create]
+  before_action :redirect_if_logged_in, only: [ :new, :create ]
 
   def new
     # Login form
@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email]&.downcase)
-    
+
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:notice] = "Welcome back, #{user.first_name}!"
@@ -34,12 +34,12 @@ class SessionsController < ApplicationController
 
   def dashboard_path_for(role)
     case role
-    when 'client'
-      '/client/dashboard'
-    when 'coach'
-      '/coach/dashboard'
-    when 'admin'
-      '/admin/dashboard'
+    when "client"
+      "/client/dashboard"
+    when "coach"
+      "/coach/dashboard"
+    when "admin"
+      "/admin/dashboard"
     else
       login_path
     end

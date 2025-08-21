@@ -17,26 +17,26 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Authentication routes
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
 
   # Sign up routes
-  get '/signup', to: 'users#role_selection'
-  get '/signup/client', to: 'users#new_client'
-  get '/signup/coach', to: 'users#new_coach'
-  post '/signup/client', to: 'users#create_client'
-  post '/signup/coach', to: 'users#create_coach'
+  get "/signup", to: "users#role_selection"
+  get "/signup/client", to: "users#new_client"
+  get "/signup/coach", to: "users#new_coach"
+  post "/signup/client", to: "users#create_client"
+  post "/signup/coach", to: "users#create_coach"
 
   # Dashboard routes (placeholder for now)
-  get '/client/dashboard', to: 'dashboards#client'
-  get '/coach/dashboard', to: 'dashboards#coach'
-  get '/admin/dashboard', to: 'dashboards#admin'
+  get "/client/dashboard", to: "dashboards#client"
+  get "/coach/dashboard", to: "dashboards#coach"
+  get "/admin/dashboard", to: "dashboards#admin"
 
   # Profile picture routes
-  get '/profile-picture', to: 'profile_pictures#show'
-  post '/profile-picture', to: 'profile_pictures#create'
-  delete '/profile-picture', to: 'profile_pictures#destroy'
+  get "/profile-picture", to: "profile_pictures#show"
+  post "/profile-picture", to: "profile_pictures#create"
+  delete "/profile-picture", to: "profile_pictures#destroy"
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -44,5 +44,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "sessions#new"
-  resources :plans, only: [:create]
+  resources :plans, only: [ :create ]
+  resources :conversations, only: [ :index, :show, :create ] do
+    resources :messages, only: [ :create ]
+  end
 end

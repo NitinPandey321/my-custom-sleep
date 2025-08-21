@@ -17,14 +17,14 @@ puts
 
 begin
   puts "📡 Attempting to connect to Gmail SMTP..."
-  
+
   smtp = Net::SMTP.new('smtp.gmail.com', 587)
   smtp.enable_starttls
   smtp.start('gmail.com', username, password, :plain) do |smtp_session|
     puts "✅ SMTP authentication successful!"
     puts "📧 Connection to Gmail established."
   end
-  
+
 rescue => e
   puts "❌ SMTP authentication failed:"
   puts "   Error: #{e.message}"

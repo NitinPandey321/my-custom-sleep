@@ -1,18 +1,32 @@
 <div class="client-item">
   <div class="client-info">
     <% if client.profile_picture.attached? %>
-      <%= image_tag profile_picture.variant(resize_to_limit: [50, 50]), class: "client-avatar" %>
+      <img id="profile-pic" 
+           src="<%= rails_blob_url(client.profile_picture, disposition: 'inline') %>" 
+           alt="Profile picture" 
+           class="profile-picture" />
     <% else %>
       <div class="client-avatar red"><%= client.initials %></div>
     <% end %>
+
     <div class="client-text">
       <h4><%= client.full_name %></h4>
       <p>Factory Worker • 0-day streak</p>
     </div>
   </div>
+
   <div class="client-actions">
-    <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
-    <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
-    <button class="btn-icon">👁</button>
-  </div>
+  <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
+  <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
+
+  <!-- Chat button -->
+<%= link_to "Chat with #{client.first_name}",
+    dashboards_coach_path(recipient_id: client.id),
+    class: "btn btn-chat" %>
+
+  <% if client.unread_messages_count(current_user) > 0 %>
+    <span class="badge"><%= client.unread_messages_count(current_user) %></span>
+  <% end %>
+</div>
+
 </div>
