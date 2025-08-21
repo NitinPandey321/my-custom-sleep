@@ -51,6 +51,16 @@ class User < ApplicationRecord
     end
   end
 
+  def unread_messages_count(viewer)
+    return 0 if self == viewer
+
+    Message.joins(:conversation)
+      .where(conversations: { sender_id: [id, viewer.id], recipient_id: [id, viewer.id] })
+      .where.not(user_id: viewer.id) # exclude viewer’s own messages
+      .where(read_at: nil)
+      .count
+  end
+
   # Returns full name or email if missing
   def full_name
     if first_name.present? && last_name.present?

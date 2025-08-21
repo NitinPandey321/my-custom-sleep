@@ -27,6 +27,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
+gem "redis", "~> 5.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -57,6 +58,7 @@ end
 group :development do
   # Open emails in browser for testing
   gem "letter_opener"
+  gem 'byebug'
 end
 
 group :development do

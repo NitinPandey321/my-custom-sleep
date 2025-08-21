@@ -7,6 +7,17 @@ class DashboardsController < ApplicationController
   end
 
   def coach
+    if params[:recipient_id].present?
+      @recipient = User.find(params[:recipient_id])
+      @conversation = @conversation = Conversation.find_or_create_by!(
+        sender_id: current_user.id,
+        recipient_id: params[:recipient_id]
+        )
+      # Conversation.between(current_user.id, @recipient.id).first_or_create
+      @messages = @conversation.messages.order(created_at: :asc)
+      @new_message = @conversation.messages.build
+    end
+
     if params[:client_id].present?
       @client = User.find(params[:client_id])
     end

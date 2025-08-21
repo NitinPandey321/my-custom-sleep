@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "message_form" do %>
+    <%= form_with model: [@conversation, @new_message],
+            class: "flex w-full",
+            data: { controller: "message-form" } do |f| %>
+
+        <%= f.text_field :body,
+            placeholder: "Type your message...",
+            class: "message-input flex-grow",
+            data: { "message-form-target": "input", action: "input->message-form#checkInput" } %>
+
+        <%= f.submit "✈",
+            class: "send-btn",
+            data: { "message-form-target": "submit" } %>
+    <% end %>
+<% end %>

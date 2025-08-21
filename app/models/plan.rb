@@ -4,10 +4,11 @@ class Plan < ApplicationRecord
   validates :details, presence: true
 
   enum :wellness_pillar, {
-  physical: 0,
-  mental: 1,
-  emotional: 2,
-  financial: 3
+  nutrition: 0,
+  supplements: 1,
+  hypnosis: 2,
+  caffine: 3,
+  excercise: 4
 }, prefix: true
 
 end
