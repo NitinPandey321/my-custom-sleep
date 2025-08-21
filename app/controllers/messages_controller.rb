@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     # If no conversation is found, create one
     unless @conversation
       @conversation = Conversation.create!(
-        sender: current_user, 
+        sender: current_user,
         recipient_id: params[:recipient_id] # pass recipient_id in form or params
       )
     end

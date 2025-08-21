@@ -13,7 +13,7 @@ puts
 # Create a test user
 test_user = User.new(
   first_name: "Test",
-  last_name: "User", 
+  last_name: "User",
   email: "iamtheworst369@gmail.com",
   role: "client"
 )

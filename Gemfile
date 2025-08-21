@@ -52,13 +52,13 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Optionally, dotenv-rails for environment variables
-  gem "dotenv-rails", groups: [:development, :test]
+  gem "dotenv-rails", groups: [ :development, :test ]
 end
 
 group :development do
   # Open emails in browser for testing
   gem "letter_opener"
-  gem 'byebug'
+  gem "byebug"
 end
 
 group :development do

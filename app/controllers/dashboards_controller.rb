@@ -23,7 +23,7 @@ class DashboardsController < ApplicationController
     end
     @coach = current_user
     @clients = @coach.clients
-      # Search
+    # Search
     if params[:search].present?
       @clients = @clients.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end

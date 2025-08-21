@@ -10,5 +10,4 @@ class Plan < ApplicationRecord
   caffine: 3,
   excercise: 4
 }, prefix: true
-
 end

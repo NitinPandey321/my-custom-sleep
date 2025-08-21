@@ -6,7 +6,6 @@ class ConversationsController < ApplicationController
 
     render partial: "active_chats_card",
          locals: { messages: @messages, recipient: @recipient }
-
   end
 
   def show
@@ -25,7 +24,7 @@ class ConversationsController < ApplicationController
   private
 
   def authorize_conversation!
-    unless [@conversation.sender, @conversation.recipient].include?(current_user)
+    unless [ @conversation.sender, @conversation.recipient ].include?(current_user)
       redirect_to root_path, alert: "Not authorized"
     end
   end

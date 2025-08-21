@@ -41,17 +41,17 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Configure Action Mailer - try SMTP first, fallback to letter_opener
-  if ENV['GMAIL_USERNAME'].present? && ENV['GMAIL_APP_PASSWORD'].present? && ENV['GMAIL_APP_PASSWORD'] != 'temp_password_for_testing'
+  if ENV["GMAIL_USERNAME"].present? && ENV["GMAIL_APP_PASSWORD"].present? && ENV["GMAIL_APP_PASSWORD"] != "temp_password_for_testing"
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.perform_deliveries = true
-    
+
     config.action_mailer.smtp_settings = {
-      address: 'smtp.gmail.com',
+      address: "smtp.gmail.com",
       port: 587,
-      domain: 'gmail.com',
-      user_name: ENV['GMAIL_USERNAME'],
-      password: ENV['GMAIL_APP_PASSWORD'],
-      authentication: 'plain',
+      domain: "gmail.com",
+      user_name: ENV["GMAIL_USERNAME"],
+      password: ENV["GMAIL_APP_PASSWORD"],
+      authentication: "plain",
       enable_starttls_auto: true
     }
   else
