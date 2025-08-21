@@ -8,7 +8,12 @@
     </div>
     <div class="card--chat">
       <% if @conversation.present? %>
-        <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
+          <div data-floating-chat-target="panel" class="non-floating-chat">
+            <div class="chat-header">
+              Chat with <%= @recipient.full_name %>
+            </div>
+              <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
+          </div>
       <% else %>
         <p>Select a client to start chatting.</p>
       <% end %>

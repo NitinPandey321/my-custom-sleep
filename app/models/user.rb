@@ -98,6 +98,10 @@ class User < ApplicationRecord
     if coaches_with_counts.any?
       coach = coaches_with_counts.first[:coach]
       client.update!(coach: coach)
+      Conversation.find_or_create_by!(
+        sender_id: coach.id,
+        recipient_id: client.id
+      )
       coach
     else
       nil

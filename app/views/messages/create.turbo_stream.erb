@@ -1,3 +1,12 @@
+<%= turbo_stream.append "messages_#{@message.conversation_id}" do %>
+  <%= render partial: "messages/message",
+             locals: { message: @message, current_user: current_user } %>
+<% end %>
+
 <%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @new_message } %>
 
 <%= turbo_stream.replace "message_form", partial: "messages/form", locals: { conversation: @conversation, new_message: @new_message } %>
+
+<%= turbo_stream.replace "unread_count_user_#{@recipient&.id}" do %>
+  <%= @recipient.unread_messages_count(current_user) %>
+<% end %>

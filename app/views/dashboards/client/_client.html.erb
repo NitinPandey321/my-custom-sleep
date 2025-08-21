@@ -19,8 +19,7 @@
   <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
   <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
 
-  <!-- Chat button -->
-<%= link_to "Chat with #{client.first_name}",
+  <%= link_to "💬",
     dashboards_coach_path(recipient_id: client.id),
     class: "btn btn-chat" %>
 
