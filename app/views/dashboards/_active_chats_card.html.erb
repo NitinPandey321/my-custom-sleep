@@ -3,16 +3,11 @@
      data-chat-scroll-target="chat-scroll">
   <%= turbo_stream_from @conversation %>
 
-  <div class="card active-chats-card">
-    <h2 class="chat-header">
-      Active Chats 
-      <span class="online-dot"></span>
-    </h2>
-
+  <div class=" active-chats-card">
     <% if @conversation.present? %>
       <!-- Messages container -->
       <div id="<%= "messages_#{conversation.id}" %>" class="chat-box" data-chat-scroll-target="messages">
-        <%= render @conversation.messages %>
+        <%= render @conversation.messages, locals: { current_user: current_user } %>
       </div>
 
       <!-- Quick Replies -->

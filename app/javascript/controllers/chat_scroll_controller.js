@@ -10,13 +10,17 @@ export default class extends Controller {
   }
 
   observeNewMessages() {
-    // Observe child additions to trigger scroll automatically
     if (!this.hasMessagesTarget) return
-
     const config = { childList: true }
     const callback = () => this.scrollToBottom()
     this.observer = new MutationObserver(callback)
     this.observer.observe(this.messagesTarget, config)
+  }
+
+  // Call this when the panel becomes visible or the frame finishes loading
+  refreshScroll() {
+    // wait a tick for layout after visibility toggle
+    requestAnimationFrame(() => this.scrollToBottom())
   }
 
   scrollToBottom() {

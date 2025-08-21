@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_conversation
+  before_action :set_conversation, only: [ :create ]
 
  def create
     # If no conversation is found, create one
@@ -10,8 +10,9 @@ class MessagesController < ApplicationController
       )
     end
 
-    @message = @conversation.messages.new(message_params.merge(user: current_user))
+    @recipient = @conversation.other_participant(current_user)
 
+    @message = @conversation.messages.new(message_params.merge(user: current_user))
     if @message.save
       @new_message = Message.new
       respond_to do |format|

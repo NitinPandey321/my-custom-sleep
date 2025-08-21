@@ -1,13 +1,19 @@
-<div id="<%= "messages_#{message.id}" %>" 
-     class="chat-bubble <%= message.user&.coach? ? 'chat-doctor' : 'chat-client' %>" 
-     data-action="turbo:after-frame-render->chat-scroll#messageAdded">
-  <%= message.body %>
-  <% if message.user&.coach? %>
-    <div class="dr-avatar"><%= message.user.initials %></div>
-  <% end %>
-  <% if message.created_at.present? %>
-    <div class="message-time">
-      <%= time_ago_in_words(message.created_at) %> ago
-    </div>
-  <% end %>
-</div>
+ <% if message.id.present? %>
+  <div id="<%= "messages_#{message.id}" %>"
+      class="chat-bubble <%= message.user == current_user ? 'chat-doctor' : 'chat-client' %>" 
+      data-action="turbo:after-frame-render->chat-scroll#messageAdded">
+    <%= message.body %>
+    <%
+=begin%>
+ <% if message.user&.coach? %>
+      <div class="dr-avatar"><%= message.user.initials %></div>
+    <% end %> 
+<%
+=end%>
+    <% if message.created_at.present? %>
+      <div class="message-time">
+        <%= time_ago_in_words(message.created_at) %> ago
+      </div>
+    <% end %>
+  </div>
+<% end %>

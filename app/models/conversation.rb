@@ -12,6 +12,10 @@ class Conversation < ApplicationRecord
       .or(where(sender_id: recipient_id, recipient_id: sender_id))
   end
 
+  def other_participant(current_user)
+    sender == current_user ? recipient : sender
+  end
+
   private
 
   def coach_client_relationship
