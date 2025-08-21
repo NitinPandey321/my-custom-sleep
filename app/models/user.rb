@@ -56,8 +56,8 @@ class User < ApplicationRecord
 
     Message.joins(:conversation)
       .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
-      .where.not(user_id: viewer.id) # exclude viewer’s own messages
-      .where(read_at: nil)
+      .where.not(user_id: self.id) # exclude viewer’s own messages
+      .where(read_at: nil).uniq
       .count
   end
 
@@ -66,7 +66,7 @@ class User < ApplicationRecord
 
     Message.joins(:conversation)
       .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
-      .where.not(user_id: viewer.id) # only messages from the other person
+      .where.not(user_id: self.id)
       .where(read_at: nil)
       .update_all(read_at: Time.current)
   end
