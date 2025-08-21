@@ -14,6 +14,7 @@ class DashboardsController < ApplicationController
       @recipient = User.find(params[:recipient_id])
       @conversation = Conversation.between(current_user.id, @recipient.id).first_or_create
       @messages = @conversation.messages.order(created_at: :asc)
+      current_user.mark_messages_as_read(@recipient)
       @new_message = @conversation.messages.build
     end
 

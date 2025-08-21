@@ -61,6 +61,16 @@ class User < ApplicationRecord
       .count
   end
 
+  def mark_messages_as_read(viewer)
+    return if self == viewer
+
+    Message.joins(:conversation)
+      .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
+      .where.not(user_id: viewer.id) # only messages from the other person
+      .where(read_at: nil)
+      .update_all(read_at: Time.current)
+  end
+
   # Returns full name or email if missing
   def full_name
     if first_name.present? && last_name.present?
