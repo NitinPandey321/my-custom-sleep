@@ -22,10 +22,10 @@
   <%= link_to "💬",
     dashboards_coach_path(recipient_id: client.id),
     class: "btn btn-chat" %>
-
-  <% if client.unread_messages_count(current_user) > 0 %>
-    <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= current_user.id %>" class="badge"><%= current_user.unread_messages_count(client) %></span>
-  <% end %>
+    <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= client.id %>" 
+          class="badge">
+      <%= current_user.unread_messages_count(client) %>
+    </span>
 </div>
 
 </div>

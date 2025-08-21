@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
         recipient_id: params[:recipient_id] # pass recipient_id in form or params
       )
     end
-
+    
     @recipient = @conversation.other_participant(current_user)
 
     @message = @conversation.messages.new(message_params.merge(user: current_user))

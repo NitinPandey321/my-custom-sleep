@@ -4,6 +4,7 @@ class DashboardsController < ApplicationController
   def client
     @client = current_user
     @coach = @client.coach
+    current_user.mark_messages_as_read(@coach)
     @conversation = Conversation.between(@client.id, @coach.id).first_or_create
     @messages = @conversation.messages.order(created_at: :asc)
     @new_message = @conversation.messages.build

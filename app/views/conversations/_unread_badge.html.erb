@@ -1,0 +1,5 @@
+<% unread_count = viewer.unread_messages_count(conversation.other_participant(viewer)) %>
+<span id="unread_count_user_<%= conversation.id %>_<%= viewer.id %>" 
+      class="chat-badge <%= 'hidden' if unread_count.zero? %>">
+  <%= unread_count %>
+</span>
