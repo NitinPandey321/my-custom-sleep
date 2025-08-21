@@ -24,7 +24,7 @@
     class: "btn btn-chat" %>
 
   <% if client.unread_messages_count(current_user) > 0 %>
-    <span class="badge"><%= client.unread_messages_count(current_user) %></span>
+    <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= current_user.id %>" class="badge"><%= current_user.unread_messages_count(client) %></span>
   <% end %>
 </div>
 

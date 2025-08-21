@@ -15,7 +15,7 @@
   <div class="client-list">
     <% if @clients.any? %>
       <% @clients.each do |client| %>
-        <%= render 'dashboards/client/client', client: client %>
+        <%= render 'dashboards/client/client', client: client, conversation: @conversation %>
       <% end %>
     <% else %>
       <div class="no-clients-message">

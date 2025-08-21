@@ -7,6 +7,6 @@
 
 <%= turbo_stream.replace "message_form", partial: "messages/form", locals: { conversation: @conversation, new_message: @new_message } %>
 
-<%= turbo_stream.replace "unread_count_user_#{@recipient&.id}" do %>
+<%= turbo_stream.replace "unread_count_user_#{@conversation.id}_#{@recipient.id}" do %>
   <%= @recipient.unread_messages_count(current_user) %>
 <% end %>

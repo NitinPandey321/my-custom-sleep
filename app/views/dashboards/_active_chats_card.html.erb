@@ -7,7 +7,7 @@
     <% if @conversation.present? %>
       <!-- Messages container -->
       <div id="<%= "messages_#{conversation.id}" %>" class="chat-box" data-chat-scroll-target="messages">
-        <%= render @conversation.messages, locals: { current_user: current_user } %>
+        <%= render @conversation.messages.order(created_at: :asc), locals: { current_user: current_user } %>
       </div>
 
       <!-- Quick Replies -->

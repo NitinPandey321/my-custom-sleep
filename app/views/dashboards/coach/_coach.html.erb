@@ -24,7 +24,7 @@
           data: { action: "click->floating-chat#open" } do %>
         💬 Start Chat
         <%# 🔥 This is the badge we will update dynamically %>
-        <span id="unread_count_user_<%= coach.id %>" class="chat-badge">
+        <span id="unread_count_user_<%= conversation.id %>_<%= coach.id %>" class="chat-badge">
           <%= current_user.unread_messages_count(coach) %>
         </span>
       <% end %>
