@@ -1,0 +1,67 @@
+<div class="submissions-container my-submissions-card">
+  <h2>My Submissions</h2>
+
+  <div class="tabs" id="submission-tabs">
+    <div class="tab active" data-status="pending">Pending <span class="count"><%= current_user.plans.where(status: :pending).count %></span></div>
+    <div class="tab" data-status="approved">Approved <span class="count"><%= current_user.plans.where(status: :approved).count %></span></div>
+    <div class="tab" data-status="needs_resubmission">Rejected <span class="count"><%= current_user.plans.where(status: :needs_resubmission).count %></span></div>
+  </div>
+
+  <% plans_by_status = current_user.plans.where.not(status: :created).group_by(&:status) %>
+  <div id="submission-cards">
+    <% ['pending', 'approved', 'needs_resubmission'].each do |status| %>
+    <div class="submission-status-group" data-status="<%= status %>" style="<%= status == 'pending' ? '' : 'display:none;' %>">
+        <% if plans_by_status[status].present? %>
+          <% plans_by_status[status].each do |plan| %>
+          <div class="submission-card">
+            <div class="submission-info">
+              <div class="icon <%= plan.wellness_pillar %>">
+              <% case plan.wellness_pillar
+                  when "nutrition" %> 🥗
+                  <% when "supplements" %> 🍽️
+                  <% when "hypnosis" %> 🧘
+                  <% when "caffine" %> ☕
+                  <% when "excercise" %> 💪
+                  <% else %> 📋
+              <% end %>
+              </div>
+              <div>
+              <h3><%= plan.details.truncate(30) %></h3>
+              <p class="time">Uploaded <%= time_ago_in_words(plan.updated_at) %> ago</p>
+              <p>
+                  <%= link_to "View Proof", url_for(plan.proof), target: "_blank" if plan.proof.attached? %>
+              </p>
+              </div>
+          </div>
+          <span class="status-badge <%= plan.status %>">
+              <% if plan.status_pending? %>⏳ Pending<% end %>
+              <% if plan.status_approved? %>✅ Approved<% end %>
+              <% if plan.status_needs_resubmission? %>❗ Rejected<% end %>
+          </span>
+          </div>
+        <% end %>
+      <% else %>
+        <p>No <%= status.to_s.humanize %> submissions.</p>
+        <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tabs = document.querySelectorAll('#submission-tabs .tab');
+    const groups = document.querySelectorAll('.submission-status-group');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const status = tab.getAttribute('data-status');
+        groups.forEach(group => {
+          group.style.display = (group.getAttribute('data-status') === status) ? '' : 'none';
+        });
+      });
+    });
+  });
+</script>

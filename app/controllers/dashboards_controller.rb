@@ -6,6 +6,10 @@ class DashboardsController < ApplicationController
     @coach = @client.coach
     current_user.mark_messages_as_read(@coach)
     @conversation = Conversation.between(@client.id, @coach.id).first_or_create
+    if @conversation.id.nil?
+      Conversation.create(sender: @client, recipient: @coach)
+      @conversation = Conversation.between(@client.id, @coach.id).first_or_create
+    end
     @messages = @conversation.messages.order(created_at: :asc)
     @new_message = @conversation.messages.build
   end
@@ -14,6 +18,10 @@ class DashboardsController < ApplicationController
     if params[:recipient_id].present?
       @recipient = User.find(params[:recipient_id])
       @conversation = Conversation.between(current_user.id, @recipient.id).first_or_create
+      if @conversation.id.nil?
+        Conversation.create(sender: @recipient, recipient: current_user)
+        @conversation = Conversation.between(@recipient.id, current_user.id).first_or_create
+      end
       @messages = @conversation.messages.order(created_at: :asc)
       current_user.mark_messages_as_read(@recipient)
       @new_message = @conversation.messages.build

@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
   def create
-    @plan = current_user.plans.new(plan_params)
+    @plan = Plan.new(plan_params)
     if @plan.save
       redirect_to dashboards_coach_path, notice: "Plan created successfully!"
     else
@@ -8,9 +8,30 @@ class PlansController < ApplicationController
     end
   end
 
+  def upload_proof
+    @plan = Plan.find(params[:id])
+    if @plan.update(proof: params[:plan][:proof], status: :pending)
+      redirect_to dashboards_client_path, notice: "Proof uploaded and sent for approval."
+    else
+      redirect_to dashboards_client_path, alert: @plan.errors.full_messages.to_sentence
+    end
+  end
+
+  def approve
+    @plan = Plan.find(params[:id])
+    @plan.update(status: :approved)
+    redirect_to dashboards_coach_path, notice: "Plan approved."
+  end
+
+  def request_resubmission
+    @plan = Plan.find(params[:id])
+    @plan.update(status: :needs_resubmission)
+    redirect_to dashboards_coach_path, notice: "Resubmission requested."
+  end
+
   private
 
   def plan_params
-    params.require(:plan).permit(:details, :wellness_pillar, :duration, :reminder_time)
+    params.require(:plan).permit(:details, :wellness_pillar, :duration, :reminder_time, :user_id)
   end
 end

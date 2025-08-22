@@ -10,4 +10,13 @@ class Plan < ApplicationRecord
   caffine: 3,
   excercise: 4
 }, prefix: true
+
+  enum :status, {
+    created: 0,
+    pending: 1,
+    approved: 2,
+    needs_resubmission: 3
+  }, prefix: true
+
+  has_one_attached :proof
 end

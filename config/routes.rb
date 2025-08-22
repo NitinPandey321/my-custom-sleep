@@ -44,7 +44,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "sessions#new"
-  resources :plans, only: [ :create ]
+  resources :plans do
+    member do
+      patch :upload_proof
+      patch :approve
+      patch :request_resubmission
+    end
+  end
   resources :conversations, only: [ :index, :show, :create ] do
     resources :messages, only: [ :create ]
   end

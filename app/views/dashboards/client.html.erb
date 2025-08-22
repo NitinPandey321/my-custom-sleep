@@ -98,100 +98,11 @@
     </div>
   </div>
 
-  <!-- Plans and Achievements Section -->
   <div class="dashboard-section">
-    
-    <!-- Left Column - Active Plans and Submissions -->
     <div class="plans-column">
-      <!-- Active Plans for Today -->
-      <div class="plans-container active-plans-card">
-        <h2>Active Plans for Today</h2>
-        
-        <!-- Plan Card 1 -->
-        <div class="plan-card">
-          <div class="plan-info">
-            <div class="icon green">
-              🍏
-            </div>
-            <div>
-              <h3>Protein-Rich Meal</h3>
-              <p class="due">Due: 6:00 PM</p>
-            </div>
-          </div>
-          <button class="upload-btn blue">
-            📷 Upload Proof
-          </button>
-        </div>
-
-        <!-- Plan Card 2 -->
-        <div class="plan-card">
-          <div class="plan-info">
-            <div class="icon purple">
-              🏋
-            </div>
-            <div>
-              <h3>15-Minute Walk</h3>
-              <p class="due">Due: 3:00 PM</p>
-            </div>
-          </div>
-          <button class="upload-btn blue">
-            🎥 Upload Video
-          </button>
-        </div>
-      </div>
-
-      <!-- My Submissions Section -->
-      <div class="submissions-container my-submissions-card">
-        <h2>My Submissions</h2>
-
-        <!-- Tabs -->
-        <div class="tabs">
-          <div class="tab active">Pending <span class="count">3</span></div>
-          <div class="tab">Approved <span class="count">4</span></div>
-          <div class="tab">Needs Attention <span class="count">1</span></div>
-        </div>
-
-        <!-- Status Row -->
-        <div class="status-row">
-          <span class="status-icon">⏳</span>
-          <span class="status-badge pending">Pending</span>
-        </div>
-
-        <!-- Submission Cards -->
-        <div class="submission-card">
-          <div class="submission-info">
-            <div class="icon purple">🏋</div>
-            <div>
-              <h3>15-Minute Walk</h3>
-              <p class="time">Uploaded 45 minutes ago</p>
-            </div>
-          </div>
-          <span class="status-badge pending">⏳ Pending</span>
-        </div>
-
-        <div class="submission-card">
-          <div class="submission-info">
-            <div class="icon green">🍏</div>
-            <div>
-              <h3>Protein-Rich Meal</h3>
-              <p class="time">Uploaded just now</p>
-            </div>
-          </div>
-          <span class="status-badge pending">⏳ Pending</span>
-        </div>
-
-        <div class="submission-card">
-          <div class="submission-info">
-            <div class="icon purple">🏋</div>
-            <div>
-              <h3>15-Minute Walk</h3>
-              <p class="time">Uploaded just now</p>
-            </div>
-          </div>
-          <span class="status-badge pending">⏳ Pending</span>
-        </div>
-      </div>
-
+      <%= render 'active_plans' %>
+      <%= render 'my_submissions' %>
+      
       <!-- Today's Session Section -->
       <div class="session-card">
         <h3>Today's Session</h3>

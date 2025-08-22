@@ -2725,3 +2725,7 @@ body {
   box-shadow: 0 0 6px rgba(108, 99, 255, 0.3);
   outline: none;
 }
+
+.upload-btn[type="file"] {
+  display: none !important;
+}
