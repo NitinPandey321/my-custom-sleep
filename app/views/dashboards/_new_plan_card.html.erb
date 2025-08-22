@@ -5,8 +5,9 @@
       &times;
     </button>
   </div>
-
-  <%= render 'dashboards/client/client', client: client %>
+  <div style="margin-bottom: 20px;">
+    <%= render 'dashboards/client/client', client: client, show_actions: false %>
+  </div>
 
   <%= form_with model: Plan.new, url: plans_path, local: true, class: "plan-form" do |f| %>
     <div class="form-group">
