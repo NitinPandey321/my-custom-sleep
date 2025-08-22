@@ -6,17 +6,20 @@
           <%= render 'new_plan_card', client: @client %>
         <% end %>
     </div>
-    <div class="card--chat">
-      <% if @conversation.present? %>
-          <div data-floating-chat-target="panel" class="non-floating-chat">
-            <div class="chat-header">
-              Chat with <%= @recipient.full_name %>
-            </div>
-              <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
-          </div>
-      <% else %>
-        <p>Select a client to start chatting.</p>
-      <% end %>
+    <div class="card--planq">
+      <%= render 'approval_queue' %>
     </div>
   </div>
 </div>
+
+<% if @conversation.present? %>
+  <div data-controller="floating-chat">
+    <div data-floating-chat-target="panel" class="floating-chat">
+      <div class="chat-header">
+        Chat with <%= @recipient.full_name %>
+        <button data-action="click->floating-chat#close">✖</button>
+      </div>
+        <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
+    </div>
+  </div>
+<% end %>

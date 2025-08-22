@@ -25,8 +25,11 @@ class PlansController < ApplicationController
 
   def request_resubmission
     @plan = Plan.find(params[:id])
-    @plan.update(status: :needs_resubmission)
-    redirect_to dashboards_coach_path, notice: "Resubmission requested."
+    if @plan.update(status: :needs_resubmission, resubmission_reason: params[:resubmission_reason])
+      redirect_to dashboards_coach_path, notice: "Resubmission requested with reason."
+    else
+      redirect_to dashboards_coach_path, alert: @plan.errors.full_messages.to_sentence
+    end
   end
 
   private

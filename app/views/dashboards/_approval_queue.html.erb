@@ -1,0 +1,105 @@
+<div class="card client-overview-card" data-controller="submission">
+  <h2>Client Overview</h2>
+   <% plans = Plan.joins(:user).where(users: { id: current_user.clients.ids }) %>
+
+  <!-- Tabs -->
+  <div class="tabs" id="submission-tabs">
+    <div class="tab active" data-status="pending" data-submission-target="tab" data-action="click->submission#selectTab">
+      Pending <span class="count"><%= plans.where(status: :pending).count %></span>
+    </div>
+    <div class="tab" data-status="approved" data-submission-target="tab" data-action="click->submission#selectTab">
+      Approved <span class="count"><%= plans.where(status: :approved).count %></span>
+    </div>
+    <div class="tab" data-status="needs_resubmission" data-submission-target="tab" data-action="click->submission#selectTab">
+      Needs Attention <span class="count"><%= plans.where(status: :needs_resubmission).count %></span>
+    </div>
+
+    <div class="tab" data-status="created" data-submission-target="tab" data-action="click->submission#selectTab">
+      Sent <span class="count"><%= plans.where(status: :created).count %></span>
+    </div>
+  </div>
+
+  <% plans_by_status = plans.group_by(&:status) %>
+ 
+  <div id="submission-cards">
+    <% ['pending', 'approved', 'needs_resubmission', 'created'].each do |status| %>
+      <div class="submission-status-group"
+           data-status="<%= status %>"
+           data-submission-target="group"
+           style="<%= status == 'pending' ? '' : 'display:none;' %>">
+
+        <% if plans_by_status[status].present? %>
+          <% plans_by_status[status].each do |plan| %>
+            <div class="submission-card" id="plan-<%= plan.id %>">
+              <div class="submission-info">
+                <div class="icon <%= plan.wellness_pillar %>">
+                  <% case plan.wellness_pillar
+                      when "nutrition" %> 🥗
+                      <% when "supplements" %> 🍽️
+                      <% when "hypnosis" %> 🧘
+                      <% when "caffine" %> ☕
+                      <% when "excercise" %> 💪
+                      <% else %> 📋
+                  <% end %>
+                </div>
+
+                <div>
+                  <h3><%= plan.details.truncate(30) %></h3>
+                  <p class="time">Uploaded <%= time_ago_in_words(plan.updated_at) %> ago</p>
+                  <p><%= link_to "View Proof", url_for(plan.proof), target: "_blank" if plan.proof.attached? %></p>
+
+                  <% if plan.status_needs_resubmission? && plan.resubmission_reason.present? %>
+                    <p class="resubmission-reason"><strong>Reason:</strong> <%= plan.resubmission_reason %></p>
+                  <% end %>
+
+                  <% if plan.status_pending? %>
+                    <div class="approval-actions">
+                      <%= button_to "✓ Approve",
+                            approve_plan_path(plan),
+                            method: :patch,
+                            remote: true,
+                            class: "btn-approve" %>
+
+                      <button type="button"
+                              class="btn-resubmit toggle-reason"
+                              data-plan-id="<%= plan.id %>"
+                              data-submission-target="toggle"
+                              data-action="click->submission#toggleResubmit">
+                        ✕ Request Resubmit
+                      </button>
+                    </div>
+
+                    <!-- Hidden resubmission reason form (AJAX) -->
+                    <div class="resubmit-form"
+                     id="resubmit-form-<%= plan.id %>"
+                     data-submission-target="form"
+                     data-plan-id="<%= plan.id %>"
+                     style="display:none; margin-top:10px;">
+                      <%= form_with url: request_resubmission_plan_path(plan),
+                                    method: :patch,
+                                    remote: true do |f| %>
+                        <%= f.text_area :resubmission_reason,
+                                        placeholder: "Enter reason for resubmission",
+                                        rows: 3,
+                                        class: "form-control" %>
+                        <%= f.submit "Submit", class: "btn btn-danger mt-2" %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <span class="status-badge <%= plan.status %>">
+                <% if plan.status_created? %>⏳ Pending<% end %>
+                <% if plan.status_approved? %>✅ Approved<% end %>
+                <% if plan.status_needs_resubmission? %>❗ Rejected<% end %>
+              </span>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No <%= status.to_s.humanize %> submissions.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
