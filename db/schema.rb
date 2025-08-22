@@ -78,8 +78,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_123606) do
     t.bigint "user_id", null: false
     t.text "details", null: false
     t.integer "wellness_pillar", default: 0, null: false
-    t.time "duration"
-    t.time "reminder_time"
+    t.integer "status", default: 0, null: false
+    t.datetime "duration"
+    t.integer "reminder_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_plans_on_user_id"

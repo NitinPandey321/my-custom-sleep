@@ -11,6 +11,7 @@
 
   <%= form_with model: Plan.new, url: plans_path, local: true, class: "plan-form" do |f| %>
     <div class="form-group">
+      <%= f.hidden_field :user_id, value: client.id %>
       <%= f.label :wellness_pillar, "Wellness Pillar" %>
       <%= f.select :wellness_pillar,
             Plan.wellness_pillars.keys.map { |k| [k.titleize, k] },
@@ -25,13 +26,13 @@
 
     <div class="form-row">
       <div class="form-group">
-        <%= f.label :duration, "Duration (Hours)" %>
-        <%= f.number_field :duration, class: "form-control", min: 1, max: 200, placeholder: "e.g. 72" %>
+        <%= f.label :duration, "Due Date time" %>
+        <%= f.datetime_local_field :duration, class: "form-control", min: Time.current.strftime("%Y-%m-%dT%H:%M") %>
       </div>
 
       <div class="form-group">
-        <%= f.label :reminder_time, "Reminder Time" %>
-        <%= f.number_field :reminder_time, class: "form-control", min: 1, max: 40, placeholder: "e.g. 12" %>
+        <%= f.label :reminder_time, "Reminder (in minutes before due)" %>
+        <%= f.number_field :reminder_time, class: "form-control", placeholder: "e.g. 60" %>
       </div>
     </div>
 
