@@ -49,8 +49,8 @@
 }
 
 .stat-box {
-  width: 150px;
-  height: 190px;
+  width: 100px;
+  height: 130px;
   border-radius: 12px;
   background: #2563eb;
   color: #fff;
@@ -94,14 +94,80 @@
   margin-bottom: 20px;
 }
 
-.card--chat {
-  flex: 0 0 30%;
-  max-width: 30%;
+.card--planq {
+  flex: 0 0 50%;
+  max-width: 50%;
   min-width: 260px;
 }
 
 .card--client {
-  flex: 1 1 70%;
-  max-width: 70%;
+  flex: 1 1 50%;
+  max-width: 50%;
   min-width: 320px;
+}
+
+@media (max-width: 800px) {
+  .dashboard-cards-row {
+    flex-direction: column;
+  }
+  .card--client,
+  .card--planq {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+
+.approval-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-approve {
+  flex: 1;
+  background-color: #22c55e; /* green-500 */
+  color: white;
+  font-weight: 600;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-approve:hover {
+  background-color: #16a34a; /* darker green */
+}
+
+.btn-resubmit {
+  flex: 1;
+  background-color: #ef4444; /* red-500 */
+  color: white;
+  font-weight: 600;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-resubmit:hover {
+  background-color: #dc2626; /* darker red */
+}
+
+.resubmission-reason {
+  background-color: #fef2f2;   /* light red background */
+  border: 1px solid #fecaca;   /* light red border */
+  color: #b91c1c;              /* darker red text */
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.resubmission-reason strong {
+  color: #7f1d1d;              /* deep red for the "Reason:" label */
+  font-weight: 600;
 }

@@ -20,10 +20,11 @@
     <div class="client-actions">
       <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
       <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
-
-      <%= link_to "💬",
-        dashboards_coach_path(recipient_id: client.id),
-        class: "btn btn-chat" %>
+      <div data-controller="floating-chat">
+        <%= link_to "💬",
+          dashboards_coach_path(recipient_id: client.id),
+          class: "btn btn-chat" %>
+      </div>
       <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= client.id %>" 
             class="badge">
         <%= current_user.unread_messages_count(client) %>
