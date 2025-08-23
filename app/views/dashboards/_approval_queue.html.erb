@@ -44,7 +44,8 @@
                 </div>
 
                 <div>
-                  <h3><%= plan.details.truncate(30) %></h3>
+                  <h4><%= plan.user.full_name %></h4>
+                  <h5><%= plan.details.truncate(30) %></h5>
                   <p class="time">Uploaded <%= time_ago_in_words(plan.updated_at) %> ago</p>
                   <p><%= link_to "View Proof", url_for(plan.proof), target: "_blank" if plan.proof.attached? %></p>
 
