@@ -12,7 +12,14 @@
 
     <div class="client-text">
       <h4><%= client.full_name %></h4>
-      <p>Factory Worker • 0-day streak</p>
+      <p><%=
+              case client.today_reflection&.mood
+              when "happy" then "😊 Happy"
+              when "neutral" then "😐 Neutral"
+              when "tired" then "😴 Tired"
+              else client.today_reflection&.mood
+              end
+            %> • 0-day streak</p>
     </div>
   </div>
 

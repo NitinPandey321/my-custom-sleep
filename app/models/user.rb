@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   has_many :email_logs, dependent: :destroy
   has_many :plans, dependent: :destroy
+  has_many :daily_reflections, dependent: :destroy
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
@@ -40,6 +41,10 @@ class User < ApplicationRecord
 
   def full_phone
     [ country_code, mobile_number ].compact.join(" ")
+  end
+
+  def today_reflection
+    daily_reflections.find_by(reflection_date: Date.today)
   end
 
   # Returns initials from first and last name, or email if missing
