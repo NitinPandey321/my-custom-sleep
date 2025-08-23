@@ -55,13 +55,9 @@
                                     id: "profile-pic",
                                     class: "profile-picture" %>
                     <% end %>
-                    <label for="profile-upload-input" class="edit-icon" title="Change profile picture">
-                      ✎
+                    <label class="edit-icon" title="Change profile picture">
+                      <%= link_to "✎", user_path(current_user), class: "no-link-style" %>
                     </label>
-                    <input id="profile-upload-input" 
-                           type="file" 
-                           accept="image/jpeg,image/jpg,image/png,image/webp" 
-                           hidden />
                   </div>
                   <%= button_to "Logout", logout_path, 
                       method: :delete, 

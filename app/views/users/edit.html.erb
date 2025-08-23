@@ -1,0 +1,53 @@
+<div class="page-header">
+  <h2>Edit Profile</h2>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <%= form_with(model: @user, local: true, html: { multipart: true }) do |f| %>
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: "form-control" %>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group country-code">
+          <%= f.label :country_code, "Country Code" %>
+          <%= f.select :country_code, [
+              ["🇺🇸 +1", "+1"],
+              ["🇮🇳 +91", "+91"],
+              ["🇬🇧 +44", "+44"],
+              ["🇦🇺 +61", "+61"]
+            ], {}, class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :mobile_number, "Mobile Number" %>
+          <%= f.telephone_field :mobile_number, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :profile_picture, "Profile Image" %>
+        <%= f.file_field :profile_picture, class: "form-control" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Save Changes", class: "btn btn-primary" %>
+        <%= link_to "Cancel", user_path(@user), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

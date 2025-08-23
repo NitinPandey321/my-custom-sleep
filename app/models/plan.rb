@@ -2,6 +2,7 @@ class Plan < ApplicationRecord
   belongs_to :user
   validates :wellness_pillar, presence: true
   validates :details, presence: true
+  validates :amount, presence: true
 
   enum :wellness_pillar, {
   nutrition: 0,

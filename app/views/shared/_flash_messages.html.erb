@@ -1,5 +1,14 @@
-<% flash.each do |type, message| %>
-  <div class="flash-message flash-<%= type %>">
-    <%= message %>
-  </div>
-<% end %>
+<div id="flash-container">
+  <% flash.each do |type, message| %>
+    <div data-controller="flash"
+         data-flash-timeout-value="4000"
+         class="flash-message flash-<%= type %>">
+      <%= message %>
+      <button type="button"
+              class="flash-close"
+              data-action="click->flash#dismiss">
+        &times;
+      </button>
+    </div>
+  <% end %>
+</div>

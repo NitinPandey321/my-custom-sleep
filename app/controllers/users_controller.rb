@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :redirect_if_logged_in
+  before_action :redirect_if_logged_in, only: [:role_selection, :new_client, :new_coach, :create_client, :create_coach]
+  before_action :require_login, only: [:show, :edit, :update, :change_password]
+  before_action :set_user, only: [:show, :edit, :update, :change_password]
 
   def role_selection
     # Role selection page - no additional logic needed
@@ -51,10 +53,52 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(profile_params)
+      flash[:notice] = "Profile updated successfully."
+      redirect_to user_path(@user)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def change_password
+    if @user.authenticate(params[:user][:current_password])
+      if @user.update(password_params)
+        redirect_to @user, notice: "Password updated successfully."
+      else
+        redirect_to "/users/#{@user.id}", alert: @user.errors.full_messages.join(", ")
+      end
+    else
+      redirect_to @user, alert: "Current password is incorrect."
+    end
+  end
+
   private
+
+  def set_user
+    @user = current_user
+  end
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+  end
+
+  def profile_params
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :profile_picture,
+      :country_code, :mobile_number
+    )
+  end
+
+  def password_params
+    params.require(:user).permit(:password, :password_confirmation)
   end
 
   def redirect_if_logged_in
