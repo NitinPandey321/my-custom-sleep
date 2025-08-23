@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_23_053902) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_23_092712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -49,6 +49,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_053902) do
     t.datetime "updated_at", null: false
     t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
     t.index ["sender_id"], name: "index_conversations_on_sender_id"
+  end
+
+  create_table "daily_reflections", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "mood"
+    t.text "note"
+    t.date "reflection_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_daily_reflections_on_user_id"
   end
 
   create_table "email_logs", force: :cascade do |t|
@@ -109,6 +119,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_053902) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "conversations", "users", column: "recipient_id"
   add_foreign_key "conversations", "users", column: "sender_id"
+  add_foreign_key "daily_reflections", "users"
   add_foreign_key "email_logs", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"

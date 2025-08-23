@@ -1,0 +1,43 @@
+<div class="daily-reflection-card" data-controller="reflection">
+  <h3>Daily Reflection</h3>
+
+  <% if current_user.daily_reflections.exists?(created_at: Date.today.all_day) %>
+    <% reflection = current_user.daily_reflections.find_by(created_at: Date.today.all_day) %>
+
+    <div class="reflection-success">
+      <span class="checkmark"></span>
+        <div>
+          <p><strong>You’ve already logged your reflection for today</strong></p>
+          <p><strong>Mood:</strong>
+            <%=
+              case reflection.mood
+              when "happy" then "😊 Happy"
+              when "neutral" then "😐 Neutral"
+              when "tired" then "😴 Tired"
+              else reflection.mood
+              end
+            %>
+          </p>
+          <p><strong>Note:</strong> <%= reflection.note.presence || "-" %></p>
+        </div>
+    </div>
+  <% else %>
+    <p>How is your program flow going today?</p>
+
+    <%= form_with model: current_user.daily_reflections.new, url: daily_reflection_path, local: true, data: { controller: "reflection" } do |f| %>
+      <div class="emojis">
+        <span data-action="click->reflection#selectEmoji" data-reflection-emoji="happy">😊</span>
+        <span data-action="click->reflection#selectEmoji" data-reflection-emoji="neutral">😐</span>
+        <span data-action="click->reflection#selectEmoji" data-reflection-emoji="tired">😴</span>
+      </div>
+
+      <!-- Hidden mood field -->
+      <%= f.hidden_field :mood, data: { reflection_target: "mood" } %>
+
+      <!-- Note textarea bound to form -->
+      <%= f.text_area :note, placeholder: "Share a quick note about your sleep or habits today...", class: "form-control", data: { reflection_target: "note" } %>
+
+      <%= f.submit "Save Reflection", class: "save-btn" %>
+    <% end %>
+  <% end %>
+</div>
