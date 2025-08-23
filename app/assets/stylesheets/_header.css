@@ -3,7 +3,6 @@
   padding: 0 1rem;
 }
 
-/* Header styles */
 .app-header {
   background: var(--white);
   border-bottom: 1px solid var(--neutral-200);
@@ -13,7 +12,6 @@
   z-index: 100;
 }
 
-/* Navbar Layout - Responsive Design */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -50,7 +48,6 @@
 }
 
 
-/* Profile Picture Container */
 .profile-container {
   position: relative;
   display: inline-block;
@@ -219,10 +216,9 @@
 
   .form-input {
     padding: 1rem;
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
   }
 
-  /* Navbar responsive - Mobile optimized */
   .navbar {
     flex-direction: row;
     justify-content: space-between;
@@ -320,7 +316,6 @@
     padding: 1rem 1.5rem;
   }
 
-  /* Navbar mobile styles - Very small screens */
   .navbar {
     flex-direction: column;
     gap: 0.75rem;
@@ -385,7 +380,6 @@
   }
 }
 
-/* Medium screens (tablets and small desktops) */
 @media (min-width: 769px) and (max-width: 1199px) {
   .navbar {
     padding: 0.75rem 0;
@@ -429,7 +423,6 @@
   }
 }
 
-/* Large screens optimization */
 @media (min-width: 1200px) {
   .auth-card {
     padding: 3rem;
@@ -444,7 +437,6 @@
     font-size: 2rem;
   }
 
-  /* Enhanced navbar for large screens */
   .navbar {
     padding: 1rem 0;
   }
@@ -466,7 +458,6 @@
     font-size: 1rem;
   }
 
-  /* Larger profile picture for big screens */
   .profile-picture {
     width: 65px;
     height: 65px;
@@ -484,7 +475,6 @@
   }
 }
 
-/* Extra small screens (phones in portrait) - Logo visibility ensured */
 @media (max-width: 320px) {
   .navbar {
     flex-direction: column;

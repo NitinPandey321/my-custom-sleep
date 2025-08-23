@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get "sessions/create"
   get "sessions/destroy"
 
-  resources :users, only: [:show, :edit, :update] do
+  resources :users, only: [ :show, :edit, :update ] do
     member do
       patch :change_password
     end

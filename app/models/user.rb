@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def full_phone
-    [country_code, mobile_number].compact.join(" ")
+    [ country_code, mobile_number ].compact.join(" ")
   end
 
   # Returns initials from first and last name, or email if missing

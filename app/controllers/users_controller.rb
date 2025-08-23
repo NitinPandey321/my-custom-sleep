@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :redirect_if_logged_in, only: [:role_selection, :new_client, :new_coach, :create_client, :create_coach]
-  before_action :require_login, only: [:show, :edit, :update, :change_password]
-  before_action :set_user, only: [:show, :edit, :update, :change_password]
+  before_action :redirect_if_logged_in, only: [ :role_selection, :new_client, :new_coach, :create_client, :create_coach ]
+  before_action :require_login, only: [ :show, :edit, :update, :change_password ]
+  before_action :set_user, only: [ :show, :edit, :update, :change_password ]
 
   def role_selection
     # Role selection page - no additional logic needed
