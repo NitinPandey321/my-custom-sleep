@@ -38,6 +38,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def full_phone
+    [ country_code, mobile_number ].compact.join(" ")
+  end
+
   # Returns initials from first and last name, or email if missing
   def initials
     if first_name.present? && last_name.present?
