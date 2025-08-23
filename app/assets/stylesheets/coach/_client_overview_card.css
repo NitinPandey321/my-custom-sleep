@@ -25,6 +25,15 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow-y: scroll;
+  max-height: 365px;
+  scrollbar-width: none; 
+
+  -ms-overflow-style: none;
+}
+
+.client-list::-webkit-scrollbar {
+  display: none;
 }
 
 .client-item {
@@ -129,4 +138,22 @@
 
 .btn-icon:hover {
   background: var(--neutral-100);
+}
+
+
+
+
+.submission-status-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: scroll;
+  max-height: 365px;
+  scrollbar-width: none; 
+
+  -ms-overflow-style: none;
+}
+
+.submission-status-group::-webkit-scrollbar {
+  display: none;
 }
