@@ -1,0 +1,20 @@
+<!-- app/views/admin/dashboard/index.html.erb -->
+<h1>Dashboard</h1>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
+    Total Users: <%= @total_users %>
+  </div>
+  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
+    Total Coaches: <%= @total_coaches %>
+  </div>
+  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
+    Total Clients: <%= @total_clients %>
+  </div>
+  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
+    Total Plans: <%= @total_plans %>
+  </div>
+  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
+    Pending Plans: <%= @pending_plans %>
+  </div>
+</div>

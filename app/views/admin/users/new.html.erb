@@ -1,0 +1,115 @@
+<h1>New User</h1>
+
+<div class="admin-form-container">
+  <%= form_with model: [:admin, @user], local: true, class: "admin-form" do |f| %>
+    
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, class: "form-control" %>
+      </div>
+
+      <div class="form-group col-md-6">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: "form-control" %>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <%= f.label :status %>
+        <%= f.select :status, User.statuses.keys, {}, class: "form-control" %>
+      </div>
+
+      <div class="form-group col-md-6">
+        <%= f.label :role %>
+        <%= f.select :role, ['client', 'coach', 'admin'], {}, class: "form-control", id: "role-select" %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "form-control", autocomplete: "new-password", minlength: 6, required: true %>
+        <small class="form-text text-muted">Min 6 characters.</small>
+      </div>
+
+      <div class="form-group col-md-6">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password", minlength: 6, required: true %>
+      </div>
+    </div>
+
+    <div class="form-group role-dependent" id="clients-select" style="display:none;">
+      <%= f.label :client_ids, "Assigned Clients" %>
+      <%= f.collection_select :client_ids, 
+            User.clients, :id, :full_name, 
+            { include_hidden: false }, 
+            { multiple: true, class: "form-control custom-multiselect" } %>
+      <small class="form-text text-muted">Hold CTRL (or CMD on Mac) to select multiple clients.</small>
+    </div>
+
+    <div class="form-group role-dependent" id="coach-select" style="display:none;">
+      <%= f.label :coach_id, "Assigned Coach" %>
+      <%= f.collection_select :coach_id, 
+            User.coaches, :id, :full_name, 
+            { include_blank: "Select a Coach" }, 
+            { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :deactivated, "Deactivate Account", class: "form-label d-block mb-2" %>
+      
+      <label class="toggle-switch">
+        <%= f.check_box :deactivated %>
+        <span class="slider"></span>
+      </label>
+      
+      <small class="form-text text-muted d-block mt-2">
+        Toggle this switch to deactivate the user. Deactivated users will not be able to log in.
+      </small>
+    </div>
+
+    <div class="form-actions mt-3">
+      <%= f.submit "Create User", class: "btn btn-primary" %>
+      <%= link_to "Back", admin_users_path, class: "btn btn-secondary ml-2" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  // Simple JS to toggle coach/clients based on role
+  document.addEventListener("DOMContentLoaded", function() {
+    const roleSelect = document.getElementById("role-select");
+    const clientBox = document.getElementById("clients-select");
+    const coachBox = document.getElementById("coach-select");
+
+    function toggleRoleFields() {
+      if (roleSelect.value === "coach") {
+        clientBox.style.display = "";
+        coachBox.style.display = "none";
+      } else if (roleSelect.value === "client") {
+        clientBox.style.display = "none";
+        coachBox.style.display = "";
+      } else {
+        clientBox.style.display = "none";
+        coachBox.style.display = "none";
+      }
+    }
+
+    roleSelect.addEventListener("change", toggleRoleFields);
+    toggleRoleFields();
+  });
+</script>
+
+<style>
+  .custom-multiselect {
+    height: 200px;
+    padding: 8px;
+  }
+</style>

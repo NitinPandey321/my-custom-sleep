@@ -24,8 +24,10 @@ class User < ApplicationRecord
   before_save :downcase_email
 
   # Scopes
-  scope :coaches, -> { where(role: "coach") }
-  scope :clients, -> { where(role: "client") }
+  scope :coaches, -> { where(role: "coach", deactivated: false) }
+  scope :clients, -> { where(role: "client", deactivated: false) }
+  scope :active, -> { where(deactivated: false) }
+  scope :inactive, -> { where(deactivated: true) }
 
   # Returns the coach's designation or a default value
   def designation
