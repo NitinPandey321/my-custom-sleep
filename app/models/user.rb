@@ -1,12 +1,4 @@
-  # Returns the coach's designation or a default value
-  def designation
-    self[:designation].presence || "Sleep Specialist Coach"
-  end
 class User < ApplicationRecord
-  # Returns the coach's designation or a default value
-  def designation
-    self[:designation].presence || "Sleep Specialist Coach"
-  end
   has_secure_password
 
   enum :status, { on_track: 0, needs_attention: 1, falling_behind: 2 }, prefix: true
@@ -35,8 +27,21 @@ class User < ApplicationRecord
   scope :coaches, -> { where(role: "coach") }
   scope :clients, -> { where(role: "client") }
 
+  # Returns the coach's designation or a default value
+  def designation
+    self[:designation].presence || "Sleep Specialist Coach"
+  end
+
   def full_name
-    "#{first_name} #{last_name}"
+    if first_name.present? && last_name.present?
+      "#{first_name} #{last_name}"
+    elsif first_name.present?
+      first_name
+    elsif last_name.present?
+      last_name
+    else
+      email
+    end
   end
 
   def full_phone
@@ -65,7 +70,7 @@ class User < ApplicationRecord
 
     Message.joins(:conversation)
       .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
-      .where.not(user_id: self.id) # exclude viewer’s own messages
+      .where.not(user_id: self.id) # exclude viewer's own messages
       .where(read_at: nil).uniq
       .count
   end
@@ -80,18 +85,6 @@ class User < ApplicationRecord
       .update_all(read_at: Time.current)
   end
 
-  # Returns full name or email if missing
-  def full_name
-    if first_name.present? && last_name.present?
-      "#{first_name} #{last_name}"
-    elsif first_name.present?
-      first_name
-    elsif last_name.present?
-      last_name
-    else
-      email
-    end
-  end
   def client?
     role == "client"
   end
@@ -102,6 +95,45 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
+  end
+
+  # Password Reset OTP Methods
+  def generate_reset_password_otp
+    otp = SecureRandom.random_number(100000..999999).to_s
+    self.reset_password_otp_digest = BCrypt::Password.create(otp)
+    self.reset_password_sent_at = Time.current
+    self.reset_password_attempts = 0
+    save!
+    otp
+  end
+
+  def reset_password_otp_valid?(otp_input)
+    return false if reset_password_otp_digest.blank? || reset_password_sent_at.blank?
+    return false if reset_password_sent_at < 10.minutes.ago # OTP expired
+    return false if reset_password_attempts >= 5 # Too many attempts
+
+    BCrypt::Password.new(reset_password_otp_digest) == otp_input
+  end
+
+  def increment_reset_password_attempts!
+    increment!(:reset_password_attempts)
+  end
+
+  def clear_reset_password_otp!
+    update!(
+      reset_password_otp_digest: nil,
+      reset_password_sent_at: nil,
+      reset_password_attempts: 0
+    )
+  end
+
+  def reset_password_otp_expired?
+    return true if reset_password_sent_at.blank?
+    reset_password_sent_at < 10.minutes.ago
+  end
+
+  def reset_password_attempts_exceeded?
+    reset_password_attempts >= 5
   end
 
   # Round-robin coach assignment

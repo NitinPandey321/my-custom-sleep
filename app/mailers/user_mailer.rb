@@ -10,4 +10,15 @@ class UserMailer < ApplicationMailer
       subject: "Welcome to My Custom Sleep Journey"
     )
   end
+
+  def send_reset_password_otp(user, otp)
+    @user = user
+    @otp = otp
+    @company_name = "My Custom Sleep Journey"
+
+    mail(
+      to: @user.email,
+      subject: "Password Reset OTP - My Custom Sleep Journey"
+    )
+  end
 end

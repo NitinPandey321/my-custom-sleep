@@ -160,6 +160,64 @@ body {
   border-color: var(--neutral-300);
 }
 
+/* Password toggle styles */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  padding-right: 3rem !important; /* Make space for toggle button */
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #0e3264;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.password-toggle-btn:hover {
+  background-color: rgba(14, 50, 100, 0.1);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.password-toggle-btn:focus {
+  outline: 2px solid #0e3264;
+  outline-offset: 2px;
+  background-color: rgba(14, 50, 100, 0.1);
+}
+
+.password-toggle-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.password-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.password-toggle-icon svg {
+  transition: all 0.2s ease;
+}
+
 /* Button styles */
 .btn {
   display: inline-block;
@@ -239,6 +297,24 @@ body {
 .auth-link:hover {
   color: var(--primary-dark);
   text-decoration: underline;
+}
+
+.auth-link-small {
+  color: var(--neutral-500);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.auth-link-small:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.forgot-password-link {
+  text-align: right;
+  margin-bottom: 20px;
 }
 
 /* Enhanced responsive design */

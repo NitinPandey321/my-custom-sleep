@@ -1,5 +1,5 @@
 <div class="card client-overview-card" data-controller="submission">
-  <h2>Client Overview</h2>
+  <h2>Approval queue</h2>
    <% plans = Plan.joins(:user).where(users: { id: current_user.clients.ids }) %>
 
   <!-- Tabs -->
