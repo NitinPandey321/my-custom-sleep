@@ -29,7 +29,9 @@
   </div>
 
   <!-- Floating chat panel -->
-  <div data-floating-chat-target="panel" class="floating-chat hidden">
+  <%
+=begin%>
+ <div data-floating-chat-target="panel" class="floating-chat hidden">
     <div class="chat-header">
       Chat with <%= coach.full_name %>
       <button data-action="click->floating-chat#close">✖</button>
@@ -38,5 +40,7 @@
     <%= turbo_frame_tag "chat_box" do %>
       <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
     <% end %>
-  </div>
+  </div> 
+<%
+=end%>
 </div>
