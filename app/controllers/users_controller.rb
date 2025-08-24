@@ -22,10 +22,7 @@ class UsersController < ApplicationController
     @user.role = "client"
 
     if @user.save
-      # Assign a coach using round-robin
       assigned_coach = User.assign_coach_to_client(@user)
-
-      # Send welcome email for new clients
       EmailService.send_welcome_email(@user)
 
       session[:user_id] = @user.id
@@ -104,19 +101,6 @@ class UsersController < ApplicationController
   def redirect_if_logged_in
     if current_user
       redirect_to dashboard_path_for(current_user.role)
-    end
-  end
-
-  def dashboard_path_for(role)
-    case role
-    when "client"
-      "/client/dashboard"
-    when "coach"
-      "/coach/dashboard"
-    when "admin"
-      "/admin/dashboard"
-    else
-      login_path
     end
   end
 end

@@ -31,4 +31,17 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+
+  def dashboard_path_for(role)
+    case role
+    when "client"
+      dashboards_client_path
+    when "coach"
+      dashboards_coach_path
+    when "admin"
+      dashboards_admin_path
+    else
+      login_path
+    end
+  end
 end
