@@ -32,19 +32,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def dashboard_path_for(role)
-    case role
-    when "client"
-      "/client/dashboard"
-    when "coach"
-      "/coach/dashboard"
-    when "admin"
-      "/admin/dashboard"
-    else
-      login_path
-    end
-  end
-
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   rescue ActiveRecord::RecordNotFound
