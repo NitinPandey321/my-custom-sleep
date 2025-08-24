@@ -49,6 +49,11 @@ class DashboardsController < ApplicationController
 
   def admin
     # Admin dashboard - placeholder
+    @total_users = User.count
+    @total_coaches = User.where(role: "coach").count
+    @total_clients = User.where(role: "client").count
+    @total_plans = Plan.count
+    @pending_plans = Plan.where(status: "pending").count
   end
 
   def show_new_plan

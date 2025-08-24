@@ -1,0 +1,56 @@
+<div class="admin-header d-flex justify-content-between align-items-center">
+  <h1>Users</h1>
+  <%= link_to "New User", new_admin_user_path, class: "btn btn-primary" %>
+</div>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Role</th>
+      <th>Active</th>
+      <th>Clients</th>
+      <th>Assigned Coach</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.full_name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <span class="status-badge <%= user.status %>"><%= user.status.titleize %></span>
+        </td>
+        <td><%= user.role %></td>
+        <td>
+          <% if user.deactivated? %>
+            <span class="badge badge-danger">Inactive</span>
+          <% else %>
+            <span class="badge badge-success">Active</span>
+          <% end %>
+        </td>
+        <td>
+          <% if user.role == "coach" %>
+            <%= user.clients.count %>
+          <% else %>
+            –
+          <% end %>
+        </td>
+        <td>
+          <% if user.role == "client" %>
+            <%= user.coach&.full_name || "Unassigned" %>
+          <% else %>
+            –
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Show", admin_user_path(user), class: "btn btn-sm btn-info" %>
+          <%= link_to "Edit", edit_admin_user_path(user), class: "btn btn-sm btn-warning" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

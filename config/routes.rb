@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get    "/login",  to: "sessions#new"
   post   "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+  get "/logout", to: "sessions#destroy"
 
   # Signup flow
   get  "/signup",          to: "users#role_selection"
@@ -14,11 +15,19 @@ Rails.application.routes.draw do
   post "/signup/client",   to: "users#create_client"
   post "/signup/coach",    to: "users#create_coach"
 
+  # config/routes.rb
+  namespace :admin do
+    resources :dashboard
+    resources :users
+    resources :plans
+  end
+
+
   # Dashboards
   namespace :dashboards do
     get :client
     get :coach
-    get :admin
+    # get :admin
   end
 
   # Users

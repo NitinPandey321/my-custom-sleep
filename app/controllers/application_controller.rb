@@ -32,6 +32,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_admin
+    unless current_user&.admin?
+      redirect_to root_path, alert: "Access denied"
+    end
+  end
+
   def dashboard_path_for(role)
     case role
     when "client"
@@ -39,7 +45,7 @@ class ApplicationController < ActionController::Base
     when "coach"
       dashboards_coach_path
     when "admin"
-      dashboards_admin_path
+      admin_dashboard_index_path
     else
       login_path
     end

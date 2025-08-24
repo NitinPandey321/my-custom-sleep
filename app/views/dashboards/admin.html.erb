@@ -4,3 +4,16 @@
   
   <%= link_to "Logout", logout_path, data: { "turbo-method": :delete }, class: "btn btn-primary" %>
 </div>
+
+<h2>Admin Dashboard</h2>
+
+<ul>
+  <li>Total Users: <%= @total_users %></li>
+  <li>Total Coaches: <%= @total_coaches %></li>
+  <li>Total Clients: <%= @total_clients %></li>
+  <li>Total Plans: <%= @total_plans %></li>
+  <li>Pending Plans: <%= @pending_plans %></li>
+</ul>
+
+<%= link_to "Manage Users", admin_users_path %>
+<%= link_to "Manage Plans", admin_plans_path %>
