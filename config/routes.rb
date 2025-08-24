@@ -34,7 +34,14 @@ Rails.application.routes.draw do
   # Daily reflection (singular resource as well)
   resource :daily_reflection, only: [ :show, :create ]
 
-  # Plans
+  resources :passwords, only: [ :new, :create, :edit, :update ] do
+    collection do
+      get :verify_otp_form
+      post :verify_otp
+      post :resend_otp
+    end
+  end
+
   resources :plans do
     member do
       patch :upload_proof

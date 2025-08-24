@@ -22,11 +22,30 @@
 
       <div class="form-group">
         <%= form.label :password, "Password", class: "form-label" %>
-        <%= form.password_field :password, 
-            class: "form-input", 
-            placeholder: "Enter your password", 
-            required: true,
-            autocomplete: "current-password" %>
+        <div class="password-input-wrapper" data-controller="password-visibility">
+          <%= form.password_field :password, 
+              class: "form-input password-input", 
+              placeholder: "Enter your password", 
+              required: true,
+              autocomplete: "current-password",
+              data: { "password-visibility-target": "input" },
+              "aria-label": "Password is hidden" %>
+          <button type="button" 
+                  class="password-toggle-btn" 
+                  data-action="click->password-visibility#toggle"
+                  aria-label="Toggle password visibility">
+            <span class="password-toggle-icon" data-password-visibility-target="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#0e3264" stroke-width="2" fill="none"/>
+                <circle cx="12" cy="12" r="3" stroke="#0e3264" stroke-width="2" fill="none"/>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="forgot-password-link">
+        <%= link_to "Forgot your password?", new_password_path, class: "auth-link-small" %>
       </div>
 
       <div class="form-actions">
