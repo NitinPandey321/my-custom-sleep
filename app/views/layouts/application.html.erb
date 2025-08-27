@@ -67,6 +67,7 @@
 
     <main class="main-content">
       <%= render 'shared/flash_messages' if flash.any? %>
+      <%= turbo_stream_from "user_#{current_user.id}" if current_user %>
       <%= yield %>
     </main>
   </body>
