@@ -18,7 +18,7 @@
       <div>
         <h3><%= plan.details.truncate(30) %></h3>
         <% if plan.respond_to?(:reminder_time) && plan.reminder_time.present? %>
-        <p class="due">Due: <%= plan.duration.strftime("%b %d, %I:%M %p") %></p>
+        <p class="due">Due: <%= plan.duration&.strftime("%b %d, %I:%M %p") %></p>
         <% else %>
         <p class="due">Created: <%= plan.created_at.strftime("%b %d, %I:%M %p") %></p>
         <% end %>

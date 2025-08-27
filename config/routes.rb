@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :dashboard
     resources :users
     resources :plans
+    resources :audit_logs, only: [ :index, :show ]
   end
 
 

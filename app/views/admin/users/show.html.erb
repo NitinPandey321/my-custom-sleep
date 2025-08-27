@@ -33,6 +33,9 @@
     <% end %>
 
     <hr>
+    <p><span class="label">Average Response Time:</span> <%= format_response_time(@user.avg_response_time) %></p>
+
+    <hr>
     <p><span class="label">Created At:</span> <%= @user.created_at.strftime("%B %d, %Y %H:%M") %></p>
     <p><span class="label">Updated At:</span> <%= @user.updated_at.strftime("%B %d, %Y %H:%M") %></p>
   </div>
