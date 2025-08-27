@@ -19,7 +19,7 @@
               when "tired" then "😴 Tired"
               else client.today_reflection&.mood
               end
-            %> • <%= client.plan_streak %>-Plan streak</p>
+            %> • 0-plan streak</p>
     </div>
   </div>
 
@@ -28,14 +28,16 @@
       <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
       <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
       <div data-controller="floating-chat">
-        <%= link_to "💬",
-          dashboards_coach_path(recipient_id: client.id),
-          class: "btn btn-chat" %>
+        💬
       </div>
-      <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= client.id %>" 
+      <%
+=begin%>
+ <span id="unread_count_user_<%= Conversation.between(current_user.id, client.id).first&.id %>_<%= client.id %>" 
             class="badge">
         <%= current_user.unread_messages_count(client) %>
-      </span>
+      </span> 
+<%
+=end%>
     </div>
   <% end %>
 </div>
