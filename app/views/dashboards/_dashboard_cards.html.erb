@@ -12,14 +12,3 @@
   </div>
 </div>
 
-<% if @conversation.present? %>
-  <div data-controller="floating-chat">
-    <div data-floating-chat-target="panel" class="floating-chat">
-      <div class="chat-header">
-        Chat with <%= @recipient.full_name %>
-        <button data-action="click->floating-chat#close">✖</button>
-      </div>
-        <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
-    </div>
-  </div>
-<% end %>
