@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema[8.0].define(version: 2025_08_24_082828) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_27_035418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,11 +42,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_082828) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "audit_logs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "role", null: false
+    t.integer "action", null: false
+    t.string "auditable_type"
+    t.bigint "auditable_id"
+    t.text "details"
+    t.inet "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auditable_type", "auditable_id"], name: "index_audit_logs_on_auditable"
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.bigint "sender_id"
     t.bigint "recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "avg_response_time", default: 0, null: false
     t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
     t.index ["sender_id"], name: "index_conversations_on_sender_id"
   end
@@ -95,6 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_082828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "resubmission_reason"
+    t.datetime "client_submitted_at"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
@@ -116,12 +132,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_082828) do
     t.datetime "reset_password_sent_at"
     t.integer "reset_password_attempts", default: 0
     t.boolean "deactivated", default: false
+    t.integer "avg_response_time", default: 0, null: false
+    t.integer "plan_streak", default: 0, null: false
+    t.integer "longest_plan_streak", default: 0, null: false
     t.index ["coach_id"], name: "index_users_on_coach_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "audit_logs", "users"
   add_foreign_key "conversations", "users", column: "recipient_id"
   add_foreign_key "conversations", "users", column: "sender_id"
   add_foreign_key "daily_reflections", "users"
