@@ -2,6 +2,7 @@
   <div class="coach-card">
     <div class="coach-info">
       <div class="coach-avatar">
+        <% is_online = coach.online? %>
         <% if coach.profile_picture.attached? %>
           <img src="<%= rails_blob_url(coach.profile_picture, disposition: 'inline') %>" 
                alt="Coach Profile Picture" 
@@ -9,11 +10,11 @@
         <% else %>
           <div class="coach-avatar-placeholder"><%= coach.initials %></div>
         <% end %>
-        <span class="online-dot"></span>
+        <span class="<%= is_online ? 'online-dot' : 'offline-dot' %>"></span>
       </div>
       <div class="coach-details">
         <h3><%= coach.full_name %> <span class="coach-role">(Your Coach)</span></h3>
-        <p class="status-online">Online now</p>
+        <p class="<%= is_online ? 'status-online' : 'status-offline' %>"><%= is_online ? "Online" : "Offline" %></p>
         <p class="coach-speciality">Sleep Specialist</p>
       </div>
     </div>

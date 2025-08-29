@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
     unless logged_in?
       flash[:alert] = "You must be logged in to access this page"
       redirect_to login_path
+    else
+      current_user.update_column(:last_seen_at, Time.current)
     end
   end
 

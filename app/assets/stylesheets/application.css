@@ -266,6 +266,27 @@ body {
   transform: translateY(0);
 }
 
+.btn-outline-secondary {
+  background: transparent;
+  color: #0e3264;
+  border: 1px solid #0e3264;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s ease;
+}
+
+.btn-outline-secondary:hover {
+  background: #0e3264;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-outline-secondary:active {
+  transform: translateY(0);
+  background: #0a2650;
+  color: white;
+}
+
 .btn-full {
   width: 100%;
 }
@@ -1773,17 +1794,6 @@ body {
   margin-right: 15px;
 }
 
-.online-dot {
-  position: absolute;
-  bottom: 8px;
-  right: 6px;
-  width: 12px;
-  height: 12px;
-  background: #00c853;
-  border: 2px solid white;
-  border-radius: 50%;
-}
-
 .coach-details h3 {
   margin: 0;
   font-size: 18px;
@@ -1801,6 +1811,12 @@ body {
   margin: 2px 0 0;
   font-size: 14px;
   color: #00c853;
+}
+
+.status-offline {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: #c52222;
 }
 
 .coach-speciality {
@@ -1879,10 +1895,23 @@ body {
 }
 
 .online-dot {
+  position: absolute;
+  bottom: 8px;
+  right: 0px;
   width: 10px;
   height: 10px;
   background: #22c55e;
   border-radius: 50%;
+}
+
+.offline-dot {
+  position: absolute;
+  bottom: 8px;
+  right: 0px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c52222;
 }
 
 .chat-box {
