@@ -162,6 +162,10 @@ class User < ApplicationRecord
     end
   end
 
+  def online?
+    last_seen_at && last_seen_at > 5.minutes.ago
+  end
+
   private
 
   def downcase_email
