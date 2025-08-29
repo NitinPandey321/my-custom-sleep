@@ -46,7 +46,7 @@ class DashboardsController < ApplicationController
               .left_joins(:messages)
               .select("users.*, MAX(messages.created_at) AS last_message_at")
               .group("users.id")
-              .order("last_message_at DESC NULLS LAST").limit(1)
+              .order("last_message_at DESC NULLS LAST")
 
     @total_clients = @coach.clients.count
     @active_clients = @coach.clients.count # You can add more specific logic for active clients
