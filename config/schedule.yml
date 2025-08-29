@@ -1,0 +1,11 @@
+weekly_gamification:
+  cron: "0 2 * * 1"   # Every Monday at 02:00 AM
+  class: "WeeklyGamificationJob"
+  queue: default
+  description: "Weekly gamification job for clients"
+
+update_user_status_job:
+  cron: "* * * * *"   # every minute for testing
+  class: "UpdateUserStatusJob"
+  queue: default
+  description: "Update user status job"

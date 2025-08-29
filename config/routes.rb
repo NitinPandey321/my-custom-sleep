@@ -1,4 +1,7 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
   # Health check
   get "up", to: "rails/health#show", as: :rails_health_check
 

@@ -20,7 +20,7 @@ class Plan < ApplicationRecord
 
   has_one_attached :proof
 
-    after_create :log_creation
+  after_create :log_creation
   after_update :log_status_change
 
   private

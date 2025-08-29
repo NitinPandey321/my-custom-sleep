@@ -122,57 +122,8 @@
       </div>
     </div>
 
-    <!-- Right Column - Your Achievements and Daily Reflection -->
     <div class="achievements-and-reflection">
-      <!-- Your Achievements Card -->
-      <div class="achievements-container">
-        <h2>Your Achievements 🏆</h2>
-
-        <!-- Current Title & Points -->
-        <div class="current-title">
-          <div class="badge-icon-large">�</div>
-          <div class="title-info">
-            <h3>Circadian Champion</h3>
-            <p>Weekly Points: <strong>270 / 300</strong></p>
-          </div>
-        </div>
-
-        <!-- Progress to Next Level -->
-        <div class="progress-section">
-          <p>Progress to Chief Rest Officer</p>
-          <div class="progress-bar-modern">
-            <div class="progress-fill-modern" style="width: 90%;"></div>
-          </div>
-        </div>
-
-        <!-- My Badges Timeline -->
-        <div class="badges-section">
-          <h3>My Badges</h3>
-          <div class="badge-timeline">
-            <div class="badge earned">
-              <div class="badge-img">🌙</div>
-              <span>Rest Resident</span>
-            </div>
-            <div class="badge earned">
-              <div class="badge-img">📚</div>
-              <span>Sleep Scholar</span>
-            </div>
-            <div class="badge earned">
-              <div class="badge-img">🏆</div>
-              <span>Circadian Champion</span>
-            </div>
-            <div class="badge locked">
-              <div class="badge-img">👑</div>
-              <span>Chief Rest Officer</span>
-            </div>
-            <div class="badge locked">
-              <div class="badge-img">⭐</div>
-              <span>Recovery Luminary</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <%= render 'dashboards/gamification' %>
       <!-- Daily Reflection Card -->
       <%= render 'dashboards/client/daily_reflection' %>
     </div>
