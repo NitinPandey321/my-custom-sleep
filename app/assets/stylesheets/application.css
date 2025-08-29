@@ -637,11 +637,47 @@ body {
   text-align: center;
   border: 1px solid var(--neutral-200);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top border line */
+.wellness-card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .wellness-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Specific pillar colors */
+.nutrition-card::before {
+  background-color: #28a745; /* Green */
+}
+
+.supplements-card::before {
+  background-color: #007bff; /* Blue */
+}
+
+.exercise-card::before {
+  background-color: #ff9f1c; /* Orange */
+}
+
+.caffeine-card::before {
+  background-color: #ff7f0e; /* Orange */
+}
+
+.hypnosis-card::before {
+  background-color: #5f5fff; /* Indigo */
 }
 
 .wellness-card-icon {
@@ -1726,7 +1762,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: linear-gradient(135deg, #009688 0%, #03a9f4 100%);;
   border-radius: 12px;
   padding: 16px 24px;
   box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
@@ -1761,13 +1797,13 @@ body {
 .coach-details h3 {
   margin: 0;
   font-size: 18px;
-  color: #000;
+  color: #fff;
   font-weight: 600;
 }
 
 .coach-role {
   font-weight: normal;
-  color: #777;
+  color: #fff;
   font-size: 14px;
 }
 
@@ -1786,7 +1822,7 @@ body {
 .coach-speciality {
   margin: 0;
   font-size: 13px;
-  color: #777;
+  color: #fff;
 }
 
 .coach-actions button {
