@@ -9,6 +9,12 @@ class Message < ApplicationRecord
       target: "messages_#{conversation.id}",
       partial: "messages/message",
       locals: { message: self }
+
+    recipient = conversation.other_participant(user)
+    broadcast_replace_to "user_#{recipient.id}",
+      target: "unread_count_user_#{conversation_id}_#{recipient.id}",
+      partial: "conversations/unread_badge",
+      locals: { conversation: conversation, viewer: recipient }
   end
 
   after_create_commit :update_response_times

@@ -42,6 +42,12 @@ class DashboardsController < ApplicationController
       @clients = @clients.where(status: User.statuses[params[:status]])
     end
 
+    @clients = @clients
+              .left_joins(:messages)
+              .select("users.*, MAX(messages.created_at) AS last_message_at")
+              .group("users.id")
+              .order("last_message_at DESC NULLS LAST")
+
     @total_clients = @coach.clients.count
     @active_clients = @coach.clients.count # You can add more specific logic for active clients
     @pending_approvals = 5 # Placeholder - you can implement this based on your business logic

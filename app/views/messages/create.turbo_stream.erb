@@ -6,13 +6,3 @@
 <%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @new_message } %>
 
 <%= turbo_stream.replace "message_form", partial: "messages/form", locals: { conversation: @conversation, new_message: @new_message } %>
-
-<%# --- Update unread count for recipient --- %>
-<%= turbo_stream.replace "unread_count_user_#{@conversation.id}_#{@recipient.id}" do %>
-  <%= @recipient.unread_messages_count(current_user) %>
-<% end %>
-
-<%# --- Update unread count for current_user (optional if you show badges for self too) --- %>
-<%= turbo_stream.replace "unread_count_user_#{@conversation.id}_#{current_user.id}" do %>
-  <%= current_user.unread_messages_count(@recipient) %>
-<% end %>
