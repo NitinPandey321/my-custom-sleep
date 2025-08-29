@@ -17,6 +17,9 @@ gem "redis", "~> 5.0"
 gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
+gem "sidekiq"
+gem "sidekiq-cron", "~> 1.11"
+
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

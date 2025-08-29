@@ -1,0 +1,35 @@
+<div class="achievements-container">
+  <!-- Current Title -->
+  <div class="current-title">
+    <div class="badge-icon-large"><%= current_level_info(current_user)[:icon] %></div>
+    <div class="title-info">
+      <h3><%= current_level_info(current_user)[:title] %></h3>
+      <p>Plan Streak: <strong><%= current_user.plan_streak %></strong></p>
+    </div>
+  </div>
+
+  <!-- Progress Section -->
+  <% if next_level_info(current_user) %>
+    <div class="progress-section">
+      <p>Progress to <%= next_level_info(current_user)[:title] %></p>
+      <% progress_percent = [(current_user.on_time_weeks.to_f / 2) * 100, 100].min %>
+      <div class="progress-bar-modern">
+        <div class="progress-fill-modern" style="width: <%= progress_percent %>%;"></div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Badges Timeline -->
+  <div class="badges-section">
+    <h3>My Badges</h3>
+    <div class="badge-timeline">
+      <% rest_levels.each do |key, level| %>
+        <% earned = User.rest_levels[current_user.rest_level] >= User.rest_levels[key.to_s] %>
+        <div class="badge <%= earned ? 'earned' : 'locked' %>">
+          <div class="badge-img"><%= level[:icon] %></div>
+          <span><%= level[:title] %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

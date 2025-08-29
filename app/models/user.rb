@@ -30,6 +30,14 @@ class User < ApplicationRecord
   scope :active, -> { where(deactivated: false) }
   scope :inactive, -> { where(deactivated: true) }
 
+  enum :rest_level, {
+    rest_resident: 0,
+    sleep_scholar: 1,
+    circadian_champion: 2,
+    chief_rest_officer: 3,
+    recovery_luminary: 4
+  }, prefix: true
+
   # Returns the coach's designation or a default value
   def designation
     self[:designation].presence || "Sleep Specialist Coach"
@@ -53,6 +61,14 @@ class User < ApplicationRecord
 
   def today_reflection
     daily_reflections.find_by(reflection_date: Date.today)
+  end
+
+  def gamify?
+    role == "client"
+  end
+
+  def level_name
+    rest_level.humanize
   end
 
   # Returns initials from first and last name, or email if missing

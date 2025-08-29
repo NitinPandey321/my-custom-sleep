@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_28_102607) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_29_120924) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -136,6 +136,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_102607) do
     t.integer "plan_streak", default: 0, null: false
     t.integer "longest_plan_streak", default: 0, null: false
     t.datetime "last_seen_at"
+    t.integer "rest_level", default: 0, null: false
+    t.integer "on_time_weeks", default: 0, null: false
+    t.integer "missed_weeks", default: 0, null: false
     t.index ["coach_id"], name: "index_users_on_coach_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
