@@ -2,8 +2,13 @@ require "sidekiq/web"
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
-  # Health check
+  get "/oura/connect", to: "oura#connect"
+  get "/oura/callback", to: "oura#callback"
+
   get "up", to: "rails/health#show", as: :rails_health_check
+  match "/auth/:provider",          to: "omniauth#passthru", via: [ :get, :post ]
+  match "/auth/:provider/callback", to: "sessions#oura",     via: [ :get, :post ]
+  match "/auth/failure",            to: redirect("/"),       via: [ :get, :post ]
 
   # Authentication
   get    "/login",  to: "sessions#new"
@@ -68,10 +73,8 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ]
   end
 
+  resources :oura_dashboard, only: [ :index ]
+
   # Root
   root "sessions#new"
-
-  # PWA support (uncomment if needed)
-  # get "manifest",        to: "rails/pwa#manifest",        as: :pwa_manifest
-  # get "service-worker",  to: "rails/pwa#service_worker",  as: :pwa_service_worker
 end

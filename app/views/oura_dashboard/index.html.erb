@@ -1,0 +1,199 @@
+<div class="dashboard" data-controller="sleep-charts"
+     data-sleep-charts-scores-value="<%= raw @recent_scores.to_json %>"
+     data-sleep-charts-sleep-value="<%= raw @recent_sleep.to_json %>"
+     data-sleep-charts-heart-value="<%= raw @heart_rate_data.to_json %>">
+  <section class="highlight">
+    <h2>Today's Sleep Summary</h2>
+
+    <% if @today_sleep.present? && @today_score.present? %>
+      <div class="sleep-card">
+        <div class="sleep-metric">
+          <h3>Sleep Score</h3>
+          <p><%= @today_score["score"] %></p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Total Sleep</h3>
+          <p><%= Time.at(@today_sleep["total_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Efficiency</h3>
+          <p><%= @today_sleep["efficiency"] %>%</p>
+        </div>
+        <div class="sleep-metric">
+          <h3>REM Sleep</h3>
+          <p><%= Time.at(@today_sleep["rem_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Deep Sleep</h3>
+          <p><%= Time.at(@today_sleep["deep_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Light Sleep</h3>
+          <p><%= Time.at(@today_sleep["light_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Avg. Heart Rate</h3>
+          <p><%= @today_sleep["average_heart_rate"] %> bpm</p>
+        </div>
+        <div class="sleep-metric">
+          <h3>Avg. Breathing Rate</h3>
+          <p><%= @today_sleep["average_breath"] %> bpm</p>
+        </div>
+      </div>
+    <% else %>
+      <p>No sleep data available for today.</p>
+    <% end %>
+
+    <!-- Stress Level -->
+    <% if @stress_data.present? %>
+      <div class="sleep-metric stress-summary">
+        <h3>Stress Level</h3>
+        <p><%= @stress_data["stress_high"] %> (Stress High)</p>
+        <p><%= @stress_data["recovery_high"] %> (Recovery High)</p>
+        <p><%= @stress_data["day_summary"] %></p>
+      </div>
+    <% else %>
+      <p>No stress data available for today.</p>
+    <% end %>
+  </section>
+
+  <section class="trend">
+    <h2>Sleep Score (Last 30 Days)</h2>
+    <div class="chart-container">
+      <canvas id="sleepScoreChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Heart Rate Trend (Last 12 Hours) -->
+  <section class="trend">
+    <h2>Heart Rate (Last 12 Hours)</h2>
+    <div class="chart-container">
+      <canvas id="heartRateChart"></canvas>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Sleep Score Chart
+    const sleepScoreCtx = document.getElementById('sleepScoreChart').getContext('2d');
+    const sleepScoresData = <%= raw @recent_scores.to_json %>;
+    const sleepDurationData = <%= raw @recent_sleep.to_json %>;
+
+    const labels = sleepScoresData.map(d => d.day);
+    const scores = sleepScoresData.map(d => d.score);
+    const durations = sleepDurationData.map(d => Math.round(d.total_sleep_duration / 3600 * 10) / 10);
+
+    new Chart(sleepScoreCtx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Sleep Score',
+            data: scores,
+            borderColor: '#4CAF50',
+            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+            tension: 0.3,
+            pointRadius: 3,
+            fill: true
+          },
+          {
+            label: 'Total Sleep (hrs)',
+            data: durations,
+            borderColor: '#2196F3',
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+            tension: 0.3,
+            pointRadius: 3,
+            fill: true,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Sleep Score'
+            }
+          },
+          y1: {
+            beginAtZero: true,
+            position: 'right',
+            grid: {
+              drawOnChartArea: false
+            },
+            title: {
+              display: true,
+              text: 'Sleep Hours'
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          },
+          legend: {
+            position: 'top'
+          }
+        }
+      }
+    });
+
+    // Heart Rate Chart
+    const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
+    const heartRateData = <%= raw @heart_rate_data.to_json %>;
+
+    // Only display the heart rate chart if there's data available
+    if (heartRateData && heartRateData.length > 0) {
+      const heartRateLabels = heartRateData.map(d => new Date(d.timestamp).toLocaleTimeString());
+      const heartRates = heartRateData.map(d => d.bpm);
+
+      new Chart(heartRateCtx, {
+        type: 'line',
+        data: {
+          labels: heartRateLabels,
+          datasets: [{
+            label: 'Heart Rate (bpm)',
+            data: heartRates,
+            borderColor: '#FF5722',
+            backgroundColor: 'rgba(255, 87, 34, 0.1)',
+            tension: 0.3,
+            pointRadius: 3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Heart Rate (bpm)'
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            },
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    } else {
+      // If no heart rate data is available, display a message
+      document.querySelector('.trend').innerHTML += "<p>No heart rate data available for the last 12 hours.</p>";
+    }
+  });
+</script>
