@@ -18,7 +18,7 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "sidekiq"
-gem "sidekiq-cron", "~> 1.11"
+gem "sidekiq-cron", "~> 2.3"
 gem "twilio-ruby"
 gem "faraday"
 gem "faraday_middleware"
