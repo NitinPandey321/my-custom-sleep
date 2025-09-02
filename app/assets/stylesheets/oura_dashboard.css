@@ -1,0 +1,94 @@
+/* General styling for the sleep-card and sleep-metric */
+.sleep-card {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Adjust grid layout to accommodate various metrics */
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sleep-card .sleep-metric {
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sleep-card .sleep-metric h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sleep-card .sleep-metric p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Stress Summary styling */
+.stress-summary {
+  background-color: rgba(255, 87, 34, 0.1); /* Soft orange background for stress */
+  border-left: 4px solid #FF5722; /* Bold left border to emphasize the stress area */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  /* Adding a little separation from other metrics */
+  margin-top: 15px;
+}
+
+.stress-summary h3 {
+  color: #FF5722; /* Stress-related heading in red/orange */
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.stress-summary p {
+  font-size: 1rem;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Stress Level Text Color (stress/high/recovery) */
+.stress-summary p:first-child {
+  font-weight: bold;
+  color: #D32F2F; /* Stress High in red */
+}
+
+.stress-summary p:nth-child(2) {
+  font-weight: bold;
+  color: #FFA000; /* Recovery High in amber/orange */
+}
+
+.stress-summary p:last-child {
+  font-style: italic;
+  color: #8D6E63; /* Subtle brown for the day summary */
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design for Small Screens */
+@media screen and (max-width: 768px) {
+  .sleep-card {
+    grid-template-columns: 1fr 1fr; /* Stack the metrics on smaller screens */
+  }
+
+  .sleep-card .sleep-metric {
+    margin-bottom: 10px; /* Add margin for better spacing on mobile */
+  }
+
+  .stress-summary {
+    margin-top: 10px; /* Reduce top margin for smaller screens */
+  }
+}

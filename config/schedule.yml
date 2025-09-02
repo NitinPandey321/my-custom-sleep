@@ -9,3 +9,15 @@ update_user_status_job:
   class: "UpdateUserStatusJob"
   queue: default
   description: "Update user status job"
+
+plan_reminder_job:
+  cron: "* * * * *"   # every minute for testing
+  class: "PlanReminderJob"
+  queue: default
+  description: "Plan reminder job"
+
+sleep_sync_job:
+  cron: "0 6 * * *"   # every day at 6 AM
+  class: "OuraSleepSyncJob"
+  queue: default
+  description: "Oura sleep sync job"

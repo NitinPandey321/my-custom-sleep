@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :plans, dependent: :destroy
   has_many :daily_reflections, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :sleep_records, dependent: :destroy
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture

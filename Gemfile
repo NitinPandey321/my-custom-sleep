@@ -19,6 +19,11 @@ gem "kamal", require: false
 gem "thruster", require: false
 gem "sidekiq"
 gem "sidekiq-cron", "~> 1.11"
+gem "twilio-ruby"
+gem "faraday"
+gem "faraday_middleware"
+gem "chartkick"
+gem "groupdate"
 
 
 group :development, :test do
