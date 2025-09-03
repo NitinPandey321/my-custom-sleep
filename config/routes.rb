@@ -65,6 +65,12 @@ Rails.application.routes.draw do
 
   # Conversations + nested messages
   resources :conversations, only: [ :index, :show, :create ] do
+    member do
+      post :escalate
+      post :dismiss
+      post :accept_request
+      post :dismiss_request
+    end
     resources :messages, only: [ :create ]
   end
 

@@ -25,8 +25,8 @@ class User < ApplicationRecord
   before_save :downcase_email
 
   # Scopes
-  scope :coaches, -> { where(role: "coach", deactivated: false) }
-  scope :clients, -> { where(role: "client", deactivated: false) }
+  scope :coaches, -> { where(role: "coach") }
+  scope :clients, -> { where(role: "client") }
   scope :active, -> { where(deactivated: false) }
   scope :inactive, -> { where(deactivated: true) }
 
@@ -85,10 +85,10 @@ class User < ApplicationRecord
   end
 
   def unread_messages_count(viewer)
-    return 0 if self == viewer
+    return 0 if viewer.nil? || self == viewer
 
-    Message.joins(:conversation)
-      .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
+    Message.joins(conversation: :users)
+      .where(users: { id: [ id, viewer.id ] })
       .where.not(user_id: self.id) # exclude viewer's own messages
       .where(read_at: nil).uniq
       .count
@@ -97,8 +97,8 @@ class User < ApplicationRecord
   def mark_messages_as_read(viewer)
     return if self == viewer
 
-    Message.joins(:conversation)
-      .where(conversations: { sender_id: [ id, viewer.id ], recipient_id: [ id, viewer.id ] })
+    Message.joins(conversation: :users)
+      .where(users: { id: [ id, viewer.id ] })
       .where.not(user_id: self.id)
       .where(read_at: nil)
       .update_all(read_at: Time.current)
@@ -114,6 +114,10 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
+  end
+
+  def self.user_role(user_id)
+    find_by(id: user_id)&.role
   end
 
   # Password Reset OTP Methods
@@ -168,10 +172,7 @@ class User < ApplicationRecord
     if coaches_with_counts.any?
       coach = coaches_with_counts.first[:coach]
       client.update!(coach: coach)
-      Conversation.find_or_create_by!(
-        sender_id: coach.id,
-        recipient_id: client.id
-      )
+      Conversation.new_conversation(sender_id: coach.id, recipient_id: client.id)
       coach
     else
       nil

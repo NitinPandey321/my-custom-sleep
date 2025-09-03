@@ -1,6 +1,6 @@
  <% if message.id.present? %>
   <div id="<%= "messages_#{message.id}" %>"
-      class="chat-bubble <%= message.user == current_user ? 'chat-doctor' : 'chat-client' %>" 
+      class="chat-bubble <%= message.conversation.conversation_participants.where(role: :temp_coach).first&.user_id == message.user_id ? (message.user == current_user ? 'chat-doctor chat-new-doctor' : 'chat-client chat-new-client') : (message.user == current_user ? 'chat-doctor' : 'chat-client') %>" 
       data-action="turbo:after-frame-render->chat-scroll#messageAdded">
     <%= message.body %>
     <%
