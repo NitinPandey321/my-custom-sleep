@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+  before_action :set_conversation, only: [ :escalate, :dismiss ]
+
   def index
     @recipient = User.find(params[:recipient_id])
     @sender = User.find(params[:sender_id])
@@ -21,11 +23,78 @@ class ConversationsController < ApplicationController
     redirect_to @conversation
   end
 
+  def escalate
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "user_#{@conversation.users.where(role: :client).first.id}",
+      target: "escalation_popup",
+      partial: "conversations/escalation_waiting"
+    )
+
+    User.coaches.each do |coach|
+      Turbo::StreamsChannel.broadcast_append_to(
+        "user_#{coach.id}",
+        target: "coach_requests",
+        partial: "conversations/coach_request",
+        locals: { conversation: @conversation, client: @conversation.users.where(role: :client).first }
+      )
+    end
+  end
+
+  def dismiss
+    Turbo::StreamsChannel.broadcast_remove_to(
+      "user_#{@conversation.users.where(role: :client).first.id}",
+      target: "escalation_popup"
+    )
+  end
+
+  def accept_request
+    @conversation = Conversation.find(params[:id])
+    client_id = @conversation.users.where(role: :client).first.id
+
+    if @conversation.conversation_participants.none? { |p| p.user_id == current_user.id }
+      @conversation.conversation_participants.create!(
+        user: current_user,
+        role: :temp_coach
+      )
+    end
+
+    @conversation.messages.create!(user: current_user,
+      body: "Coach #{current_user.full_name} has joined the conversation."
+    )
+
+    User.coaches.each do |coach|
+        Turbo::StreamsChannel.broadcast_remove_to(
+          "user_#{coach.id}",
+          target: "coach_request_#{@conversation.id}"
+        )
+    end
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "user_#{client_id}",
+      target: "escalation_popup",
+      partial: "conversations/new_coach_joined",
+      locals: { coach: current_user }
+    )
+
+    redirect_to dashboards_coach_path(recipient_id: client_id)
+  end
+
+  def dismiss_request
+    Turbo::StreamsChannel.broadcast_remove_to(
+      "user_#{current_user.id}",
+      target: "coach_request_#{params[:id]}"
+    )
+  end
+
   private
 
   def authorize_conversation!
     unless [ @conversation.sender, @conversation.recipient ].include?(current_user)
       redirect_to root_path, alert: "Not authorized"
     end
+  end
+
+  def set_conversation
+    @conversation = Conversation.find(params[:id])
   end
 end

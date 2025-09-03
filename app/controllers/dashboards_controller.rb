@@ -5,26 +5,22 @@ class DashboardsController < ApplicationController
     @client = current_user
     @coach = @client.coach
     current_user.mark_messages_as_read(@coach)
-    @conversation = Conversation.between(@client.id, @coach.id).first_or_create
-    if @conversation.id.nil?
-      Conversation.create(sender: @client, recipient: @coach)
-      @conversation = Conversation.between(@client.id, @coach.id).first_or_create
-    end
+    @conversation = Conversation.between(@client.id, @coach.id)
     @messages = @conversation.messages.order(created_at: :asc)
     @new_message = @conversation.messages.build
   end
 
   def coach
-    if params[:recipient_id].present?
-      @recipient = User.find(params[:recipient_id])
-      @conversation = Conversation.between(current_user.id, @recipient.id).first_or_create
-      if @conversation.id.nil?
-        Conversation.create(sender: @recipient, recipient: current_user)
-        @conversation = Conversation.between(@recipient.id, current_user.id).first_or_create
+    @recipient = User.find_by(id: params[:recipient_id], role: "client")
+    if @recipient.present?
+      @conversation = Conversation.between(current_user.id, @recipient&.id)
+      if @conversation.nil?
+        redirect_to dashboards_coach_path, alert: "No conversation found with the selected client."
+      else
+        @messages = @conversation.messages.order(created_at: :asc)
+        current_user.mark_messages_as_read(@recipient)
+        @new_message = @conversation.messages.build
       end
-      @messages = @conversation.messages.order(created_at: :asc)
-      current_user.mark_messages_as_read(@recipient)
-      @new_message = @conversation.messages.build
     end
 
     if params[:client_id].present?

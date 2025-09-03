@@ -1,0 +1,20 @@
+<!-- app/views/conversations/_coach_request.html.erb -->
+<div id="coach_request_<%= conversation.id %>" class="popup-overlay">
+  <div class="popup-content">
+    <h2>New chat request</h2>
+    <p>Client <strong><%= client.full_name %></strong> needs help.</p>
+
+    <div class="popup-actions">
+      <%= button_to "Accept",
+            accept_request_conversation_path(conversation),
+            method: :post,
+            data: { turbo_stream: true },
+            class: "btn btn-primary" %>
+      <%= button_to "Ignore",
+            dismiss_request_conversation_path(conversation),
+            method: :post,
+            data: { turbo_stream: true },
+            class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

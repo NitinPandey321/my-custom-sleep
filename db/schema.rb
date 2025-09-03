@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_02_040128) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -57,14 +57,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_040128) do
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_participants_on_user_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
-    t.bigint "sender_id"
-    t.bigint "recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "avg_response_time", default: 0, null: false
-    t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
-    t.index ["sender_id"], name: "index_conversations_on_sender_id"
   end
 
   create_table "daily_reflections", force: :cascade do |t|
@@ -159,8 +165,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_040128) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audit_logs", "users"
-  add_foreign_key "conversations", "users", column: "recipient_id"
-  add_foreign_key "conversations", "users", column: "sender_id"
+  add_foreign_key "conversation_participants", "conversations"
+  add_foreign_key "conversation_participants", "users"
   add_foreign_key "daily_reflections", "users"
   add_foreign_key "email_logs", "users"
   add_foreign_key "messages", "conversations"
