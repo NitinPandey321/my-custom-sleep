@@ -29,8 +29,14 @@
             <%= f.file_field :proof, class: "upload-btn blue", style: "display:inline; cursor:pointer;", title: "📷 Upload Proof", onchange: "this.form.submit();" %>
             <label for="<%= f.object_name %>_proof" class="upload-btn blue" style="cursor:pointer;">
             📷 Upload Proof
-            </label>
-        <% end %>
+            </label>    
+          <% end %>
+          <span style="margin: 0 8px; color: #666;">or</span>
+          <%= button_to "✔ Mark as Done",
+                  mark_done_plan_path(plan),
+                  method: :post,
+                  form: { class: "inline" },
+                  class: "upload-btn green" %>
         <% elsif plan.proof.attached? %>
           <span>Proof uploaded</span>
         <% end %>

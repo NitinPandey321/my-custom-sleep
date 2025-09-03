@@ -17,6 +17,16 @@ class PlansController < ApplicationController
     end
   end
 
+  def mark_done
+    @plan = Plan.find(params[:id])
+    if @plan.update(status: :pending)
+      redirect_to dashboards_client_path, notice: "Plan marked as done"
+    else
+      redirect_to dashboards_client_path, alert: @plan.errors.full_messages.to_sentence
+    end
+  end
+
+
   def approve
     @plan = Plan.find(params[:id])
     @plan.update(status: :approved)

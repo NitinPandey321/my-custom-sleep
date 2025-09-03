@@ -48,6 +48,9 @@
                   <h3><%= plan.details.truncate(30) %></h3>
                   <p class="time">Uploaded <%= time_ago_in_words(plan.updated_at) %> ago</p>
                   <p><%= link_to "View Proof", url_for(plan.proof), target: "_blank" if plan.proof.attached? %></p>
+                  <% if plan.status_needs_resubmission? && plan.resubmission_reason.present? %>
+                    <p class="resubmission-reason"><strong>Reason:</strong> <%= plan.resubmission_reason %></p>
+                  <% end %>
                 </div>
               </div>
               <span class="status-badge <%= plan.status %>">
