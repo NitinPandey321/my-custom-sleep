@@ -1,6 +1,9 @@
 class OuraDashboardController < ApplicationController
+  before_action :require_login
+  before_action :set_client, only: [ :index ]
+
   def index
-    oura = OuraClient.new(current_user)
+    oura = OuraClient.new(@client)
 
     # Fetch sleep data
     @sleep_data = oura.sleep["data"]
@@ -17,5 +20,13 @@ class OuraDashboardController < ApplicationController
 
     # Fetch heart rate data
     @heart_rate_data = oura.heart_rate(start_datetime: 12.hours.ago.iso8601, end_datetime: Time.current.iso8601)["data"].last(100)
+  end
+
+  def set_client
+    @client = if current_user.role == "coach"
+                current_user.clients.find(params[:client_id])
+    else
+                current_user
+    end
   end
 end

@@ -1,5 +1,7 @@
 # app/controllers/oura_controller.rb
 class OuraController < ApplicationController
+  before_action :require_login
+
   def connect
     redirect_to "https://cloud.ouraring.com/oauth/authorize?response_type=code" \
                 "&client_id=#{ENV['OURA_CLIENT_ID']}" \
