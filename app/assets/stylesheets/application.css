@@ -946,6 +946,10 @@ body {
   background-color: #0c2340;
 }
 
+.upload-btn.green {
+  background-color: #28a745;
+}
+
 .upload-btn:hover {
   transform: translateY(-1px);
   background-color: #0e3264;
