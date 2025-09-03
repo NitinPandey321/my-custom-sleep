@@ -1934,6 +1934,10 @@ body {
   background: #f1f5f9;
   align-self: flex-start;
   color: var(--neutral-700);
+  &.chat-new-client {
+    background: #00c4ff;
+    color: #fff !important;
+  }
 }
 
 .chat-doctor {
@@ -1942,6 +1946,10 @@ body {
   align-self: flex-end;
   position: relative;
   padding-right: 40px;
+  &.chat-new-doctor {
+    background: #00c4ff;
+    color: #fff !important;
+  }
 }
 
 .dr-avatar {

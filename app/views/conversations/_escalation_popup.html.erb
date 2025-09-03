@@ -1,0 +1,21 @@
+<!-- app/views/conversations/_escalation_popup.html.erb -->
+<div id="escalation_popup" class="popup-overlay">
+  <div class="popup-content">
+    <h2>Seems your coach is busy</h2>
+    <p>Do you want to chat with another available coach?</p>
+
+    <div class="popup-actions">
+      <%= button_to "Yes",
+            escalate_conversation_path(conversation),
+            method: :post,
+            data: { turbo_stream: true },
+            class: "btn btn-primary" %>
+
+      <%= button_to "No",
+            dismiss_conversation_path(conversation),
+            method: :post,
+            data: { turbo_stream: true },
+            class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

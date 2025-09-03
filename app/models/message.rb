@@ -19,8 +19,13 @@ class Message < ApplicationRecord
 
   after_create_commit :update_response_times
   after_create_commit :mark_conversation_started
+  after_create_commit :schedule_escalation_check, if: -> { user.client? }
 
   private
+
+  def schedule_escalation_check
+    ChatEscalationJob.set(wait: 1.minutes).perform_later(id)
+  end
 
   def update_response_times
     last_msg = conversation.messages.where.not(user_id: user_id).order(created_at: :desc).first
