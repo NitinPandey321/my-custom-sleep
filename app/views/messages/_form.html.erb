@@ -6,6 +6,7 @@
         <%= f.text_field :body,
             placeholder: "Type your message...",
             class: "message-input flex-grow",
+            autocomplete: "off",
             data: { "message-form-target": "input", action: "input->message-form#checkInput" } %>
 
         <%= f.submit "✈",
