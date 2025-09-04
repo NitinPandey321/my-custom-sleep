@@ -11,25 +11,27 @@
       </div>
 
       <!-- Quick Replies -->
-      <div class="quick-replies">
-        <%= button_to "Remember to hydrate!",
-              conversation_messages_path(@conversation, message: { body: "Remember to hydrate!" }),
-              method: :post,
-              form: { data: { turbo_frame: "chat_box" } },
-              class: "quick-reply-btn" %>
+      <% if current_user.coach? %>
+        <div class="quick-replies">
+          <%= button_to "Remember to hydrate!",
+                conversation_messages_path(@conversation, message: { body: "Remember to hydrate!" }),
+                method: :post,
+                form: { data: { turbo_frame: "chat_box" } },
+                class: "quick-reply-btn" %>
 
-        <%= button_to "Great progress!",
-              conversation_messages_path(@conversation, message: { body: "Great progress!" }),
-              method: :post,
-              form: { data: { turbo_frame: "chat_box" } },
-              class: "quick-reply-btn" %>
+          <%= button_to "Great progress!",
+                conversation_messages_path(@conversation, message: { body: "Great progress!" }),
+                method: :post,
+                form: { data: { turbo_frame: "chat_box" } },
+                class: "quick-reply-btn" %>
 
-        <%= button_to "Keep it up!",
-              conversation_messages_path(@conversation, message: { body: "Keep it up!" }),
-              method: :post,
-              form: { data: { turbo_frame: "chat_box" } },
-              class: "quick-reply-btn" %>
-      </div>
+          <%= button_to "Keep it up!",
+                conversation_messages_path(@conversation, message: { body: "Keep it up!" }),
+                method: :post,
+                form: { data: { turbo_frame: "chat_box" } },
+                class: "quick-reply-btn" %>
+        </div>
+      <% end %>
 
       <!-- Chat Input -->
       <div class="chat-input">
