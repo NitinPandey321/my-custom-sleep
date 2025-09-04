@@ -24,4 +24,16 @@ class Conversation < ApplicationRecord
       ConversationParticipant.new(user_id: recipient_id, role: User.user_role(recipient_id))
     ])
   end
+
+  def coach
+    conversation_participants.find_by(role: :coach).user
+  end
+
+  def client
+    conversation_participants.find_by(role: :client).user
+  end
+
+  def temp_coach
+    conversation_participants.find_by(role: :temp_coach).user
+  end
 end
