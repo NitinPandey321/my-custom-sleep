@@ -10,7 +10,7 @@ class ChatEscalationJob < ApplicationJob
 
     # Only escalate if last message is still this client message
     if last_message.id == message.id
-      Turbo::StreamsChannel.broadcast_replace_to(
+      Turbo::StreamsChannel.broadcast_update_to(
         "user_#{message.user.id}",
         target: "escalation_popup",
         partial: "conversations/escalation_popup",

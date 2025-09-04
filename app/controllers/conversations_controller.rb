@@ -24,13 +24,13 @@ class ConversationsController < ApplicationController
   end
 
   def escalate
-    Turbo::StreamsChannel.broadcast_replace_to(
+    Turbo::StreamsChannel.broadcast_update_to(
       "user_#{@conversation.users.where(role: :client).first.id}",
       target: "escalation_popup",
       partial: "conversations/escalation_waiting"
     )
 
-    User.coaches.each do |coach|
+    User.coaches.where.not(id: @conversation.coach.id).each do |coach|
       Turbo::StreamsChannel.broadcast_append_to(
         "user_#{coach.id}",
         target: "coach_requests",
@@ -41,9 +41,10 @@ class ConversationsController < ApplicationController
   end
 
   def dismiss
-    Turbo::StreamsChannel.broadcast_remove_to(
+    Turbo::StreamsChannel.broadcast_update_to(
       "user_#{@conversation.users.where(role: :client).first.id}",
-      target: "escalation_popup"
+      target: "escalation_popup",
+      html: "" # empties the frame
     )
   end
 
@@ -62,27 +63,37 @@ class ConversationsController < ApplicationController
       body: "Coach #{current_user.full_name} has joined the conversation."
     )
 
-    User.coaches.each do |coach|
-        Turbo::StreamsChannel.broadcast_remove_to(
-          "user_#{coach.id}",
-          target: "coach_request_#{@conversation.id}"
-        )
+    User.coaches.where.not(id: @conversation.coach.id).each do |coach|
+      Turbo::StreamsChannel.broadcast_update_to(
+        "user_#{coach.id}",
+        target: "coach_request_#{@conversation.id}",
+        html: "" # clears request card but keeps container alive
+      )
     end
 
-    Turbo::StreamsChannel.broadcast_replace_to(
+    Turbo::StreamsChannel.broadcast_update_to(
       "user_#{client_id}",
       target: "escalation_popup",
       partial: "conversations/new_coach_joined",
       locals: { coach: current_user }
     )
-
-    redirect_to dashboards_coach_path(recipient_id: client_id)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "coach_redirect",
+          partial: "shared/redirect",
+          locals: { url: dashboards_coach_path(recipient_id: client_id) }
+        )
+      end
+      format.html { redirect_to dashboards_coach_path(recipient_id: client_id) }
+    end
   end
 
   def dismiss_request
-    Turbo::StreamsChannel.broadcast_remove_to(
+    Turbo::StreamsChannel.broadcast_update_to(
       "user_#{current_user.id}",
-      target: "coach_request_#{params[:id]}"
+      target: "coach_request_#{params[:id]}",
+      html: "" # clears request card for this coach only
     )
   end
 
