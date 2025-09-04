@@ -24,6 +24,7 @@ gem "faraday"
 gem "faraday_middleware"
 gem "chartkick"
 gem "groupdate"
+gem "phonelib"
 
 
 group :development, :test do

@@ -38,6 +38,8 @@
             autocomplete: "email" %>
       </div>
 
+      <%= render 'shared/phone_input', form: form %>
+
       <div class="form-group">
         <%= form.label :password, "Password", class: "form-label" %>
         <%= form.password_field :password, 

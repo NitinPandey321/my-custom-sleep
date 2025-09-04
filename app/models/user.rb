@@ -22,6 +22,15 @@ class User < ApplicationRecord
                     format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
   validates :role, inclusion: { in: %w[client coach admin] }
+  
+  # Phone validation - required for new signups
+  validates :mobile_number, presence: true, if: :phone_required?
+  validates :country_code, presence: true, if: :phone_required?
+  validates :phone_e164, presence: true, uniqueness: true, if: -> { mobile_number.present? }
+  validates :phone_country_iso2, presence: true, if: -> { mobile_number.present? }
+  validate :phone_number_valid, if: -> { mobile_number.present? }
+  
+  before_validation :format_phone_e164, if: -> { mobile_number.present? && country_code.present? }
 
   before_save :downcase_email
 
@@ -57,7 +66,7 @@ class User < ApplicationRecord
   end
 
   def full_phone
-    [ country_code, mobile_number ].compact.join(" ")
+    phone_e164.presence || [ country_code, mobile_number ].compact.join(" ")
   end
 
   def today_reflection
@@ -188,5 +197,37 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email.downcase
+  end
+
+  def phone_required?
+    # Require phone for new signups (clients and coaches)
+    new_record? && %w[client coach].include?(role)
+  end
+
+  def format_phone_e164
+    return if mobile_number.blank? || country_code.blank?
+    
+    # Remove country code prefix from mobile_number if present
+    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(country_code.sub('+', ''))}/, '')
+    full_number = "#{country_code}#{clean_number}"
+    
+    parsed = Phonelib.parse(full_number)
+    if parsed.valid?
+      self.phone_e164 = parsed.e164
+      self.phone_country_iso2 = parsed.country
+    end
+  end
+
+  def phone_number_valid
+    return if mobile_number.blank? || country_code.blank?
+    
+    # Remove country code prefix from mobile_number if present
+    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(country_code.sub('+', ''))}/, '')
+    full_number = "#{country_code}#{clean_number}"
+    
+    parsed = Phonelib.parse(full_number)
+    unless parsed.valid?
+      errors.add(:mobile_number, "is not valid for the selected country")
+    end
   end
 end

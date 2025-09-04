@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :redirect_if_logged_in, only: [ :role_selection, :new_client, :new_coach, :create_client, :create_coach ]
   before_action :require_login, only: [ :show, :edit, :update, :change_password ]
   before_action :set_user, only: [ :show, :edit, :update, :change_password ]
+  before_action :parse_country_code, only: [ :create_client, :create_coach, :update ]
 
   def role_selection
     # Role selection page - no additional logic needed
@@ -84,7 +85,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :country_code, :mobile_number, :phone_country_iso2)
   end
 
   def profile_params
@@ -101,6 +102,16 @@ class UsersController < ApplicationController
   def redirect_if_logged_in
     if current_user
       redirect_to dashboard_path_for(current_user.role)
+    end
+  end
+
+  def parse_country_code
+    if params[:user] && params[:user][:country_code]
+      country_data = params[:user][:country_code].split('|')
+      if country_data.length == 2
+        params[:user][:country_code] = country_data[0]  # dial code like "+1"
+        params[:user][:phone_country_iso2] = country_data[1]  # ISO2 code like "US"
+      end
     end
   end
 end

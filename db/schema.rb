@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_124151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "approval_items", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.bigint "coach_id", null: false
+    t.bigint "plan_id", null: false
+    t.string "file_url"
+    t.string "file_type"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_approval_items_on_client_id"
+    t.index ["coach_id"], name: "index_approval_items_on_coach_id"
+    t.index ["plan_id"], name: "index_approval_items_on_plan_id"
   end
 
   create_table "audit_logs", force: :cascade do |t|
@@ -106,6 +120,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "plan_submissions", force: :cascade do |t|
+    t.bigint "plan_id", null: false
+    t.integer "status"
+    t.text "feedback"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_plan_submissions_on_plan_id"
+  end
+
   create_table "plans", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.text "details", null: false
@@ -158,12 +181,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
     t.string "oura_access_token"
     t.string "oura_refresh_token"
     t.datetime "oura_expires_at"
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
+    t.string "phone_number"
+    t.string "phone_e164"
+    t.string "phone_country_iso2"
     t.index ["coach_id"], name: "index_users_on_coach_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone_e164"], name: "index_users_on_phone_e164"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "approval_items", "plans"
+  add_foreign_key "approval_items", "users", column: "client_id"
+  add_foreign_key "approval_items", "users", column: "coach_id"
   add_foreign_key "audit_logs", "users"
   add_foreign_key "conversation_participants", "conversations"
   add_foreign_key "conversation_participants", "users"
@@ -171,6 +203,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
   add_foreign_key "email_logs", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "plan_submissions", "plans"
   add_foreign_key "plans", "users"
   add_foreign_key "users", "users", column: "coach_id"
 end

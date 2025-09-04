@@ -1,0 +1,86 @@
+<div class="form-group" data-controller="phone-input">
+  <%= form.label :mobile_number, "Phone Number", class: "form-label" %>
+  
+  <div class="phone-input-container">
+    <!-- Country Selector -->
+    <div class="country-selector-wrapper">
+      <%= form.select :country_code, 
+          options_for_select(
+            country_code_options.map { |country| 
+              value = "#{country[:dial_code]}|#{country[:iso2]}"
+              text = "#{country[:flag]} #{country[:name]} #{country[:dial_code]}"
+              [text, value]
+            }, 
+            (form.object.country_code.present? && form.object.phone_country_iso2.present?) ? 
+              "#{form.object.country_code}|#{form.object.phone_country_iso2}" : 
+              "+1|US"
+          ), 
+          {}, 
+          { 
+            class: "country-selector",
+            data: { 
+              phone_input_target: "countrySelect",
+              action: "click->phone-input#showCountryDropdown change->phone-input#countryChanged"
+            }
+          } %>
+          
+      <!-- Search Input for Country Dropdown -->
+      <input type="text" 
+             class="country-search" 
+             placeholder="Search countries..."
+             data-phone-input-target="countrySearch"
+             data-action="input->phone-input#searchCountries keydown->phone-input#handleSearchKeydown"
+             style="display: none;">
+             
+      <!-- Country Dropdown -->
+      <div class="country-dropdown" data-phone-input-target="countryDropdown" style="display: none;">
+        <% country_code_options.each do |country| %>
+          <div class="country-option" 
+               data-iso2="<%= country[:iso2] %>"
+               data-dial-code="<%= country[:dial_code] %>"
+               data-name="<%= country[:name] %>"
+               data-value="<%= country[:dial_code] %>|<%= country[:iso2] %>"
+               data-action="click->phone-input#selectCountry">
+            <span class="flag"><%= country[:flag] %></span>
+            <span class="name"><%= country[:name] %></span>
+            <span class="dial-code"><%= country[:dial_code] %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Phone Number Input -->
+    <div class="phone-number-wrapper">
+      <%= form.text_field :mobile_number, 
+          class: "form-input phone-number-input", 
+          placeholder: "Enter phone number",
+          required: true,
+          data: { 
+            phone_input_target: "phoneInput",
+            action: "input->phone-input#validatePhone"
+          } %>
+    </div>
+  </div>
+  
+  <!-- Validation Messages -->
+  <div class="phone-validation-message" data-phone-input-target="validationMessage"></div>
+  
+  <!-- Error Messages -->
+  <% if form.object.errors[:mobile_number].any? %>
+    <div class="error-message">
+      <%= form.object.errors[:mobile_number].first %>
+    </div>
+  <% end %>
+  
+  <% if form.object.errors[:country_code].any? %>
+    <div class="error-message">
+      <%= form.object.errors[:country_code].first %>
+    </div>
+  <% end %>
+  
+  <% if form.object.errors[:phone_e164].any? %>
+    <div class="error-message">
+      <%= form.object.errors[:phone_e164].first %>
+    </div>
+  <% end %>
+</div>
