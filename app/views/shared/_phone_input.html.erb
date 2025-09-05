@@ -57,6 +57,7 @@
           required: true,
           data: { 
             phone_input_target: "phoneInput",
+            form_validation_target: "phoneInput",
             action: "input->phone-input#validatePhone"
           } %>
     </div>
@@ -65,22 +66,25 @@
   <!-- Validation Messages -->
   <div class="phone-validation-message" data-phone-input-target="validationMessage"></div>
   
-  <!-- Error Messages -->
+  <!-- Client-side error display for form validation controller -->
+  <div id="phone-error" class="error-message" data-form-validation-target="phoneError"></div>
+  
+  <!-- Server-side Error Messages -->
+  <% if form.object.errors[:phone_e164].any? %>
+    <div class="error-message" style="display: block;">
+      <%= form.object.errors[:phone_e164].first %>
+    </div>
+  <% end %>
+  
   <% if form.object.errors[:mobile_number].any? %>
-    <div class="error-message">
+    <div class="error-message" style="display: block;">
       <%= form.object.errors[:mobile_number].first %>
     </div>
   <% end %>
   
   <% if form.object.errors[:country_code].any? %>
-    <div class="error-message">
+    <div class="error-message" style="display: block;">
       <%= form.object.errors[:country_code].first %>
-    </div>
-  <% end %>
-  
-  <% if form.object.errors[:phone_e164].any? %>
-    <div class="error-message">
-      <%= form.object.errors[:phone_e164].first %>
     </div>
   <% end %>
 </div>

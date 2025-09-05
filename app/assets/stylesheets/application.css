@@ -2219,3 +2219,60 @@ body {
 .no-link-style:hover {
   color: inherit;        /* Optional: prevent color change on hover */
 }
+
+
+.form-input.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.form-input.error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* Success states */
+.form-input.success {
+  border-color: #059669;
+  background-color: #f0fdf4;
+}
+
+.form-input.success:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+/* Error message styles */
+.error-message {
+  display: none;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.error-message[aria-live] {
+  display: block;
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: none;
+  line-height: 1.4;
+}
+
+.password-strength.weak {
+  color: #dc2626;
+}
+
+.password-strength.medium {
+  color: #f59e0b;
+}
+
+.password-strength.strong {
+  color: #059669;
+}

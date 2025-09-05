@@ -12,55 +12,104 @@
       <p>Help clients achieve better sleep and wellness</p>
     </div>
 
-    <%= form_with model: @user, url: signup_coach_path, local: true, class: "auth-form" do |form| %>
+    <%= form_with model: @user, url: signup_coach_path, local: true, 
+        class: "auth-form", 
+        data: { 
+          controller: "form-validation",
+          form_validation_target: "form",
+          action: "submit->form-validation#validateForm"
+        } do |form| %>
+      
+      <!-- Live region for screen reader announcements -->
+      <div aria-live="polite" class="sr-only" data-form-validation-target="liveRegion"></div>
+      
       <div class="form-group">
-        <%= form.label :first_name, "First Name", class: "form-label" %>
+        <%= form.label :first_name, "First Name", class: "form-label required" %>
         <%= form.text_field :first_name, 
             class: "form-input", 
             placeholder: "Enter your first name", 
-            required: true %>
+            required: true,
+            autocomplete: "given-name",
+            data: { form_validation_target: "firstNameInput" } %>
+        <div id="first-name-error" class="error-message" data-form-validation-target="firstNameError"></div>
       </div>
 
       <div class="form-group">
-        <%= form.label :last_name, "Last Name", class: "form-label" %>
+        <%= form.label :last_name, "Last Name", class: "form-label required" %>
         <%= form.text_field :last_name, 
             class: "form-input", 
             placeholder: "Enter your last name", 
-            required: true %>
+            required: true,
+            autocomplete: "family-name",
+            data: { form_validation_target: "lastNameInput" } %>
+        <div id="last-name-error" class="error-message" data-form-validation-target="lastNameError"></div>
       </div>
 
       <div class="form-group">
-        <%= form.label :email, "Email Address", class: "form-label" %>
+        <%= form.label :email, "Email Address", class: "form-label required" %>
         <%= form.email_field :email, 
             class: "form-input", 
             placeholder: "Enter your email", 
             required: true,
-            autocomplete: "email" %>
+            autocomplete: "email",
+            data: { form_validation_target: "emailInput" } %>
+        <div id="email-error" class="error-message" data-form-validation-target="emailError"></div>
       </div>
 
       <%= render 'shared/phone_input', form: form %>
 
       <div class="form-group">
-        <%= form.label :password, "Password", class: "form-label" %>
+        <%= form.label :password, "Password", class: "form-label required" %>
         <%= form.password_field :password, 
             class: "form-input", 
             placeholder: "Create a password", 
             required: true,
-            autocomplete: "new-password" %>
+            autocomplete: "new-password",
+            data: { form_validation_target: "passwordInput" } %>
+        <div class="password-strength" data-form-validation-target="passwordStrength"></div>
+        <div id="password-error" class="error-message" data-form-validation-target="passwordError"></div>
       </div>
 
       <div class="form-group">
-        <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
+        <%= form.label :password_confirmation, "Confirm Password", class: "form-label required" %>
         <%= form.password_field :password_confirmation, 
             class: "form-input", 
             placeholder: "Confirm your password", 
             required: true,
-            autocomplete: "new-password" %>
+            autocomplete: "new-password",
+            data: { form_validation_target: "passwordConfirmationInput" } %>
+        <div id="password-confirmation-error" class="error-message" data-form-validation-target="passwordConfirmationError"></div>
       </div>
 
       <div class="form-actions">
-        <%= form.submit "Create Coach Account", class: "btn btn-primary btn-full" %>
+        <%= form.submit "Create Coach Account", 
+            class: "btn btn-primary btn-full",
+            data: { form_validation_target: "submitButton" } %>
       </div>
+    <% end %>
+
+    <!-- Display server-side validation errors -->
+    <% if @user&.errors&.any? %>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const controller = document.querySelector('[data-controller*="form-validation"]')?.formValidationController
+          if (controller) {
+            const errors = {
+              <% @user.errors.each do |error| %>
+                <% field_name = case error.attribute.to_s
+                   when 'first_name' then 'firstName'
+                   when 'last_name' then 'lastName'
+                   when 'mobile_number', 'country_code', 'phone_e164', 'phone_country_iso2' then 'phone'
+                   when 'password_confirmation' then 'passwordConfirmation'
+                   else error.attribute.to_s.camelcase(:lower)
+                   end %>
+                '<%= field_name %>': '<%= j(error.message) %>',
+              <% end %>
+            }
+            controller.handleServerErrors(errors)
+          }
+        })
+      </script>
     <% end %>
 
     <div class="auth-footer">

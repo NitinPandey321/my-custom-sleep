@@ -16,20 +16,37 @@ class User < ApplicationRecord
   belongs_to :coach, class_name: "User", optional: true
   has_many :clients, class_name: "User", foreign_key: "coach_id"
 
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
-  validates :role, inclusion: { in: %w[client coach admin] }
-  
+  validates :first_name, presence: { message: "First name is required." },
+                        format: { with: /\A[a-zA-Z\-'\s]+\z/, message: "First name can only contain letters, hyphens, and apostrophes." },
+                        length: { maximum: 50, message: "First name cannot exceed 50 characters." }
+
+  validates :last_name, presence: { message: "Last name is required." },
+                       format: { with: /\A[a-zA-Z\-'\s]+\z/, message: "Last name can only contain letters, hyphens, and apostrophes." },
+                       length: { maximum: 50, message: "Last name cannot exceed 50 characters." }
+
+  validates :email, presence: { message: "Email is required." },
+                    uniqueness: { case_sensitive: false, message: "This email is already registered." },
+                    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Enter a valid email address." },
+                    length: { maximum: 255, message: "Email cannot exceed 255 characters." }
+
+  validates :password, presence: { message: "Password is required." },
+                      length: { minimum: 8, message: "Password must be at least 8 characters long." },
+                      if: -> { new_record? || !password.nil? }
+
+  validate :password_complexity, if: -> { password.present? && (new_record? || !password.nil?) }
+  validate :password_confirmation_match, if: -> { password.present? && password_confirmation.present? }
+
+  validates :role, inclusion: { in: %w[client coach admin], message: "Invalid role selected." }
+
   # Phone validation - required for new signups
-  validates :mobile_number, presence: true, if: :phone_required?
-  validates :country_code, presence: true, if: :phone_required?
-  validates :phone_e164, presence: true, uniqueness: true, if: -> { mobile_number.present? }
+  validates :mobile_number, presence: { message: "Phone number is required." }, if: :phone_required?
+  validates :country_code, presence: { message: "Country code is required." }, if: :phone_required?
+  validates :phone_e164, presence: { message: "Phone number must be in valid format." },
+                        uniqueness: { message: "This phone number is already registered." },
+                        if: -> { mobile_number.present? }
   validates :phone_country_iso2, presence: true, if: -> { mobile_number.present? }
   validate :phone_number_valid, if: -> { mobile_number.present? }
-  
+
   before_validation :format_phone_e164, if: -> { mobile_number.present? && country_code.present? }
 
   before_save :downcase_email
@@ -204,30 +221,78 @@ class User < ApplicationRecord
     new_record? && %w[client coach].include?(role)
   end
 
+  def password_complexity
+    return unless password.present?
+
+    errors.add(:password, "Password must include at least one uppercase letter.") unless password.match(/[A-Z]/)
+    errors.add(:password, "Password must include at least one lowercase letter.") unless password.match(/[a-z]/)
+    errors.add(:password, "Password must include at least one number.") unless password.match(/\d/)
+    errors.add(:password, "Password must include at least one special character (@$!%*?&).") unless password.match(/[@$!%*?&]/)
+  end
+
+  def password_confirmation_match
+    return unless password_confirmation.present?
+
+    errors.add(:password_confirmation, "Passwords do not match.") unless password == password_confirmation
+  end
+
   def format_phone_e164
     return if mobile_number.blank? || country_code.blank?
-    
+
+    # Extract dial code and ISO code from combined format
+    if country_code.include?("|")
+      dial_code, iso2 = country_code.split("|")
+    else
+      dial_code = country_code
+      iso2 = nil
+    end
+
     # Remove country code prefix from mobile_number if present
-    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(country_code.sub('+', ''))}/, '')
-    full_number = "#{country_code}#{clean_number}"
-    
+    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(dial_code.sub('+', ''))}/, "")
+    full_number = "#{dial_code}#{clean_number}"
+
     parsed = Phonelib.parse(full_number)
     if parsed.valid?
       self.phone_e164 = parsed.e164
-      self.phone_country_iso2 = parsed.country
+      self.phone_country_iso2 = iso2 || parsed.country
     end
   end
 
   def phone_number_valid
     return if mobile_number.blank? || country_code.blank?
-    
+
+    # Extract dial code and ISO code from combined format
+    if country_code.include?("|")
+      dial_code, iso2 = country_code.split("|")
+    else
+      dial_code = country_code
+      iso2 = nil
+    end
+
     # Remove country code prefix from mobile_number if present
-    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(country_code.sub('+', ''))}/, '')
-    full_number = "#{country_code}#{clean_number}"
-    
+    clean_number = mobile_number.gsub(/^\+?#{Regexp.escape(dial_code.sub('+', ''))}/, "")
+    full_number = "#{dial_code}#{clean_number}"
+
     parsed = Phonelib.parse(full_number)
     unless parsed.valid?
-      errors.add(:mobile_number, "is not valid for the selected country")
+      country_name = iso2 ? get_country_name_by_iso(iso2) : "the selected country"
+      errors.add(:mobile_number, "Enter a valid phone number for #{country_name}.")
     end
+  end
+
+  def get_country_name_by_iso(iso2)
+    country_map = {
+      "US" => "United States",
+      "GB" => "United Kingdom",
+      "CA" => "Canada",
+      "AU" => "Australia",
+      "DE" => "Germany",
+      "FR" => "France",
+      "IN" => "India",
+      "CN" => "China",
+      "JP" => "Japan"
+      # Add more as needed
+    }
+    country_map[iso2] || "the selected country"
   end
 end

@@ -79,14 +79,14 @@ module ApplicationHelper
 
   def format_phone_number(phone_e164)
     return "" if phone_e164.blank?
-    
+
     parsed = Phonelib.parse(phone_e164)
     parsed.valid? ? parsed.international : phone_e164
   end
 
   def format_phone_national(phone_e164)
     return "" if phone_e164.blank?
-    
+
     parsed = Phonelib.parse(phone_e164)
     parsed.valid? ? parsed.national : phone_e164
   end
