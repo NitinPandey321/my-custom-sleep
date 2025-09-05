@@ -10,14 +10,20 @@
       <p>Sign in to your Sleep Journey account</p>
     </div>
 
-    <%= form_with url: login_path, local: true, class: "auth-form" do |form| %>
+    <%= form_with url: login_path, local: true, class: "auth-form", 
+                      data: { 
+                        controller: "form-persistence",
+                        "form-persistence-type-value": "login",
+                        "form-persistence-expiry-value": 30
+                      } do |form| %>
       <div class="form-group">
         <%= form.label :email, "Email Address", class: "form-label" %>
         <%= form.email_field :email, 
             class: "form-input", 
             placeholder: "Enter your email", 
             required: true,
-            autocomplete: "email" %>
+            autocomplete: "email",
+            data: { "form-persistence-target": "field" } %>
       </div>
 
       <div class="form-group">
@@ -28,7 +34,10 @@
               placeholder: "Enter your password", 
               required: true,
               autocomplete: "current-password",
-              data: { "password-visibility-target": "input" },
+              data: { 
+                "password-visibility-target": "input",
+                "form-persistence-target": "field"
+              },
               "aria-label": "Password is hidden" %>
           <button type="button" 
                   class="password-toggle-btn" 
