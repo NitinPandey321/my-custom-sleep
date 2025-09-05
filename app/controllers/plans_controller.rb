@@ -8,6 +8,15 @@ class PlansController < ApplicationController
     end
   end
 
+  def update
+    @plan = Plan.find(params[:id])
+    if @plan.update(plan_params)
+      redirect_to dashboards_coach_path, notice: "Plan updated successfully!"
+    else
+      redirect_to dashboards_coach_path, alert: @plan.errors.full_messages.to_sentence
+    end
+  end
+
   def upload_proof
     @plan = Plan.find(params[:id])
     if @plan.update(proof: params[:plan][:proof], status: :pending)
