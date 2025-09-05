@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_124151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -158,8 +158,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_03_064404) do
     t.string "oura_access_token"
     t.string "oura_refresh_token"
     t.datetime "oura_expires_at"
+    t.string "phone_e164"
+    t.string "phone_country_iso2"
     t.index ["coach_id"], name: "index_users_on_coach_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone_e164"], name: "index_users_on_phone_e164"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

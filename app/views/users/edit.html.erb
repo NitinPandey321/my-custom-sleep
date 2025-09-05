@@ -4,40 +4,38 @@
 
 <div class="card">
   <div class="card-body">
-    <%= form_with(model: @user, local: true, html: { multipart: true }) do |f| %>
+  <%= form_with model: @user, local: true, 
+        class: "auth-form", 
+        data: { 
+          controller: "form-validation",
+          form_validation_target: "form",
+          action: "submit->form-validation#validateForm"
+        } do |f| %>
+         <div aria-live="polite" class="sr-only" data-form-validation-target="liveRegion"></div>
       <div class="form-row">
         <div class="form-group">
           <%= f.label :first_name %>
-          <%= f.text_field :first_name, class: "form-control" %>
+          <%= f.text_field :first_name, class: "form-input",
+          data: { form_validation_target: "firstNameInput" } %>
+          <div id="first-name-error" class="error-message" data-form-validation-target="firstNameError"></div>
         </div>
 
         <div class="form-group">
           <%= f.label :last_name %>
-          <%= f.text_field :last_name, class: "form-control" %>
+          <%= f.text_field :last_name, class: "form-input",
+          data: { form_validation_target: "lastNameInput" } %>
+          <div id="last-name-error" class="error-message" data-form-validation-target="lastNameError"></div>
         </div>
       </div>
 
       <div class="form-group">
         <%= f.label :email %>
-        <%= f.email_field :email, class: "form-control" %>
+        <%= f.email_field :email, class: "form-input",
+        data: { form_validation_target: "emailInput" } %>
+        <div id="email-error" class="error-message" data-form-validation-target="emailError"></div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group country-code">
-          <%= f.label :country_code, "Country Code" %>
-          <%= f.select :country_code, [
-              ["🇺🇸 +1", "+1"],
-              ["🇮🇳 +91", "+91"],
-              ["🇬🇧 +44", "+44"],
-              ["🇦🇺 +61", "+61"]
-            ], {}, class: "form-control" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :mobile_number, "Mobile Number" %>
-          <%= f.telephone_field :mobile_number, class: "form-control" %>
-        </div>
-      </div>
+      <%= render 'shared/phone_input', form: f %>
 
       <div class="form-group">
         <%= f.label :profile_picture, "Profile Image" %>
