@@ -33,7 +33,7 @@
       <% end %>
 
       <span class="status-badge <%= client.status %>"><%= client.status.titleize %></span>
-      <%= link_to "+ Plan", dashboards_coach_path(client_id: client.id), class: "btn-plan" %>
+      <%= link_to "+ Plan", "#{dashboards_coach_path(client_id: client.id)}#create-plan-form", class: "btn-plan", data: { action: "scroll-to-form" } %>
       <div data-controller="floating-chat">
         <% conversation = Conversation.between(client.id, current_user.id) %>
        <%= link_to dashboards_coach_path(recipient_id: client.id),
@@ -47,3 +47,18 @@
     </div>
   <% end %>
 </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('[data-action="scroll-to-form"]').forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        const target = document.querySelector("#create-plan-form");
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  });
+</script>

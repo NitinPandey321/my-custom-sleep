@@ -26,6 +26,11 @@ class DashboardsController < ApplicationController
     if params[:client_id].present?
       @client = User.find(params[:client_id])
     end
+
+    if params[:plan_id].present?
+      @plan = Plan.find(params[:plan_id])
+    end
+
     @coach = current_user
     @clients = @coach.clients
     # Search

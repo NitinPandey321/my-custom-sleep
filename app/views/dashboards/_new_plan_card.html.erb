@@ -1,6 +1,6 @@
-<div class="card create-plan">
+<div class="card create-plan" id="create-plan-form">
   <div class="card-header">
-    <h3>Create New Plan</h3>
+    <h3><%= plan.new_record? ? "Create New Plan" : "Edit Plan" %></h3>
     <button class="close-btn" onclick="window.location='<%= dashboards_coach_path %>'">
       &times;
     </button>
@@ -9,9 +9,11 @@
     <%= render 'dashboards/client/client', client: client, show_actions: false %>
   </div>
 
-  <%= form_with model: Plan.new, url: plans_path, local: true, class: "plan-form" do |f| %>
+  <!-- views/plans/_form.html.erb -->
+  <%= form_with model: plan, url: plan.persisted? ? plan_path(plan) : plans_path, method: plan.persisted? ? :patch : :post, local: true, class: "plan-form" do |f| %>
+    <%= f.hidden_field :user_id, value: client.id %>
+
     <div class="form-group">
-      <%= f.hidden_field :user_id, value: client.id %>
       <%= f.label :wellness_pillar, "Wellness Pillar" %>
       <%= f.select :wellness_pillar,
             Plan.wellness_pillars.keys.map { |k| [k.titleize, k] },
@@ -19,7 +21,7 @@
             class: "form-control select-control" %>
     </div>
 
-   <div class="form-group">
+    <div class="form-group">
       <%= f.label :details, "Plan Details" %>
       <%= f.text_area :details, placeholder: "Enter plan details...", rows: 4, class: "form-control textarea-control" %>
     </div>
@@ -37,7 +39,11 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit "+ Plan", class: "btn-plan" %>
+      <%= f.submit plan.persisted? ? "Update Plan" : "+ Plan", class: "btn-plan" %>
+
+      <% if plan.persisted? %>
+        <%= link_to "Cancel", dashboards_coach_path(client_id: client.id), class: "btn-cancel" %>
+      <% end %>
     </div>
   <% end %>
 </div>

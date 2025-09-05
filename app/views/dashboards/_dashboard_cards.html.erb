@@ -3,7 +3,7 @@
     <div class="card--client">
       <%= render 'client_overview_card' %>
         <% if @client %>
-          <%= render 'new_plan_card', client: @client %>
+          <%= render 'new_plan_card', client: @client, plan: (@plan.nil? ? Plan.new : @plan) %>
         <% end %>
     </div>
     <div class="card--planq">
