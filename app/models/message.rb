@@ -24,7 +24,7 @@ class Message < ApplicationRecord
   private
 
   def schedule_escalation_check
-    ChatEscalationJob.set(wait: 1.minutes).perform_later(id)
+    ChatEscalationJob.set(wait: 15.minutes).perform_later(id)
   end
 
   def update_response_times

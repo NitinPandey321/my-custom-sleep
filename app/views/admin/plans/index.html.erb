@@ -1,0 +1,49 @@
+<div class="admin-header d-flex justify-content-between align-items-center">
+  <h1>Plans</h1>
+
+  <div class="filter-form">
+    <%= form_with url: admin_plans_path, method: :get, local: true, class: "form-inline" do %>
+      <div class="form-group mr-2">
+        <%= select_tag :user_id,
+          options_from_collection_for_select(@users, :id, :full_name, params[:user_id]),
+          include_blank: "All Users",
+          class: "form-control" %>
+      </div>
+      <%= submit_tag "Filter", class: "btn btn-primary" %>
+      <%= link_to "Clear", admin_plans_path, class: "btn btn-secondary ml-2" %>
+    <% end %>
+  </div>
+</div>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Wellness Pillar</th>
+      <th>Status</th>
+      <th>Details</th>
+      <th>Duration</th>
+      <th>Reminder Time</th>
+      <th>Created At</th>
+      <th>Resubmission Reason</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @plans.each do |plan| %>
+      <tr>
+        <td><%= plan.user.full_name %></td>
+        <td><%= plan.wellness_pillar.titleize %></td>
+        <td><span class="status-badge <%= plan.status %>"><%= plan.status.humanize %></span></td>
+        <td><%= plan.details %></td>
+        <td><%= plan.duration&.strftime("%Y-%m-%d %H:%M") || "–" %></td>
+        <td><%= plan.reminder_time.present? ? "#{plan.reminder_time} mins" : "–" %></td>
+        <td><%= plan.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+        <td><%= plan.resubmission_reason.presence || "–" %></td>
+        <td>
+          <%= link_to "Show", admin_plan_path(plan), class: "btn btn-sm btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
