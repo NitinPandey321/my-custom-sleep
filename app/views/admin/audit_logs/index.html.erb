@@ -34,7 +34,11 @@
         <td><span class="status-badge <%= log.action %>"><%= log.action.humanize %></span></td>
         <td>
           <% if log.auditable.present? %>
-            <%= "#{log.auditable_type}##{log.auditable_id}" %>
+            <% if log.auditable_type == "Plan" %>
+              <%= link_to "#{log.auditable.user.full_name}", admin_plan_path(log.auditable) %>
+            <% else %>
+              <%= "#{log.auditable_type}##{log.auditable_id}" %>
+            <% end %>
           <% else %>
             –
           <% end %>

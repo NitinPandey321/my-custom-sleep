@@ -1,0 +1,34 @@
+<div class="admin-header d-flex justify-content-between align-items-center">
+  <h1>Plan Details</h1>
+  <%= link_to "Back to Plans", admin_plans_path, class: "btn btn-secondary" %>
+</div>
+
+<div class="card shadow-lg p-4 mt-4 rounded-2xl border border-primary">
+  <h3 class="mb-3 text-primary"><%= @plan.user.full_name %></h3>
+
+  <div class="mb-2"><strong>Wellness Pillar:</strong> <%= @plan.wellness_pillar.titleize %></div>
+  <div class="mb-2"><strong>Status:</strong> 
+    <span class="status-badge <%= @plan.status %>"><%= @plan.status.humanize %></span>
+  </div>
+  <div class="mb-2"><strong>Details:</strong> <%= @plan.details %></div>
+  <div class="mb-2"><strong>Duration:</strong> <%= @plan.duration&.strftime("%Y-%m-%d %H:%M") || "–" %></div>
+  <div class="mb-2"><strong>Reminder Time:</strong> <%= @plan.reminder_time.present? ? "#{@plan.reminder_time} mins" : "–" %></div>
+  <div class="mb-2"><strong>Created At:</strong> <%= @plan.created_at.strftime("%Y-%m-%d %H:%M") %></div>
+
+  <% if @plan.resubmission_reason.present? %>
+    <div class="alert alert-warning mt-3">
+      <strong>Resubmission Requested:</strong> <%= @plan.resubmission_reason %>
+    </div>
+  <% end %>
+
+  <% if @plan.proof.attached? %>
+    <div class="alert alert-info mt-4 d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Proof Submitted:</strong> Attached by client
+      </div>
+     <%= link_to "View Proof", rails_blob_path(@plan.proof, disposition: "inline"), 
+          class: "btn btn-sm ",
+          target: "_blank", rel: "noopener" %>
+    </div>
+  <% end %>
+</div>
