@@ -7,7 +7,7 @@ class PlanReminderJob
 
       current_time = Time.current
 
-      if current_time.hour == 8 && current_time.min == 0
+      if current_time.hour == 8
         send_reminder(plan)
         next
       end
@@ -23,8 +23,8 @@ class PlanReminderJob
 
   def send_reminder(plan)
     user = plan.user
-    return unless user.phone_number.present?
-    return unless user.country_code != "+1" # Only US numbers for now
+    return unless user.full_phone.present?
+    return unless user.country_code == "+1" # Only US numbers for now
 
     full_url = "http://localhost:3000/dashboards/client"
 
