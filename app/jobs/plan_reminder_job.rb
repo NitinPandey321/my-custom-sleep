@@ -5,6 +5,13 @@ class PlanReminderJob
     Plan.where(status: [ :created, :pending ]).find_each do |plan|
       next unless plan.duration && plan.reminder_time
 
+      current_time = Time.current
+
+      if current_time.hour == 8 && current_time.min == 0
+        send_reminder(plan)
+        next
+      end
+
       remaining_hours = ((plan.duration - Time.current) / 1.hour).round
       if remaining_hours == plan.reminder_time
         send_reminder(plan)
@@ -17,6 +24,7 @@ class PlanReminderJob
   def send_reminder(plan)
     user = plan.user
     return unless user.phone_number.present?
+    return unless user.country_code != "+1" # Only US numbers for now
 
     full_url = "http://localhost:3000/dashboards/client"
 
