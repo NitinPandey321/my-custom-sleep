@@ -7,13 +7,49 @@
 
 <h2>Admin Dashboard</h2>
 
-<ul>
-  <li>Total Users: <%= @total_users %></li>
-  <li>Total Coaches: <%= @total_coaches %></li>
-  <li>Total Clients: <%= @total_clients %></li>
-  <li>Total Plans: <%= @total_plans %></li>
-  <li>Pending Plans: <%= @pending_plans %></li>
-</ul>
+<div class="dashboard-grid">
+  <div class="dashboard-card" onclick="window.location.href='<%= admin_users_path %>'">
+    <div class="card-icon">👥</div>
+    <div class="card-content">
+      <h3>Total Users</h3>
+      <p class="card-number"><%= @total_users %></p>
+    </div>
+  </div>
 
-<%= link_to "Manage Users", admin_users_path %>
-<%= link_to "Manage Plans", admin_plans_path %>
+  <div class="dashboard-card" onclick="window.location.href='<%= admin_users_path %>?role=coach'">
+    <div class="card-icon">🏃‍♂️</div>
+    <div class="card-content">
+      <h3>Total Coaches</h3>
+      <p class="card-number"><%= @total_coaches %></p>
+    </div>
+  </div>
+
+  <div class="dashboard-card" onclick="window.location.href='<%= admin_users_path %>?role=client'">
+    <div class="card-icon">😴</div>
+    <div class="card-content">
+      <h3>Total Clients</h3>
+      <p class="card-number"><%= @total_clients %></p>
+    </div>
+  </div>
+
+  <div class="dashboard-card" onclick="window.location.href='<%= admin_plans_path %>'">
+    <div class="card-icon">📋</div>
+    <div class="card-content">
+      <h3>Total Plans</h3>
+      <p class="card-number"><%= @total_plans %></p>
+    </div>
+  </div>
+
+  <div class="dashboard-card" onclick="window.location.href='<%= admin_plans_path %>?status=pending'">
+    <div class="card-icon">⏳</div>
+    <div class="card-content">
+      <h3>Pending Plans</h3>
+      <p class="card-number"><%= @pending_plans %></p>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-actions">
+  <%= link_to "Manage Users", admin_users_path, class: "btn btn-secondary" %>
+  <%= link_to "Manage Plans", admin_plans_path, class: "btn btn-secondary" %>
+</div>

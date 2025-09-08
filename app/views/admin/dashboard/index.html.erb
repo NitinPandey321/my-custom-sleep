@@ -1,20 +1,52 @@
 <!-- app/views/admin/dashboard/index.html.erb -->
-<h1>Dashboard</h1>
+<div class="dashboard-header">
+  <h1>Admin Dashboard</h1>
+  <p class="dashboard-subtitle">Overview of your Sleep Journey platform metrics</p>
+</div>
 
-<div style="display:flex; gap:20px; flex-wrap:wrap;">
-  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
-    Total Users: <%= @total_users %>
-  </div>
-  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
-    Total Coaches: <%= @total_coaches %>
-  </div>
-  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
-    Total Clients: <%= @total_clients %>
-  </div>
-  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
-    Total Plans: <%= @total_plans %>
-  </div>
-  <div style="background:#f3f4f6; padding:20px; border-radius:8px; flex:1; min-width:200px;">
-    Pending Plans: <%= @pending_plans %>
-  </div>
+<section class="dashboard-metrics">
+  <%= link_to admin_users_path, class: "metric-card metric-card--users" do %>
+    <div class="metric-icon">👥</div>
+    <div class="metric-content">
+      <div class="metric-label">Total Users</div>
+      <div class="metric-value"><%= @total_users %></div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_users_path(role: 'client'), class: "metric-card metric-card--clients" do %>
+    <div class="metric-icon">👨‍👩‍👦</div>
+    <div class="metric-content">
+      <div class="metric-label">Total Clients</div>
+      <div class="metric-value"><%= @total_clients %></div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_users_path(role: 'coach'), class: "metric-card metric-card--coaches" do %>
+    <div class="metric-icon">🧑‍🏫</div>
+    <div class="metric-content">
+      <div class="metric-label">Total Coaches</div>
+      <div class="metric-value"><%= @total_coaches %></div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_plans_path, class: "metric-card metric-card--plans" do %>
+    <div class="metric-icon">📋</div>
+    <div class="metric-content">
+      <div class="metric-label">Total Plans</div>
+      <div class="metric-value"><%= @total_plans %></div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_plans_path(status: 'pending'), class: "metric-card metric-card--pending" do %>
+    <div class="metric-icon">⏳</div>
+    <div class="metric-content">
+      <div class="metric-label">Pending Plans</div>
+      <div class="metric-value"><%= @pending_plans %></div>
+    </div>
+  <% end %>
+</section>
+
+<div class="dashboard-actions">
+  <%= link_to "Manage Users", admin_users_path, class: "admin-btn" %>
+  <%= link_to "Manage Plans", admin_plans_path, class: "admin-btn" %>
 </div>
