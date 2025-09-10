@@ -210,6 +210,11 @@ class User < ApplicationRecord
     last_seen_at && last_seen_at > 5.minutes.ago
   end
 
+  def generate_email_verification_token!
+    self.email_verification_token = SecureRandom.hex(16)
+    save(validate: false)
+  end
+
   private
 
   def downcase_email

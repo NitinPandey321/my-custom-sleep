@@ -45,6 +45,25 @@ class EmailService
     end
   end
 
+  def self.send_verification_email(user, new_email)
+    begin
+      if smtp_configured?
+        UserMailer.verification_email(user, new_email).deliver_now
+        Rails.logger.info "✓ Verification email sent successfully to #{new_email} via SMTP"
+      else
+        Rails.logger.warn "⚠ SMTP not configured, using letter_opener fallback"
+        configure_letter_opener_fallback
+        UserMailer.verification_email(user, new_email).deliver_now
+        Rails.logger.info "✓ Verification email opened in browser for #{new_email}"
+      end
+
+      true
+    rescue => e
+      Rails.logger.error "✗ Failed to send verification email to #{new_email}: #{e.message}"
+      false
+    end
+  end
+
   private
 
   def self.smtp_configured?
