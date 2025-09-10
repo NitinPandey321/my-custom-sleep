@@ -16,6 +16,9 @@ class Admin::UsersController < Admin::ApplicationController
 
   def index
     @users = User.order(:created_at)
+    if params[:role].present?
+      @users = @users.where(role: params[:role])
+    end
   end
 
   def show

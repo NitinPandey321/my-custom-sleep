@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   namespace :dashboards do
     get :client
     get :coach
-    # get :admin
+    get :admin
   end
 
   # Users

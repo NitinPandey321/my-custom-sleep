@@ -1,7 +1,7 @@
 <div class="popup-overlay">
   <div class="popup-content">
-    <h2>Seems your coach is busy</h2>
-    <p>Do you want to chat with another available coach?</p>
+    <h2>Seems like your coach is busy</h2>
+    <p>Would you like to continue with them once they are available, or should we connect you with another coach right away?</p>
 
     <div class="popup-actions">
       <%= button_to "Yes",
@@ -10,7 +10,7 @@
             data: { turbo_stream: true },
             class: "btn btn-primary" %>
 
-      <%= button_to "No",
+      <%= button_to "No, I’d like to wait for my coach",
             dismiss_conversation_path(conversation),
             method: :post,
             data: { turbo_stream: true },

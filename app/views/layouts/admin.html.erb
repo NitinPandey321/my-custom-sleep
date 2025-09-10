@@ -4,25 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel</title>
-  <%= csrf_meta_tags %>
+    <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "admin/_dashboard_cards", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "admin/_sidebar", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 </head>
 <body>
   <div class="admin-container">
     <aside class="admin-sidebar">
-      <div class="logo">
-        <%= image_tag "my-custom-logo.jpeg", alt: "My Custom Sleep Journey", class: "navbar-logo" %>
+      <div class="admin-sidebar__nav">
+        <div class="logo">
+          <%= image_tag "my-custom-logo.jpeg", alt: "My Custom Sleep Journey", class: "navbar-logo" %>
+        </div>
+        <h2>Admin Panel</h2>
+        <nav>
+          <ul>
+            <li><%= link_to "Dashboard", admin_dashboard_index_path, class: active_admin_link(admin_dashboard_index_path) %></li>
+            <li><%= link_to "Users", admin_users_path, class: active_admin_link(admin_users_path) %></li>
+            <li><%= link_to "Activity Logs", admin_audit_logs_path, class: active_admin_link(admin_audit_logs_path) %></li>
+            <li><%= link_to "Plans", admin_plans_path, class: active_admin_link(admin_plans_path) %></li>
+          </ul>
+        </nav>
       </div>
-      <h2>Admin Panel</h2>
-      <nav>
-        <%= link_to "Dashboard", admin_dashboard_index_path, class: active_admin_link(admin_dashboard_index_path) %><br>
-        <%= link_to "Users", admin_users_path, class: active_admin_link(admin_users_path) %><br>
-        <%= link_to "Audit Logs", admin_audit_logs_path, class: active_admin_link(admin_audit_logs_path) %><br>
-        <%= link_to "Plans", admin_plans_path, class: active_admin_link(admin_plans_path) %><br>
+      <div class="admin-sidebar__logout">
         <%= link_to "Logout", logout_path, method: :delete, data: { confirm: "Are you sure you want to logout?" } %>
-      </nav>
+      </div>
     </aside>
     <main class="admin-main">
       <%= render 'shared/flash_messages' if flash.any? %>

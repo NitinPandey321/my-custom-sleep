@@ -1,0 +1,227 @@
+/* Dashboard Cards Styles */
+.dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  min-height: 100px;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
+  text-decoration: none;
+  color: inherit;
+}
+
+.metric-card:hover::before {
+  transform: scaleX(1);
+}
+
+.metric-card:active {
+  transform: translateY(-2px);
+}
+
+.metric-icon {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  border-radius: 12px;
+  color: white;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover .metric-icon {
+  transform: scale(1.1);
+}
+
+.metric-content {
+  flex: 1;
+}
+
+.metric-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dashboard-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  min-width: 150px;
+  text-align: center;
+}
+
+.admin-btn:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #dbeafe 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  text-decoration: none;
+  color: white;
+}
+
+/* Specific icon background colors for each metric */
+.metric-card--users .metric-icon {
+  background: #4F6EF7; /* blue */
+}
+
+.metric-card--clients .metric-icon {
+  background: #4FF76E; /* green */
+}
+
+.metric-card--coaches .metric-icon {
+  background: #F7C94F; /* yellow */
+}
+
+.metric-card--plans .metric-icon {
+  background: #A94FF7; /* purple */
+}
+
+.metric-card--pending .metric-icon {
+  background: #F77A4F; /* orange */
+}
+
+/* Update hover states to match the specific colors */
+.metric-card--users:hover::before {
+  background: #4F6EF7;
+}
+
+.metric-card--clients:hover::before {
+  background: #4FF76E;
+}
+
+.metric-card--coaches:hover::before {
+  background: #F7C94F;
+}
+
+.metric-card--plans:hover::before {
+  background: #A94FF7;
+}
+
+.metric-card--pending:hover::before {
+  background: #F77A4F;
+}
+
+/* Basic Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .metric-card {
+    padding: 1.25rem;
+  }
+  
+  .metric-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+  
+  .metric-value {
+    font-size: 1.75rem;
+  }
+  
+  .dashboard-actions {
+    flex-direction: column;
+  }
+  
+  .admin-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .metric-content {
+    margin-top: 0.5rem;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 1.75rem;
+  }
+}
