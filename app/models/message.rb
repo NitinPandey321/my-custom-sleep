@@ -61,7 +61,8 @@ class Message < ApplicationRecord
         role: user.role,
         auditable: conversation,
         action: :conversation_started,
-        details: "Conversation started by #{user.full_name} at #{created_at}"
+        details: "Conversation started by #{user.full_name} at #{created_at}",
+        updated_by: user.id
       )
     end
   end

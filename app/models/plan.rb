@@ -28,11 +28,12 @@ class Plan < ApplicationRecord
   # When coach creates plan
   def log_creation
     AuditLog.create!(
-      user: user.coach, # the coach who owns this client
+      user: user,
       role: "coach",
       action: :plan_created,
       auditable: self,
-      details: "Plan created for #{user.email} in #{wellness_pillar}"
+      details: "Plan created for #{user.email} in #{wellness_pillar}",
+      updated_by: user.coach_id
     )
   end
 
@@ -49,7 +50,8 @@ class Plan < ApplicationRecord
           role: "client",
           action: :plan_submitted_on_time,
           auditable: self,
-          details: "Client submitted plan on time"
+          details: "Client submitted plan on time",
+          updated_by: user.id
         )
       else
         AuditLog.create!(
@@ -57,17 +59,19 @@ class Plan < ApplicationRecord
           role: "client",
           action: :plan_submitted_late,
           auditable: self,
-          details: "Client submitted plan late (due #{duration})"
+          details: "Client submitted plan late (due #{duration})",
+          updated_by: user.id
         )
       end
 
     when "approved"
       AuditLog.create!(
-        user: user.coach,
+        user: user,
         role: "coach",
         action: :plan_approved,
         auditable: self,
-        details: "Coach approved client’s plan"
+        details: "Coach approved client’s plan",
+        updated_by: user.coach_id
       )
 
       if client_submitted_at.present? && client_submitted_at <= duration
@@ -79,11 +83,12 @@ class Plan < ApplicationRecord
       end
     when "needs_resubmission"
       AuditLog.create!(
-        user: user.coach,
+        user: user,
         role: "coach",
         action: :plan_resubmission_requested,
         auditable: self,
-        details: "Coach requested resubmission (reason: #{resubmission_reason})"
+        details: "Coach requested resubmission (reason: #{resubmission_reason})",
+        updated_by: user.coach_id
       )
     end
   end

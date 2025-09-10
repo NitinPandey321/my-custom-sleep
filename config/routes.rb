@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     get :client
     get :coach
     get :admin
+    get :logs
   end
 
   # Users
