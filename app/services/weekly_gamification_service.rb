@@ -35,7 +35,7 @@ class WeeklyGamificationService
     if @user.on_time_weeks >= PROMOTION_THRESHOLD && @user.rest_level_before_type_cast < User.rest_levels.values.max
       @user.rest_level = @user.rest_level_before_type_cast + 1
       @user.on_time_weeks = 0
-      AuditLog.create!(user: @user, role: "client", action: :level_up, details: "Promoted to #{@user.level_name}")
+      AuditLog.create!(user: @user, role: "client", action: :level_up, details: "Promoted to #{@user.level_name}", updated_by: @user.id)
     end
 
     @user.save!
@@ -48,7 +48,7 @@ class WeeklyGamificationService
     if @user.missed_weeks >= DEMOTION_THRESHOLD && @user.rest_level_before_type_cast > User.rest_levels.values.min
       @user.rest_level = @user.rest_level_before_type_cast - 1
       @user.missed_weeks = 0
-      AuditLog.create!(user: @user, role: "client", action: :level_down, details: "Demoted to #{@user.level_name}")
+      AuditLog.create!(user: @user, role: "client", action: :level_down, details: "Demoted to #{@user.level_name}", updated_by: @user.id)
     end
 
     @user.save!

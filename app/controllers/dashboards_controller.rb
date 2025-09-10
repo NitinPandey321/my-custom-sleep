@@ -68,4 +68,18 @@ class DashboardsController < ApplicationController
     # Optionally, set @selected_client = Client.find(params[:client_id])
     render :coach # or whatever your dashboard view is
   end
+
+  def logs
+    if current_user.role != "coach"
+      redirect_to root_path, alert: "Access denied."
+      return
+    end
+    user_ids = [ current_user.id ]
+    if params[:client_id].present?
+      user_ids = [ params[:client_id] ]
+    else
+      user_ids += current_user.clients.pluck(:id)
+    end
+    @audit_logs = AuditLog.where(user_id: user_ids).order(created_at: :desc)
+  end
 end
