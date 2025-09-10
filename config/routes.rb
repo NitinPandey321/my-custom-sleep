@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get  "/signup/coach",    to: "users#new_coach"
   post "/signup/client",   to: "users#create_client"
   post "/signup/coach",    to: "users#create_coach"
+  get "users/verify_email", to: "users#verify_email", as: :verify_email
 
   # config/routes.rb
   namespace :admin do

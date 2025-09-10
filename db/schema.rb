@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_04_124151) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_133749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -160,6 +160,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_124151) do
     t.datetime "oura_expires_at"
     t.string "phone_e164"
     t.string "phone_country_iso2"
+    t.string "unverified_email"
+    t.string "email_verification_token"
     t.index ["coach_id"], name: "index_users_on_coach_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone_e164"], name: "index_users_on_phone_e164"

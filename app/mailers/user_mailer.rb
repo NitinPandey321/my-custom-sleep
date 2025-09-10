@@ -21,4 +21,15 @@ class UserMailer < ApplicationMailer
       subject: "Password Reset OTP - My Custom Sleep Journey"
     )
   end
+
+  def verification_email(user, new_email)
+    @user = user
+    @new_email = new_email
+    @company_name = "My Custom Sleep Journey"
+
+    mail(
+      to: @new_email,
+      subject: "Verify Your New Email Address - My Custom Sleep Journey"
+    )
+  end
 end

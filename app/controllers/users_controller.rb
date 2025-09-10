@@ -68,7 +68,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(profile_params)
+    if params[:user][:email].present? && params[:user][:email] != @user.email
+      @user.unverified_email = params[:user][:email]
+      @user.generate_email_verification_token!
+      EmailService.send_verification_email(@user, @user.unverified_email)
+      flash[:notice] = "Verification email sent to #{@user.unverified_email}. Please verify to update your email."
+      redirect_to user_path(@user)
+    elsif @user.update(profile_params.except(:email))
       flash[:notice] = "Profile updated successfully."
       redirect_to user_path(@user)
     else
@@ -86,6 +92,20 @@ class UsersController < ApplicationController
     else
       redirect_to @user, alert: "Current password is incorrect."
     end
+  end
+
+  def verify_email
+    user = User.find_by(email_verification_token: params[:token])
+    if user && user.unverified_email.present?
+      user.email = user.unverified_email
+      user.unverified_email = nil
+      user.email_verification_token = nil
+      user.save!
+      flash[:notice] = "Email updated and verified successfully."
+    else
+      flash[:alert] = "Invalid or expired verification link."
+    end
+    redirect_to user_path(user || current_user)
   end
 
   private
