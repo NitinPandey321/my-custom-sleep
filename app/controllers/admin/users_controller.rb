@@ -56,6 +56,9 @@ class Admin::UsersController < Admin::ApplicationController
       :coach_id,
       :password,
       :password_confirmation,
+      :country_code,
+      :mobile_number,
+      :phone_country_iso2,
       client_ids: [],
     )
   end
