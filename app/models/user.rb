@@ -50,6 +50,7 @@ class User < ApplicationRecord
   before_validation :format_phone_e164, if: -> { mobile_number.present? && country_code.present? }
 
   before_save :downcase_email
+  after_update :handle_coach_change, if: :saved_change_to_coach_id?
 
   # Scopes
   scope :coaches, -> { where(role: "coach") }
@@ -216,6 +217,16 @@ class User < ApplicationRecord
   end
 
   private
+
+  def handle_coach_change
+    return unless client? && coach_id_previously_changed?
+
+    old_coach_id = coach_id_previous_change[0]
+    new_coach_id = coach_id_previous_change[1]
+    if new_coach_id
+      Conversation.new_conversation(sender_id: new_coach_id, recipient_id: id)
+    end
+  end
 
   def downcase_email
     self.email = email.downcase

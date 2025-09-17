@@ -8,6 +8,7 @@ class Admin::UsersController < Admin::ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      User.assign_coach_to_client(@user) if @user.client?
       redirect_to admin_user_path(@user), notice: "User was successfully created."
     else
       render :new, status: :unprocessable_entity
