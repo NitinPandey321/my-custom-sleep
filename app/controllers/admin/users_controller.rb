@@ -20,6 +20,11 @@ class Admin::UsersController < Admin::ApplicationController
     if params[:role].present?
       @users = @users.where(role: params[:role])
     end
+
+    if params[:q].present?
+      query = "%#{params[:q]}%"
+      @users = @users.where("first_name ILIKE ? OR last_name ILIKE ?", query, query)
+    end
   end
 
   def show
