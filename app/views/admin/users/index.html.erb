@@ -1,6 +1,10 @@
 <div class="admin-header d-flex justify-content-between align-items-center">
   <h1>Users</h1>
-  <%= link_to "New User", new_admin_user_path, class: "btn btn-primary" %>
+  <%= form_with url: admin_users_path, method: :get, local: true, class: "d-flex align-items-center" do %>
+    <%= text_field_tag :q, params[:q], placeholder: "Search by name", class: "form-control mr-2" %>
+    <%= submit_tag "Search", class: "btn btn-secondary" %>
+  <% end %>
+  <%= link_to "New User", new_admin_user_path, class: "btn btn-primary ml-2" %>
 </div>
 
 <table class="admin-table">
