@@ -1,6 +1,6 @@
 <div class="card client-overview-card" data-controller="submission">
   <h2>Approval queue</h2>
-   <% plans = Plan.joins(:user).where(users: { id: current_user.clients.ids }) %>
+   <% plans = Plan.joins(:user).where(users: { id: current_user.clients.ids }).order(updated_at: :desc) %>
 
   <!-- Tabs -->
   <div class="tabs" id="submission-tabs">

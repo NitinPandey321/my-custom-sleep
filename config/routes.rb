@@ -64,7 +64,7 @@ Rails.application.routes.draw do
 
   resources :plans do
     member do
-      patch :upload_proof
+      post :upload_proof
       post :mark_done
       patch :approve
       patch :request_resubmission

@@ -2,6 +2,7 @@ class DashboardsController < ApplicationController
   before_action :require_login
 
   def client
+    redirect_to root_path and return unless current_user.role == "client"
     @client = current_user
     @coach = @client.coach
     current_user.mark_messages_as_read(@coach)
@@ -11,6 +12,7 @@ class DashboardsController < ApplicationController
   end
 
   def coach
+    redirect_to root_path and return unless current_user.role == "coach"
     @recipient = User.find_by(id: params[:recipient_id], role: "client")
     if @recipient.present?
       @conversation = Conversation.between(current_user.id, @recipient&.id)

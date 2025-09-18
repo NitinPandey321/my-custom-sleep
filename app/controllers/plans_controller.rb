@@ -19,7 +19,7 @@ class PlansController < ApplicationController
 
   def upload_proof
     @plan = Plan.find(params[:id])
-    if @plan.update(proof: params[:plan][:proof], status: :pending)
+    if @plan.update(proof: params[:proof], status: :pending)
       redirect_to dashboards_client_path, notice: "Proof uploaded and sent for approval."
     else
       redirect_to dashboards_client_path, alert: @plan.errors.full_messages.to_sentence

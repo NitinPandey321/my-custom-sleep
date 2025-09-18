@@ -1,0 +1,24 @@
+<div id="proof-modal"
+     class="modal"
+     data-proof-upload-target="modal">
+  <div class="modal-content">
+    <span class="modal-close" data-action="click->proof-upload#close">&times;</span>
+    <h3 class="modal-title">Upload Proof</h3>
+    <p id="proof-message" data-proof-upload-target="message" class="modal-message"></p>
+
+    <%= form_with url: "#",
+                  html: { multipart: true, data: { proof_upload_target: "form" } },
+                  local: true do |f| %>
+      <div class="form-group">
+        <%= f.file_field :proof,
+                         accept: "image/*",
+                         class: "file-input",
+                         data: { proof_upload_target: "file" } %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Submit", class: "submit-btn" %>
+      </div>
+    <% end %>
+  </div>
+</div>
