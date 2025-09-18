@@ -101,33 +101,13 @@
   <div class="dashboard-section">
     <div class="plans-column">
       <%= render 'active_plans' %>
-      <%= render 'my_submissions' %>
-      
-      <!-- Today's Session Section -->
-      <div class="session-card">
-        <h3>Today's Session</h3>
-        
-        <div class="session-info">
-          <div class="session-details">
-            <div class="session-avatar">Dr</div>
-            <div class="session-text">
-              <strong>Dr. Sarah Johnson</strong>
-              <span>Sleep Specialist • 7:00 PM</span>
-            </div>
-          </div>
-          <button class="join-session-btn">
-            <span class="icon">📹</span> Join Session
-          </button>
-        </div>
-      </div>
+      <%= render 'my_submissions' %>      
     </div>
 
     <div class="achievements-and-reflection">
       <%= render 'dashboards/gamification' %>
       <!-- Daily Reflection Card -->
       <%= render 'dashboards/client/daily_reflection' %>
-
-      <%= link_to "Connect Oura", "/oura/connect" %>
     </div>
   </div>
 </div>

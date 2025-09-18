@@ -1,42 +1,40 @@
-<div class="plans-container active-plans-card">
-    <h2>Active Plans for Today</h2>
-        
+<div class="plans-container active-plans-card"
+     data-controller="proof-upload">
+
+  <h2>Active Plans for Today</h2>
+
   <% if current_user.plans.where(status: [:created, :needs_resubmission]).any? %>
     <% current_user.plans.where(status: [:created, :needs_resubmission]).each do |plan| %>
-    <div class="plan-card">
-      <div class="plan-info">
-      <div class="icon <%= plan.wellness_pillar %>">
-        <% case plan.wellness_pillar
-        when "nutrition" %> 🥗
-        <% when "supplements" %> 🍽️
-        <% when "hypnosis" %> 🧘
-        <% when "caffine" %> ☕
-        <% when "excercise" %> 💪
-        <% else %> 📋
-        <% end %>
-      </div>
-      <div>
-        <h3><%= plan.details.truncate(30) %></h3>
-        <% if plan.respond_to?(:reminder_time) && plan.reminder_time.present? %>
-        <p class="due">Due: <%= plan.duration&.strftime("%b %d, %I:%M %p") %></p>
-        <% else %>
-        <p class="due">Created: <%= plan.created_at.strftime("%b %d, %I:%M %p") %></p>
-        <% end %>
-      </div>
-      </div>
+      <div class="plan-card">
+        <div class="plan-info">
+          <div class="icon <%= plan.wellness_pillar %>">
+            <% case plan.wellness_pillar
+            when "nutrition" %> 🥗
+            <% when "supplements" %> 🍽️
+            <% when "hypnosis" %> 🧘
+            <% when "caffine" %> ☕
+            <% when "excercise" %> 💪
+            <% else %> 📋
+            <% end %>
+          </div>
+          <div>
+            <h3><%= plan.details.truncate(30) %></h3>
+            <% if plan.respond_to?(:reminder_time) && plan.reminder_time.present? %>
+              <p class="due">Due: <%= plan.duration&.strftime("%b %d, %I:%M %p") %></p>
+            <% else %>
+              <p class="due">Created: <%= plan.created_at.strftime("%b %d, %I:%M %p") %></p>
+            <% end %>
+          </div>
+        </div>
+
         <% if plan.status_created? || plan.status_needs_resubmission? %>
-          <%= form_with model: plan, url: upload_proof_plan_path(plan), local: true, html: { multipart: true, class: "inline-upload-form" } do |f| %>
-            <%= f.file_field :proof, class: "upload-btn blue", style: "display:inline; cursor:pointer;", title: "📷 Upload Proof", onchange: "this.form.submit();" %>
-            <label for="<%= f.object_name %>_proof" class="upload-btn blue" style="cursor:pointer;">
-            📷 Upload Proof
-            </label>    
-          <% end %>
-          <span style="margin: 0 8px; color: #666;">or</span>
-          <%= button_to "✔ Mark as Done",
-                  mark_done_plan_path(plan),
-                  method: :post,
-                  form: { class: "inline" },
-                  class: "upload-btn green" %>
+          <button type="button"
+                  class="upload-btn blue"
+                  data-action="click->proof-upload#open"
+                  data-proof-upload-plan-id-param="<%= plan.id %>"
+                  data-proof-upload-pillar-param="<%= plan.wellness_pillar %>">
+            📷 Submit Proof
+          </button>
         <% elsif plan.proof.attached? %>
           <span>Proof uploaded</span>
         <% end %>
@@ -45,4 +43,6 @@
   <% else %>
     <p>No active plans for today.</p>
   <% end %>
+
+  <%= render "dashboards/proof_modal" %>
 </div>

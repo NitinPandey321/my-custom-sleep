@@ -2,6 +2,7 @@ class Plan < ApplicationRecord
   belongs_to :user
   validates :wellness_pillar, presence: true
   validates :details, presence: true
+  validate :proof_required_for_specific_pillars, on: :update
 
   enum :wellness_pillar, {
   nutrition: 0,
@@ -37,13 +38,19 @@ class Plan < ApplicationRecord
     )
   end
 
+  def proof_required_for_specific_pillars
+    if %w[excercise nutrition].include?(wellness_pillar) && !proof.attached?
+      errors.add(:proof, "is required for this type of plan")
+    end
+  end
+
   # When plan status changes
   def log_status_change
     return unless saved_change_to_status?
 
     case status
     when "pending"
-      if Time.current <= duration
+      if duration && Time.current <= duration
         update_column(:client_submitted_at, Time.current)
         AuditLog.create!(
           user: user,
@@ -74,7 +81,7 @@ class Plan < ApplicationRecord
         updated_by: user.coach_id
       )
 
-      if client_submitted_at.present? && client_submitted_at <= duration
+      if client_submitted_at.present? && duration && client_submitted_at <= duration
         user.plan_streak += 1
         user.longest_plan_streak = [ user.longest_plan_streak, user.plan_streak ].max
         user.save!
