@@ -38,6 +38,9 @@ class User < ApplicationRecord
 
   validates :role, inclusion: { in: %w[client coach admin], message: "Invalid role selected." }
 
+  validates :gender, inclusion: { in: %w[male female other prefer_not_to_say], message: "Please select a valid gender option." },
+                    allow_blank: true
+
   # Phone validation - required for new signups
   validates :mobile_number, presence: { message: "Phone number is required." }, if: :phone_required?
   validates :country_code, presence: { message: "Country code is required." }, if: :phone_required?

@@ -115,13 +115,13 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :country_code, :mobile_number, :phone_country_iso2)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :country_code, :mobile_number, :phone_country_iso2, :gender, :preferred_coach_gender)
   end
 
   def profile_params
     params.require(:user).permit(
       :first_name, :last_name, :email, :profile_picture,
-      :country_code, :mobile_number
+      :country_code, :mobile_number, :gender, :preferred_coach_gender
     )
   end
 
@@ -154,6 +154,8 @@ class UsersController < ApplicationController
       when "phone_e164" then "phone"
       when "phone_country_iso2" then "phone"
       when "password_confirmation" then "passwordConfirmation"
+      when "gender" then "gender"
+      when "preferred_coach_gender" then "preferredCoachGender"
       else error.attribute.to_s.camelcase(:lower)
       end
 

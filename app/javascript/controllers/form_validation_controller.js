@@ -8,6 +8,7 @@ export default class extends Controller {
     "passwordInput", "passwordError", "passwordStrength",
     "passwordConfirmationInput", "passwordConfirmationError",
     "phoneInput", "phoneError",
+    "preferredCoachGenderInput", "preferredCoachGenderError",
     "submitButton", "form"
   ]
 
@@ -52,6 +53,18 @@ export default class extends Controller {
     if (this.hasPasswordConfirmationInputTarget) {
       this.passwordConfirmationInputTarget.addEventListener('blur', () => this.validatePasswordConfirmation())
       this.passwordConfirmationInputTarget.addEventListener('input', () => this.debounceValidation('passwordConfirmation', () => this.validatePasswordConfirmation()))
+    }
+
+    // Phone validation setup
+    if (this.hasPhoneInputTarget) {
+      this.phoneInputTarget.addEventListener('blur', () => this.validatePhone())
+      this.phoneInputTarget.addEventListener('input', () => this.debounceValidation('phone', () => this.validatePhone()))
+    }
+
+    // Preferred coach gender validation setup
+    if (this.hasPreferredCoachGenderInputTarget) {
+      this.preferredCoachGenderInputTarget.addEventListener('blur', () => this.validatePreferredCoachGender())
+      this.preferredCoachGenderInputTarget.addEventListener('change', () => this.validatePreferredCoachGender())
     }
   }
 
@@ -149,6 +162,49 @@ export default class extends Controller {
       return false
     } else {
       this.clearError('passwordConfirmation')
+      return true
+    }
+  }
+
+  validatePhone() {
+    const phoneValue = this.phoneInputTarget?.value?.trim()
+    
+    // Get country code from the form (it's in a separate field)
+    const countryCodeSelect = document.querySelector('[data-phone-input-target="countrySelect"]')
+    const countryCode = countryCodeSelect?.value
+
+    if (!phoneValue) {
+      this.showError('phone', 'Phone number is required.')
+      return false
+    }
+
+    if (!countryCode) {
+      this.showError('phone', 'Country code is required.')
+      return false
+    }
+
+    // Basic phone number format validation
+    const phonePattern = /^\d{10,15}$/
+    if (!phonePattern.test(phoneValue.replace(/[\s\-\(\)]/g, ''))) {
+      this.showError('phone', 'Enter a valid phone number.')
+      return false
+    }
+
+    this.clearError('phone')
+    return true
+  }
+
+  validatePreferredCoachGender() {
+    const value = this.preferredCoachGenderInputTarget.value
+
+    if (!value || value === '') {
+      this.showError('preferredCoachGender', 'Please select your preferred coach gender.')
+      return false
+    } else if (!['male', 'female'].includes(value)) {
+      this.showError('preferredCoachGender', 'Please select a valid coach gender preference.')
+      return false
+    } else {
+      this.clearError('preferredCoachGender')
       return true
     }
   }
@@ -253,6 +309,14 @@ export default class extends Controller {
     if (this.hasEmailInputTarget) {
       isValid = this.validateEmail() && isValid
     }
+
+    if (this.hasPhoneInputTarget) {
+      isValid = this.validatePhone() && isValid
+    }
+
+    if (this.hasPreferredCoachGenderInputTarget) {
+      isValid = this.validatePreferredCoachGender() && isValid
+    }
     
     if (this.hasPasswordInputTarget) {
       isValid = this.validatePassword() && isValid
@@ -266,7 +330,7 @@ export default class extends Controller {
   }
 
   focusFirstError() {
-    const errorFields = ['firstName', 'lastName', 'email', 'phone', 'password', 'passwordConfirmation']
+    const errorFields = ['firstName', 'lastName', 'email', 'phone', 'preferredCoachGender', 'password', 'passwordConfirmation']
     
     for (const field of errorFields) {
       const errorTarget = this[`${field}ErrorTarget`]
@@ -281,7 +345,7 @@ export default class extends Controller {
 
   handleServerErrors(errors) {
     // Clear all existing errors first
-    const allFields = ['firstName', 'lastName', 'email', 'phone', 'password', 'passwordConfirmation']
+    const allFields = ['firstName', 'lastName', 'email', 'phone', 'preferredCoachGender', 'password', 'passwordConfirmation']
     allFields.forEach(field => {
       if (this[`${field}ErrorTarget`]) {
         this.clearError(field)
