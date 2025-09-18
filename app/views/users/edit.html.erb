@@ -13,18 +13,38 @@
         } do |f| %>
          <div aria-live="polite" class="sr-only" data-form-validation-target="liveRegion"></div>
       <div class="form-row">
-        <div class="form-group">
-          <%= f.label :first_name %>
+        <div class="input-group">
+          <%= f.label :first_name, class: "input-label" %>
           <%= f.text_field :first_name, class: "form-input",
           data: { form_validation_target: "firstNameInput" } %>
-          <div id="first-name-error" class="error-message" data-form-validation-target="firstNameError"></div>
+          <div id="first-name-error" class="validation-error" data-form-validation-target="firstNameError"></div>
         </div>
 
-        <div class="form-group">
-          <%= f.label :last_name %>
+        <div class="input-group">
+          <%= f.label :last_name, class: "input-label" %>
           <%= f.text_field :last_name, class: "form-input",
           data: { form_validation_target: "lastNameInput" } %>
-          <div id="last-name-error" class="error-message" data-form-validation-target="lastNameError"></div>
+          <div id="last-name-error" class="validation-error" data-form-validation-target="lastNameError"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="input-group">
+          <%= f.label :gender, class: "input-label" %>
+          <%= f.select :gender, 
+              options_for_select([
+                ['Male', 'male'],
+                ['Female', 'female'],
+                ['Other', 'other'],
+                ['Prefer not to say', 'prefer_not_to_say']
+              ], @user.gender), 
+              { prompt: 'Select Gender' }, 
+              { class: "form-input" } %>
+          <div class="validation-error"></div>
+        </div>
+
+        <div class="input-group">
+          <!-- Empty space for symmetry -->
         </div>
       </div>
 
