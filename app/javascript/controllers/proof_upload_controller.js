@@ -18,7 +18,7 @@ export default class extends Controller {
     this.clearButtonTarget.style.display = "none"
 
     // Handle required/optional proof
-    if (pillar === "excercise" || pillar === "nutrition") {
+    if (pillar === "exercise" || pillar === "nutrition") {
       this.fileTarget.required = true
       this.messageTarget.textContent =
         "Proof is mandatory for this plan. Please upload a selfie or a short video to confirm you followed the plan."
