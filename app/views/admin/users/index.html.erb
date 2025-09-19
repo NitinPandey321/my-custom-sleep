@@ -26,8 +26,8 @@
         <td><%= user.full_name %></td>
         <td><%= user.email %></td>
         <td>
-           <% if user.role == "client" %>
-            <%= user.plans.count > 0 ? (user.plans.where.not(status: :created).count * 100 / user.plans.count) : 0 %>%
+           <% if user.role == "client" && user.plans.count > 0 %>
+            <%= (user.plans.where.not(status: :created).count * 100 / user.plans.count) %>
           <% else %>
             –
           <% end %>

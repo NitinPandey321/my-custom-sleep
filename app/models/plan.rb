@@ -8,8 +8,8 @@ class Plan < ApplicationRecord
   nutrition: 0,
   supplements: 1,
   hypnosis: 2,
-  caffine: 3,
-  excercise: 4
+  caffeine: 3,
+  exercise: 4
 }, prefix: true
 
   enum :status, {
@@ -39,7 +39,7 @@ class Plan < ApplicationRecord
   end
 
   def proof_required_for_specific_pillars
-    if %w[excercise nutrition].include?(wellness_pillar) && !proof.attached?
+    if %w[exercise nutrition].include?(wellness_pillar) && !proof.attached?
       errors.add(:proof, "is required for this type of plan")
     end
   end

@@ -5,6 +5,7 @@ class DashboardsController < ApplicationController
     redirect_to root_path and return unless current_user.role == "client"
     @client = current_user
     @coach = @client.coach
+    @plans_by_pillar = current_user.plans.group_by(&:wellness_pillar)
     current_user.mark_messages_as_read(@coach)
     @conversation = Conversation.between(@client.id, @coach.id)
     @messages = @conversation.messages.order(created_at: :asc)
