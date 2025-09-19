@@ -29,11 +29,11 @@
 
         <% if plan.status_created? || plan.status_needs_resubmission? %>
           <button type="button"
-                  class="upload-btn blue"
+                  class="upload-btn <%= plan.wellness_pillar.in?(%w[exercise nutrition]) ? 'blue' : 'green' %>"
                   data-action="click->proof-upload#open"
                   data-proof-upload-plan-id-param="<%= plan.id %>"
                   data-proof-upload-pillar-param="<%= plan.wellness_pillar %>">
-            📷 Submit Proof
+            <%= plan.wellness_pillar.in?(["exercise", "nutrition"]) ? "📷 Submit Proof" : "Mark as Done" %>
           </button>
         <% elsif plan.proof.attached? %>
           <span>Proof uploaded</span>

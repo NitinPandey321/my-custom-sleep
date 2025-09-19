@@ -12,7 +12,7 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th>Status</th>
+      <th>Score</th>
       <th>Role</th>
       <th>Active</th>
       <th>Clients</th>
@@ -26,7 +26,11 @@
         <td><%= user.full_name %></td>
         <td><%= user.email %></td>
         <td>
-          <span class="status-badge <%= user.status %>"><%= user.status.titleize %></span>
+           <% if user.role == "client" %>
+            <%= user.plans.count > 0 ? (user.plans.where.not(status: :created).count * 100 / user.plans.count) : 0 %>%
+          <% else %>
+            –
+          <% end %>
         </td>
         <td><%= user.role %></td>
         <td>
