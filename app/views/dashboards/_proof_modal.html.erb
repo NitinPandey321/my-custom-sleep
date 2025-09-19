@@ -13,11 +13,23 @@
         <%= f.file_field :proof,
                          accept: "image/*",
                          class: "file-input",
-                         data: { proof_upload_target: "file" } %>
+                         data: { proof_upload_target: "file",
+                                 action: "change->proof-upload#fileChanged" } %>
+
+        <!-- Clear button (hidden by default) -->
+        <button type="button"
+                class="clear-btn"
+                data-proof-upload-target="clearButton"
+                data-action="click->proof-upload#clearFile"
+                style="display:none;">
+          ✖ Clear
+        </button>
       </div>
 
       <div class="form-actions">
-        <%= f.submit "Submit", class: "submit-btn" %>
+        <%= f.submit "Submit",
+                     class: "submit-btn",
+                     data: { proof_upload_target: "submit" } %>
       </div>
     <% end %>
   </div>
