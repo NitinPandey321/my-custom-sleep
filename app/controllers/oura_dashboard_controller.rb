@@ -22,6 +22,13 @@ class OuraDashboardController < ApplicationController
     @heart_rate_data = oura.heart_rate(start_datetime: 12.hours.ago.iso8601, end_datetime: Time.current.iso8601)["data"].last(100)
   end
 
+  def dashboard_v2
+    # This is a frontend-only dashboard for now
+    # Future: Add real Oura data integration here
+  end
+
+  private
+
   def set_client
     @client = if current_user.role == "coach"
                 current_user.clients.find(params[:client_id])

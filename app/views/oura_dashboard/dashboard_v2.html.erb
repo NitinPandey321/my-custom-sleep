@@ -1,0 +1,232 @@
+<div class="dashboard">
+  <section class="dashboard-hero">
+    <h1>Sleep & Wellness Dashboard</h1>
+    <p>Your comprehensive health insights powered by Oura Ring</p>
+  </section>
+
+  <!-- Dashboard Stats Section -->
+  <section class="dashboard-stats-section">
+    <div class="dashboard-stats">
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-title">Baseline Sleep Score</span>
+        </div>
+        <div class="stat-value">69</div>
+        <div class="stat-sub">14-day average (Program Start)</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-icon">📈</span>
+          <span class="stat-title">Current Average</span>
+        </div>
+        <div class="stat-value">87</div>
+        <div class="stat-sub">5.5 months ongoing</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-icon">⚡</span>
+          <span class="stat-title">Improvement</span>
+        </div>
+        <div class="stat-value improvement">+26.1%</div>
+        <div class="badge">Excellent Progress</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-title">Program Status</span>
+        </div>
+        <div class="status-badge">On Track for Success</div>
+        <div class="stat-sub">Progress to 25% Goal <span class="stat-sub-value">100%</span></div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chart Section -->
+  <section class="dashboard-chart-section">
+    <div class="chart-card">
+      <h3 class="chart-title">Sleep Score Progress</h3>
+      <p class="chart-sub">Daily sleep scores compared to baseline</p>
+      <canvas id="sleepChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Metrics Grid Section -->
+  <section class="dashboard-metrics-section">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="metric-title">Sleep Score</h3>
+        <p class="metric-value">87</p>
+        <p class="metric-subtitle">Today's score</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="17,6 23,6 23,12" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="metric-title">Total Sleep</h3>
+        <p class="metric-value">7h 23m</p>
+        <p class="metric-subtitle">Duration</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="20" x2="12" y2="10" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18" y1="20" x2="18" y2="4" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6" y1="20" x2="6" y2="16" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="metric-title">Efficiency</h3>
+        <p class="metric-value">89%</p>
+        <p class="metric-subtitle">Sleep quality</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="metric-title">Avg Heart Rate</h3>
+        <p class="metric-value">58 bpm</p>
+        <p class="metric-subtitle">During sleep</p>
+      </div>
+
+      <div class="metric-card">
+        <h3 class="metric-title">Deep Sleep</h3>
+        <p class="metric-value">1h 45m</p>
+        <p class="metric-subtitle">Restorative phase</p>
+      </div>
+
+      <div class="metric-card">
+        <h3 class="metric-title">Light Sleep</h3>
+        <p class="metric-value">4h 12m</p>
+        <p class="metric-subtitle">Transition phase</p>
+      </div>
+
+      <div class="metric-card">
+        <h3 class="metric-title">REM Sleep</h3>
+        <p class="metric-value">1h 26m</p>
+        <p class="metric-subtitle">Dream phase</p>
+      </div>
+
+      <div class="metric-card">
+        <h3 class="metric-title">Breathing Rate</h3>
+        <p class="metric-value">14 rpm</p>
+        <p class="metric-subtitle">Average during sleep</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx = document.getElementById('sleepChart').getContext('2d');
+
+  const sleepScores = [68, 72, 65, 70, 75, 78, 74, 82, 85, 80, 88, 86, 83, 87, 90];
+  const labels = [
+    "Jan 1", "Jan 2", "Jan 3", "Jan 4", "Jan 5", "Jan 6", "Jan 7", 
+    "Jan 8", "Jan 9", "Jan 10", "Jan 11", "Jan 12", "Jan 13", "Jan 14", "Jan 15"
+  ];
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Sleep Score",
+        data: sleepScores,
+        borderColor: "#2563eb",
+        backgroundColor: "#2563eb",
+        tension: 0.4,
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 6,
+        pointBackgroundColor: "#2563eb",
+        pointBorderColor: "#fff",
+        pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'nearest',
+        intersect: false
+      },
+      plugins: {
+        tooltip: {
+          backgroundColor: "#ffffff",
+          borderColor: "#e5e7eb",
+          borderWidth: 1,
+          titleColor: "#374151",
+          titleFont: { weight: '600', size: 13 },
+          bodyColor: "#1d4ed8", // Blue text for Sleep Score
+          bodyFont: { size: 13 },
+          padding: 10,
+          displayColors: false, // removes the color box
+          usePointStyle: false,
+          cornerRadius: 6,
+          callbacks: {
+            label: function(context) {
+              return `Sleep Score : ${context.parsed.y}`;
+            }
+          }
+        },
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          grid: { color: "#e5e7eb" }
+        },
+        x: {
+          grid: { color: "#f3f4f6" }
+        }
+      }
+    },
+    plugins: [{
+      // Add a baseline red dashed line
+      id: 'baselineLine',
+      afterDraw: (chart) => {
+        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+        const baseline = 70; // baseline value
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(left, y.getPixelForValue(baseline));
+        ctx.lineTo(right, y.getPixelForValue(baseline));
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "#ef4444";
+        ctx.setLineDash([6, 6]);
+        ctx.stroke();
+        ctx.restore();
+
+        // Add label "Baseline"
+        ctx.fillStyle = "#6b7280";
+        ctx.font = "12px sans-serif";
+        ctx.fillText("Baseline", right - 55, y.getPixelForValue(baseline) - 5);
+      }
+    }]
+  });
+});
+</script>
