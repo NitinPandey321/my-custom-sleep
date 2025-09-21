@@ -1,6 +1,6 @@
 class OuraDashboardController < ApplicationController
   before_action :require_login
-  before_action :set_client, only: [ :index ]
+  before_action :set_client, only: [ :index, :dashboard_v2 ]
 
   def index
     oura = OuraClient.new(@client)
@@ -23,8 +23,18 @@ class OuraDashboardController < ApplicationController
   end
 
   def dashboard_v2
-    # This is a frontend-only dashboard for now
-    # Future: Add real Oura data integration here
+    oura = OuraClient.new(@client)
+    @sleep_metric = @client.sleep_metric
+    records = @client.sleep_records
+                        .where("date >= ?", 15.days.ago.to_date)
+                        .order(:date)
+
+    @sleep_scores = records.pluck(:score)
+    @labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
+    todays_record = records.last
+    @todays_score = todays_record&.score
+    @sleep_data = oura.sleep(start_date: Date.yesterday, end_date: Date.current)["data"]
+    @today_sleep = @sleep_data.find { |d| d["day"] == Date.yesterday.to_s }
   end
 
   private

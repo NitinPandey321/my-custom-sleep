@@ -14,6 +14,12 @@ class OuraSleepSyncJob
             score: score,
             raw_data: response["data"].first
           )
+          sleep_record = user.sleep_records.find_or_initialize_by(date: date)
+          sleep_record.update!(
+            score: score,
+            raw_data: response["data"].first
+          )
+          SleepMetricsCalculatorService.new(user).calculate!
         end
       end
     end

@@ -174,7 +174,7 @@
   color: #16a34a;
 }
 
-.badge {
+.oura-badge {
   display: inline-block;
   margin-top: 8px;
   background: #111;
@@ -185,7 +185,7 @@
   border-radius: 8px;
 }
 
-.status-badge {
+.oura-status-badge {
   display: inline-block;
   background: #d1fae5;
   color: #059669;

@@ -13,8 +13,8 @@
           <span class="stat-icon">🎯</span>
           <span class="stat-title">Baseline Sleep Score</span>
         </div>
-        <div class="stat-value">69</div>
-        <div class="stat-sub">14-day average (Program Start)</div>
+        <div class="stat-value"><%= @sleep_metric&.baseline_score %></div>
+        <div class="stat-sub"><%= @sleep_metric&.baseline_duration %> (Program Start)</div>
       </div>
 
       <!-- Card 2 -->
@@ -23,8 +23,8 @@
           <span class="stat-icon">📈</span>
           <span class="stat-title">Current Average</span>
         </div>
-        <div class="stat-value">87</div>
-        <div class="stat-sub">5.5 months ongoing</div>
+        <div class="stat-value"><%= @sleep_metric&.current_avg_score %></div>
+        <div class="stat-sub"><%= @sleep_metric&.current_duration %> ongoing</div>
       </div>
 
       <!-- Card 3 -->
@@ -33,8 +33,10 @@
           <span class="stat-icon">⚡</span>
           <span class="stat-title">Improvement</span>
         </div>
-        <div class="stat-value improvement">+26.1%</div>
-        <div class="badge">Excellent Progress</div>
+        <div class="stat-value improvement"><%= @sleep_metric&.improvement_display %></div>
+        <% if @sleep_metric && @sleep_metric.improvement > 10 %>
+          <div class="oura-badge">Excellent Progress</div>
+        <% end %>
       </div>
 
       <!-- Card 4 -->
@@ -43,7 +45,7 @@
           <span class="stat-icon">🎯</span>
           <span class="stat-title">Program Status</span>
         </div>
-        <div class="status-badge">On Track for Success</div>
+        <div class="oura-status-badge">On Track for Success</div>
         <div class="stat-sub">Progress to 25% Goal <span class="stat-sub-value">100%</span></div>
         <div class="progress-bar">
           <div class="progress-fill" style="width: 100%;"></div>
@@ -71,7 +73,7 @@
           </svg>
         </div>
         <h3 class="metric-title">Sleep Score</h3>
-        <p class="metric-value">87</p>
+        <p class="metric-value"><%= @todays_score %></p>
         <p class="metric-subtitle">Today's score</p>
       </div>
 
@@ -83,7 +85,7 @@
           </svg>
         </div>
         <h3 class="metric-title">Total Sleep</h3>
-        <p class="metric-value">7h 23m</p>
+        <p class="metric-value"><%= Time.at(@today_sleep["total_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Duration</p>
       </div>
 
@@ -96,7 +98,7 @@
           </svg>
         </div>
         <h3 class="metric-title">Efficiency</h3>
-        <p class="metric-value">89%</p>
+        <p class="metric-value"><%= @today_sleep["efficiency"] %>%</p>
         <p class="metric-subtitle">Sleep quality</p>
       </div>
 
@@ -107,31 +109,31 @@
           </svg>
         </div>
         <h3 class="metric-title">Avg Heart Rate</h3>
-        <p class="metric-value">58 bpm</p>
+        <p class="metric-value"><%= @today_sleep["average_heart_rate"] %> bpm</p>
         <p class="metric-subtitle">During sleep</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">Deep Sleep</h3>
-        <p class="metric-value">1h 45m</p>
+        <p class="metric-value"><%= Time.at(@today_sleep["deep_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Restorative phase</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">Light Sleep</h3>
-        <p class="metric-value">4h 12m</p>
+        <p class="metric-value"><%= Time.at(@today_sleep["light_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Transition phase</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">REM Sleep</h3>
-        <p class="metric-value">1h 26m</p>
+        <p class="metric-value"><%= Time.at(@today_sleep["rem_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Dream phase</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">Breathing Rate</h3>
-        <p class="metric-value">14 rpm</p>
+        <p class="metric-value"><%= @today_sleep["average_breath"] %> rpm</p>
         <p class="metric-subtitle">Average during sleep</p>
       </div>
     </div>
@@ -142,11 +144,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   const ctx = document.getElementById('sleepChart').getContext('2d');
 
-  const sleepScores = [68, 72, 65, 70, 75, 78, 74, 82, 85, 80, 88, 86, 83, 87, 90];
-  const labels = [
-    "Jan 1", "Jan 2", "Jan 3", "Jan 4", "Jan 5", "Jan 6", "Jan 7", 
-    "Jan 8", "Jan 9", "Jan 10", "Jan 11", "Jan 12", "Jan 13", "Jan 14", "Jan 15"
-  ];
+  const sleepScores = <%= raw @sleep_scores.to_json %>;
+  const labels = <%= raw @labels.to_json %>;
 
   new Chart(ctx, {
     type: 'line',
@@ -210,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
       id: 'baselineLine',
       afterDraw: (chart) => {
         const { ctx, chartArea: { left, right }, scales: { y } } = chart;
-        const baseline = 70; // baseline value
+        const baseline = <%= @sleep_metric&.baseline_score %>; // baseline value
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(left, y.getPixelForValue(baseline));

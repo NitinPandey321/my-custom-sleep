@@ -17,7 +17,7 @@ plan_reminder_job:
   description: "Plan reminder job"
 
 sleep_sync_job:
-  cron: "0 6 * * *"   # every day at 6 AM
+  cron: "0 */3 * * *"   # every 3 hours
   class: "OuraSleepSyncJob"
   queue: default
   description: "Oura sleep sync job"
