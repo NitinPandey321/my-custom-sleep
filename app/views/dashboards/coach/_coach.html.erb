@@ -21,11 +21,10 @@
 
     <div class="coach-actions">
       <% if current_user.oura_access_token? %>
-        <%= link_to "Go to Oura Dashboard", oura_dashboard_index_path, class: "btn btn-connected", data: { turbo: false } %>
+        <%= link_to "Go to Oura Dashboard", dashboard_v2_oura_dashboard_index_path, class: "btn btn-connected", data: { turbo: false } %>
       <% else %>
         <%= link_to "Connect Oura", "/oura/connect", class: "btn btn-disconnected" %>
       <% end %>
-
 
       <%= link_to "#", class: "open-chat-btn", data: { action: "click->floating-chat#open" } do %>
         💬 Start Chat

@@ -78,17 +78,332 @@
   margin-top: 2rem;
 }
 
-/* Responsive Design for Small Screens */
-@media screen and (max-width: 768px) {
-  .sleep-card {
-    grid-template-columns: 1fr 1fr; /* Stack the metrics on smaller screens */
-  }
+/* Dashboard Layout - Full Width for All Sections */
+.dashboard {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafafa;
+}
 
-  .sleep-card .sleep-metric {
-    margin-bottom: 10px; /* Add margin for better spacing on mobile */
-  }
+.dashboard-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+}
 
-  .stress-summary {
-    margin-top: 10px; /* Reduce top margin for smaller screens */
+.dashboard-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.dashboard-hero p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Dashboard Stats Section - Full Width */
+.dashboard-stats-section {
+  background: #f4f8fd;
+  padding: 30px 20px;
+  width: 100%;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 95%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f4bd8;
+}
+
+.stat-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.stat-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f4bd8;
+}
+
+.stat-sub {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.stat-sub-value {
+  float: right;
+  font-weight: 600;
+  color: #111;
+}
+
+.improvement {
+  color: #16a34a;
+}
+
+.oura-badge {
+  display: inline-block;
+  margin-top: 8px;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.oura-status-badge {
+  display: inline-block;
+  background: #d1fae5;
+  color: #059669;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background: #e5e7eb;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #111827;
+  border-radius: 8px;
+}
+
+/* Dashboard Chart Section - Full Width */
+.dashboard-chart-section {
+  background: #ffffff;
+  padding: 30px 20px;
+  width: 100%;
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 0 auto;
+  width: 95%;
+  max-width: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  position: relative;
+  min-height: 500px;
+}
+
+.chart-title {
+  color: #1f4bd8;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.chart-sub {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+#sleepChart {
+  width: 100% !important;
+  height: 400px !important;
+}
+
+/* Dashboard Metrics Section - Full Width */
+.dashboard-metrics-section {
+  background: #f4f8fd;
+  padding: 30px 20px;
+  width: 100%;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 95%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+}
+
+.metric-icon {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #1d4ed8;
+}
+
+.metric-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-bottom: 4px;
+}
+
+.metric-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Chart.js Tooltip Styling */
+.chartjs-tooltip {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+  border-radius: 6px !important;
+}
+
+/* Override any existing container styles */
+.main-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Responsive Design - Full Width Maintained */
+@media (max-width: 1200px) {
+  .dashboard-stats {
+    width: 98%;
+  }
+  
+  .chart-card {
+    width: 98%;
+    padding: 25px;
+  }
+  
+  .metrics-grid {
+    width: 98%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+  
+  .chart-card {
+    padding: 20px;
+    min-height: 450px;
+    width: 100%;
+  }
+  
+  #sleepChart {
+    height: 350px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-hero {
+    padding: 30px 15px;
+  }
+  
+  .dashboard-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .dashboard-hero p {
+    font-size: 1rem;
+  }
+  
+  .dashboard-stats-section,
+  .dashboard-chart-section,
+  .dashboard-metrics-section {
+    padding: 20px 10px;
+  }
+  
+  .chart-card {
+    padding: 15px;
+    width: 100%;
+    min-height: 400px;
+  }
+  
+  #sleepChart {
+    height: 300px !important;
+  }
+  
+  .chart-title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  
+  .chart-card {
+    padding: 12px;
+    min-height: 350px;
+    width: 100%;
+  }
+  
+  #sleepChart {
+    height: 250px !important;
   }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_18_101840) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_21_121327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -121,6 +121,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_18_101840) do
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
+  create_table "sleep_metrics", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.float "baseline_score"
+    t.float "current_avg_score"
+    t.float "improvement"
+    t.datetime "calculated_at"
+    t.date "baseline_start"
+    t.date "baseline_end"
+    t.date "current_start"
+    t.date "current_end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sleep_metrics_on_user_id"
+  end
+
   create_table "sleep_records", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.date "date", null: false
@@ -180,5 +195,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_18_101840) do
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
   add_foreign_key "plans", "users"
+  add_foreign_key "sleep_metrics", "users"
   add_foreign_key "users", "users", column: "coach_id"
 end

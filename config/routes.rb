@@ -82,7 +82,11 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ]
   end
 
-  resources :oura_dashboard, only: [ :index ]
+  resources :oura_dashboard, only: [ :index ] do
+    collection do
+      get :dashboard_v2
+    end
+  end
 
   # Root
   root "sessions#new"
