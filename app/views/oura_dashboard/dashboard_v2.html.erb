@@ -45,11 +45,32 @@
           <span class="stat-icon">🎯</span>
           <span class="stat-title">Program Status</span>
         </div>
-        <div class="oura-status-badge">On Track for Success</div>
-        <div class="stat-sub">Progress to 25% Goal <span class="stat-sub-value">100%</span></div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 100%;"></div>
-        </div>
+        <% improvement = @sleep_metric&.improvement.to_f %>
+        <% if improvement < 10 %>
+          <div class="oura-status-badge">🚨 Needs Attention</div>
+          <div class="stat-sub">Progress to 25% Goal <span class="stat-sub-value"><%= (improvement / 25 * 100).round %>%</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: <%= [(improvement / 25 * 100), 100].min %>%; background: #ef4444;"></div>
+          </div>
+        <% elsif improvement < 25 %>
+          <div class="oura-status-badge">⚠️ On the Way</div>
+          <div class="stat-sub">Progress to 25% Goal <span class="stat-sub-value"><%= (improvement / 25 * 100).round %>%</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: <%= [(improvement / 25 * 100), 100].min %>%; background: #f59e42;"></div>
+          </div>
+        <% elsif improvement < 50 %>
+          <div class="oura-status-badge">🌟 Great Progress</div>
+          <div class="stat-sub">Progress to 50% Goal <span class="stat-sub-value"><%= (improvement / 50 * 100).round %>%</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: <%= [(improvement / 50 * 100), 100].min %>%; background: #22c55e;"></div>
+          </div>
+        <% else %>
+          <div class="oura-status-badge">🏆 Outstanding</div>
+          <div class="stat-sub">Progress to 50%+ Goal <span class="stat-sub-value">100%</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%; background: #2563eb;"></div>
+          </div>
+        <% end %>
       </div>
     </div>
   </section>

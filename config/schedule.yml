@@ -5,7 +5,7 @@ weekly_gamification:
   description: "Weekly gamification job for clients"
 
 update_user_status_job:
-  cron: "* * * * *"   # every minute for testing
+  cron: "*/10 * * * *"   # every 10 minutes
   class: "UpdateUserStatusJob"
   queue: default
   description: "Update user status job"
