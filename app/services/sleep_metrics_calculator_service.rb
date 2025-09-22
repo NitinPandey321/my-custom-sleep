@@ -11,8 +11,9 @@ class SleepMetricsCalculatorService
     baseline_records = sleep_records.limit(14)
     baseline_score   = baseline_records.average(:score).to_f.round(2)
 
-    # current → all available data
-    current_score = sleep_records.average(:score).to_f.round(2)
+    baseline_end_date = baseline_records.last.date
+    current_records   = sleep_records.where("date > ?", baseline_end_date)
+    current_score     = current_records.average(:score).to_f.round(2)
 
     # % improvement
     improvement_pct  = if baseline_score.positive?
@@ -28,8 +29,8 @@ class SleepMetricsCalculatorService
       baseline_start: baseline_records.first.date,
       baseline_end: baseline_records.last.date,
       current_avg_score: current_score,
-      current_start: sleep_records.first.date,
-      current_end: sleep_records.last.date,
+      current_start: current_records.first.date,
+      current_end: current_records.last.date,
       improvement: improvement_pct,
       calculated_at: Time.current
     )

@@ -16,7 +16,7 @@ class SleepMetric < ApplicationRecord
   private
 
   def human_duration(start_date, end_date)
-    days = (end_date - start_date).to_i
+    days = (end_date - start_date).to_i + 1
 
     case days
     when 0..30
