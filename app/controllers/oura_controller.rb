@@ -36,6 +36,7 @@ class OuraController < ApplicationController
         oura_expires_at:    Time.current + token_data["expires_in"].to_i.seconds
       )
 
+      OuraBaselineSyncJob.perform_later(current_user.id)
       redirect_to dashboards_client_path, notice: "Oura connected!"
     else
       render plain: "Token exchange failed: #{token_data.inspect}", status: :unprocessable_entity
