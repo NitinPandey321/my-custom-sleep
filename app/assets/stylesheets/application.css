@@ -1004,6 +1004,9 @@ body[data-action="new_coach"] .auth-card {
   color: var(--neutral-600);
   line-height: 1.4;
   margin: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 /* Progress bar colors for each pillar */
@@ -1262,7 +1265,7 @@ body[data-action="new_coach"] .auth-card {
   background: #f9fcff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   border: 1px solid #e6f3ff;
 }
 
@@ -2335,3 +2338,18 @@ body[data-action="new_coach"] .auth-card {
 .coach-dashboard .stat-value {
   color: #fff !important;
 }
+
+/* --- Prevent line break in + Plan button --- */
+.btn-plan {
+  white-space: nowrap;
+  word-break: keep-all;
+  letter-spacing: 0.01em;
+}
+/* --- End fix --- */
+
+/* --- Prevent line break in client status badge text --- */
+.status-badge {
+  /* white-space: nowrap; */
+  /* word-break: keep-all; */
+}
+/* --- End fix --- */
