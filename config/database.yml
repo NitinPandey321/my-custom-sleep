@@ -19,20 +19,9 @@ test:
   host: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_HOST"] %>
 
 production:
-  primary: &primary_production
-    <<: *default
-    database: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_NAME"] %>
-    username: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_USERNAME"] %>
-    password: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_NAME"] %>_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_NAME"] %>_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_NAME"] %>_cable
-    migrations_paths: db/cable_migrate
+  <<: *default
+  database: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_NAME"] %>
+  username: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_USERNAME"] %>
+  password: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_PASSWORD"] %>
+  host: <%= ENV["MY_SLEEP_JOURNEY_DATABASE_PRODUCTION_HOST"] %>
+  port: 5432
