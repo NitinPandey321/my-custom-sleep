@@ -29,9 +29,9 @@
   --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   
   /* Shadows and effects */
-  --shadow-soft: 0 10px 25px rgba(45, 90, 160, 0.15);
-  --shadow-medium: 0 20px 40px rgba(45, 90, 160, 0.2);
-  --shadow-large: 0 25px 50px rgba(45, 90, 160, 0.25);
+  --shadow-soft: 0 10px 25px rgba(0, 90, 160, 0.15);
+  --shadow-medium: 0 20px 40px rgba(0, 90, 160, 0.2);
+  --shadow-large: 0 25px 50px rgba(0, 90, 160, 0.25);
   
   /* Border radius */
   --border-radius: 12px;
@@ -1074,7 +1074,7 @@ body[data-action="new_coach"] .auth-card {
 /* Plans and Achievements Section */
 .dashboard-section {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   flex-wrap: wrap;
   padding: 0 2rem;
   margin-top: 2rem;
@@ -1084,7 +1084,7 @@ body[data-action="new_coach"] .auth-card {
 .plans-column {
   flex: 1;
   min-width: 300px;
-  max-width: 600px;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1094,13 +1094,11 @@ body[data-action="new_coach"] .auth-card {
 /* Active Plans Card */
 .active-plans-card {
   width: 100%;
-  max-width: 600px;
 }
 
 /* My Submissions Card */
 .my-submissions-card {
   width: 100%;
-  max-width: 600px;
   margin-top: 0;
 }
 
@@ -1214,11 +1212,11 @@ body[data-action="new_coach"] .auth-card {
 /* Achievements and Reflection Container */
 .achievements-and-reflection {
   display: flex;
+  width: 50%;
   flex-direction: column;
   gap: 20px;
   flex: 0.7;
   min-width: 280px;
-  max-width: 400px;
 }
 
 .achievements-container h2 {
@@ -1509,6 +1507,7 @@ body[data-action="new_coach"] .auth-card {
   .plans-column {
     min-width: auto;
     max-width: none;
+    width: 100%;
   }
 
   .plans-container,
@@ -1520,6 +1519,7 @@ body[data-action="new_coach"] .auth-card {
   .achievements-and-reflection {
     flex: none;
     max-width: none;
+    width: 100%;
   }
 
   .plan-card {
