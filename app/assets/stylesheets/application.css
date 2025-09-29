@@ -1555,7 +1555,7 @@ body[data-action="new_coach"] .auth-card {
   }
 
   .status-badge {
-    align-self: flex-end;
+    /* align-self: flex-end; */
   }
 
   .daily-reflection-card {
@@ -2036,6 +2036,7 @@ body[data-action="new_coach"] .auth-card {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-evenly;
 }
 
 /* Active Chats Card Styles */
@@ -2351,5 +2352,15 @@ body[data-action="new_coach"] .auth-card {
 .status-badge {
   /* white-space: nowrap; */
   /* word-break: keep-all; */
+}
+/* --- End fix --- */
+
+/* --- Responsive: Stack .client-item children vertically on small screens --- */
+@media (max-width: 768px) {
+  .client-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px;
+  }
 }
 /* --- End fix --- */
