@@ -2025,6 +2025,7 @@ body[data-action="new_coach"] .auth-card {
     display: flex;
     gap: 10px;
     width: 100%;
+    justify-content: space-between;
   }
 
   .coach-actions button {
