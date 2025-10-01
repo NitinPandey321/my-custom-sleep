@@ -53,8 +53,8 @@ class DashboardsController < ApplicationController
               .order("last_message_at DESC NULLS LAST")
 
     @total_clients = @coach.clients.count
-    @active_clients = @coach.clients.count # You can add more specific logic for active clients
-    @pending_approvals = 5 # Placeholder - you can implement this based on your business logic
+    @needs_attention_clients = @coach.clients.where(status: :needs_attention).count
+    @falling_behind_clients = @coach.clients.where(status: :falling_behind).count
   end
 
   def admin

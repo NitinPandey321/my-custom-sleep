@@ -2038,6 +2038,7 @@ body[data-action="new_coach"] .auth-card {
   align-items: center;
   gap: 8px;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 /* Active Chats Card Styles */

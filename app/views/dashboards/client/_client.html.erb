@@ -26,7 +26,7 @@
   <% if show_actions %>
     <div class="client-actions">
       <% if client.oura_access_token? %>
-        <%= link_to oura_dashboard_index_path(client_id: client.id), class: "btn btn-connected" , data: { turbo: false } do %>
+        <%= link_to dashboard_v2_oura_dashboard_index_path(client_id: client.id), class: "btn btn-connected" , data: { turbo: false } do %>
           <i class="fas fa-heartbeat"></i>
           Oura
         <% end %>
