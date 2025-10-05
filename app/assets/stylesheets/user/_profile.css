@@ -26,12 +26,15 @@
   dd {
     margin: 0;
     color: #111827;
+    word-break: break-word;      /* break long words if needed */
+    overflow-wrap: anywhere;  
   }
 }
 
 .form-row {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 
   .form-group {
     flex: 1;
@@ -42,4 +45,22 @@
   margin-top: 1.5rem;
   display: flex;
   gap: 0.75rem;
+}
+
+@media (max-width: 576px) {
+  .page-header {
+    flex-direction: column;   /* stack items */
+    align-items: flex-start;  /* left align */
+    gap: 5px
+  }
+
+  .page-header div {
+    width: 100%;              /* full width for buttons */
+    flex-direction: column;   /* stack buttons vertically */
+  }
+
+  .page-header div .btn {
+    margin-top: 10px;
+    width: 100%;              /* make buttons fill width */
+  }
 }

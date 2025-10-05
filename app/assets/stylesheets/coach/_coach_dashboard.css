@@ -49,6 +49,7 @@
 }
 
 .stat-box {
+  text-decoration: none;
   width: 130px;
   height: 175px;
   border-radius: 12px;
@@ -59,9 +60,10 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  cursor: pointer;
 }
 
-.stat-box:nth-child(2) { background: #16a34a; }
+.stat-box:nth-child(2) { background: #7016a3; }
 .stat-box:nth-child(3) { background: #f97316; }
 
 .stat-value {

@@ -39,7 +39,7 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit plan.persisted? ? "Update Plan" : "+ Plan", class: "btn-plan" %>
+      <%= f.submit plan.persisted? ? "Update Plan" : "Create Plan", class: "btn-plan" %>
 
       <% if plan.persisted? %>
         <%= link_to "Cancel", dashboards_coach_path(client_id: client.id), class: "btn-cancel" %>

@@ -1,7 +1,12 @@
-.form-row {
+.plan-form-row {
   display: flex;
   gap: 20px;       /* space between inputs */
   margin-bottom: 1rem;
+  flex-wrap: wrap; /* wrap on smaller screens */
+}
+
+.create-plan {
+  margin-top: 10px;
 }
 
 .form-group {
