@@ -112,11 +112,30 @@
         </div>
       </div>
 
-      <div class="form-actions">
-        <%= form.submit "Create Coach Account", 
-            class: "btn btn-primary btn-full",
-            data: { form_validation_target: "submitButton" } %>
+      <div class="form-disclaimer">
+        <%= check_box_tag :agree_terms, "1", false, id: "agree_terms_coach" %>
+        <label for="agree_terms_coach">
+          By signing up, you agree to our
+          <%= link_to "Privacy Policy", "https://mycustomsleepjourney.com/privacy-policy", target: "_blank", rel: "noopener" %>
+          and
+          <%= link_to "Terms & Conditions", "https://mycustomsleepjourney.com/terms-and-conditions", target: "_blank", rel: "noopener" %>.
+        </label>
       </div>
+      <div class="form-actions">
+        <%= form.submit "Create Coach Account", class: "btn btn-primary btn-full", id: "signup_button_coach", data: { form_validation_target: "submitButton" }, disabled: true %>
+      </div>
+      <script>
+        document.addEventListener("turbo:load", () => {
+          const checkbox = document.getElementById("agree_terms_coach");
+          const signupBtn = document.getElementById("signup_button_coach");
+          if (checkbox && signupBtn) {
+            signupBtn.disabled = !checkbox.checked;
+            checkbox.addEventListener("change", () => {
+              signupBtn.disabled = !checkbox.checked;
+            });
+          }
+        });
+      </script>
     <% end %>
 
     <!-- Display server-side validation errors -->
