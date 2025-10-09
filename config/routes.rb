@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   namespace :dashboards do
     get :client
     get :coach
+    get :client_view_for_coach
     get :admin
     get :logs
   end

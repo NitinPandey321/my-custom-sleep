@@ -1,0 +1,41 @@
+<div class="container" style="margin-top: 0; padding-top: 20px;">
+  <%= render 'dashboards/coach/coach', coach: @coach, conversation: @conversation %>
+
+  <div class="wellness-section">
+    <h2 class="wellness-title">Your Wellness Pillars</h2>
+    <div class="wellness-cards">
+      <% Plan.wellness_pillars.keys.each do |pillar| %>
+        <% plans = @plans_by_pillar[pillar] || [] %>
+        <% progress = plans.count > 0 ? (plans.count { |p| p.status != "created" } * 100 / plans.count) : 0 %>
+        <div class="wellness-card <%= pillar %> <%= "#{pillar}-card" %>">
+          <div class="wellness-card-icon <%= "#{pillar}-icon" %>">
+            <%# You can use a helper or hash for icons if you want %>
+            <%= { "nutrition" => "🥗", "supplements" => "🍽️", "hypnosis" => "🧘", "caffeine" => "☕", "exercise" => "💪" }[pillar] %>
+          </div>
+          <h3 class="pillar-name"><%= pillar.titleize %></h3>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= progress %>%"></div>
+            </div>
+            <span class="progress-text"><%= progress %>%</span>
+          </div>
+          <div class="task-info">
+            <p class="task-label">Today's Task</p>
+            <p class="task-description">
+              <%= plans.last&.details || "No task assigned" %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <div class="plans-column">
+      <%= render 'my_submissions' %>      
+    </div>
+
+    <div class="achievements-and-reflection">
+      <%= render 'dashboards/gamification' %>
+    </div>
+</div>

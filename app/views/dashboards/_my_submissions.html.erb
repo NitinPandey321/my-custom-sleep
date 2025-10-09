@@ -6,23 +6,23 @@
          data-status="pending"
          data-submission-target="tab"
          data-action="click->submission#selectTab">
-      Pending <span class="count"><%= current_user.plans.where(status: :pending).count %></span>
+      Pending <span class="count"><%= @client.plans.where(status: :pending).count %></span>
     </div>
     <div class="tab"
          data-status="approved"
          data-submission-target="tab"
          data-action="click->submission#selectTab">
-      Approved <span class="count"><%= current_user.plans.where(status: :approved).count %></span>
+      Approved <span class="count"><%= @client.plans.where(status: :approved).count %></span>
     </div>
     <div class="tab"
          data-status="needs_resubmission"
          data-submission-target="tab"
          data-action="click->submission#selectTab">
-      Rejected <span class="count"><%= current_user.plans.where(status: :needs_resubmission).count %></span>
+      Rejected <span class="count"><%= @client.plans.where(status: :needs_resubmission).count %></span>
     </div>
   </div>
 
-  <% plans_by_status = current_user.plans.where.not(status: :created).group_by(&:status) %>
+  <% plans_by_status = @client.plans.where.not(status: :created).group_by(&:status) %>
   <div id="submission-cards">
     <% ['pending', 'approved', 'needs_resubmission'].each do |status| %>
       <div class="submission-status-group"

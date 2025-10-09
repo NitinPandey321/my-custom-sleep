@@ -547,6 +547,13 @@ body[data-action="new_coach"] .auth-card {
   margin-bottom: 20px;
 }
 
+.no-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
 /* Enhanced responsive design */
 
 /* Mobile responsive adjustments for signup forms */

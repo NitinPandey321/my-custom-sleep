@@ -2,46 +2,52 @@
   <div class="coach-card">
     <div class="coach-info">
       <div class="coach-avatar">
-        <% is_online = coach.online? %>
-        <% if coach.profile_picture.attached? %>
-          <img src="<%= rails_blob_url(coach.profile_picture, disposition: 'inline') %>" 
+        <% user_to_show = current_user.coach? ? @client : coach %>
+        <% is_online = user_to_show.online? %>
+        <% if user_to_show.profile_picture.attached? %>
+          <img src="<%= rails_blob_url(user_to_show.profile_picture, disposition: 'inline') %>" 
               alt="Coach Profile Picture" 
               class="profile-picture" />
         <% else %>
-          <div class="coach-avatar-placeholder"><%= coach.initials %></div>
+          <div class="coach-avatar-placeholder"><%= user_to_show.initials %></div>
         <% end %>
         <span class="<%= is_online ? 'online-dot' : 'offline-dot' %>"></span>
       </div>
       <div class="coach-details">
-        <h3><%= coach.full_name %> <span class="coach-role">(Your Coach)</span></h3>
+        <h3><%= user_to_show.full_name %>
+        <span class="coach-role"><%= current_user.client? ? '(Your Coach)' : '' %></span></h3>
         <p class="<%= is_online ? 'status-online' : 'status-offline' %>"><%= is_online ? "Online" : "Offline" %></p>
         <p class="coach-speciality">Sleep Specialist</p>
       </div>
     </div>
 
     <div class="coach-actions">
-      <% if current_user.oura_access_token? %>
-        <%= link_to "Go to Oura Dashboard", dashboard_v2_oura_dashboard_index_path, class: "btn btn-connected", data: { turbo: false } %>
-      <% else %>
+      <% if @client.oura_access_token? %>
+        <%= link_to "Go to Oura Dashboard", dashboard_v2_oura_dashboard_index_path(client_id: @client.id), class: "btn btn-connected", data: { turbo: false } %>
+      <% elsif current_user.client? %>
         <%= link_to "Connect Oura", "/oura/connect", class: "btn btn-disconnected" %>
       <% end %>
 
-      <%= link_to "#", class: "open-chat-btn", data: { action: "click->floating-chat#open" } do %>
-        💬 Start Chat
-        <%= render "conversations/unread_badge", conversation: conversation, viewer: current_user %>
+      <% if current_user.client? %>
+        <%= link_to "#", class: "open-chat-btn", data: { action: "click->floating-chat#open" } do %>
+          💬 Start Chat
+          <%= render "conversations/unread_badge", conversation: conversation, viewer: current_user %>
+        <% end %>
       <% end %>
     </div>
   </div>
 
   <!-- Floating chat panel -->
-  <div data-floating-chat-target="panel" class="floating-chat hidden">
-    <div class="chat-header">
-      Chat with <%= coach.full_name %>
-      <button data-action="click->floating-chat#close">✖</button>
-    </div>
+  <% if current_user.client? %>
+    <div data-floating-chat-target="panel" class="floating-chat hidden">
+      <div class="chat-header">
+        Chat with <%= coach.full_name %>
+        <button data-action="click->floating-chat#close">✖</button>
+      </div>
 
-    <%= turbo_frame_tag "chat_box" do %>
-      <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
-    <% end %>
-  </div>
+      <%= turbo_frame_tag "chat_box" do %>
+        <%= render 'active_chats_card', conversation: @conversation, messages: @messages, new_message: @new_message %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
