@@ -314,6 +314,98 @@
   margin: 0 !important;
 }
 
+.filter-btn {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #111;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-btn.active {
+  background: #0a0a1a;
+  color: #fff;
+}
+
+.filter-btn svg {
+  margin-right: 3px;
+  margin-bottom: -2px;
+  width: 14px;
+  height: 14px;
+}
+
+#customStart,
+#customEnd {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.85rem;
+  color: #111;
+  transition: border 0.2s;
+  outline: none;
+}
+
+#customStart:focus,
+#customEnd:focus {
+  border-color: #2563eb;
+}
+
+#toLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 3px;
+  vertical-align: middle;
+}
+
+#applyCustom {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#applyCustom:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 600px) {
+  .filter-btn {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+  }
+
+  #customStart,
+  #customEnd {
+    width: 100%;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+  }
+
+  #applyCustom {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  #toLabel {
+    display: block;
+    text-align: center;
+    margin: 4px 0;
+  }
+}
+
 /* Responsive Design - Full Width Maintained */
 @media (max-width: 1200px) {
   .dashboard-stats {

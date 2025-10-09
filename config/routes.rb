@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   resources :oura_dashboard, only: [ :index ] do
     collection do
       get :dashboard_v2
+      get :sleep_scores
     end
   end
 
