@@ -19,7 +19,7 @@ class Plan < ApplicationRecord
     needs_resubmission: 3
   }, prefix: true
 
-  has_one_attached :proof
+  has_many_attached :proofs
 
   after_create :log_creation
   after_update :log_status_change

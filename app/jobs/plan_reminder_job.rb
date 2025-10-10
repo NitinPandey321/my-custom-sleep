@@ -24,7 +24,7 @@ class PlanReminderJob
   def send_reminder(plan)
     user = plan.user
     return unless user.full_phone.present?
-    return unless user.country_code == "+1" # Only US numbers for now
+    return unless user.country_code == "+1"
 
     full_url = "http://localhost:3000/dashboards/client"
 
