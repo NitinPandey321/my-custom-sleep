@@ -35,7 +35,7 @@
                   data-proof-upload-pillar-param="<%= plan.wellness_pillar %>">
             <%= plan.wellness_pillar.in?(["exercise", "nutrition"]) ? "📷 Submit Proof" : "Mark as Done" %>
           </button>
-        <% elsif plan.proof.attached? %>
+        <% elsif plan.proofs.attached? %>
           <span>Proof uploaded</span>
         <% end %>
       </div>

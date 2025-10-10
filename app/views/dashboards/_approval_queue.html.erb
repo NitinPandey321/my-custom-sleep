@@ -42,12 +42,19 @@
                       <% else %> 📋
                   <% end %>
                 </div>
-
                 <div>
                   <h4><%= plan.user.full_name %></h4>
                   <h5><%= plan.details.truncate(30) %></h5>
                   <p class="time">Uploaded <%= time_ago_in_words(plan.updated_at) %> ago</p>
-                  <p><%= link_to "View Proof", url_for(plan.proof), target: "_blank" if plan.proof.attached? %></p>
+                  <% if plan.proofs.attached? %>
+                    <div class="proof-thumbnails">
+                      <% plan.proofs.each do |proof| %>
+                        <%= link_to url_for(proof), target: "_blank" do %>
+                          <%= image_tag proof, alt: "Proof", style: "width:48px; height:48px; object-fit:cover; margin-right:4px; border-radius:4px; border:1px solid #ccc;" %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
                   <%= link_to "Edit", dashboards_coach_path(client_id: plan.user_id, plan_id: plan.id) + "#create-plan-form", class: "btn-edit" %>
 
                   <% if plan.status_needs_resubmission? && plan.resubmission_reason.present? %>
