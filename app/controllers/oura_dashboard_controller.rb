@@ -1,6 +1,6 @@
 class OuraDashboardController < ApplicationController
   before_action :require_login
-  before_action :set_client, only: [ :index, :dashboard_v2 ]
+  before_action :set_client, only: [ :index, :dashboard_v2, :sleep_scores ]
 
   def index
     oura = OuraClient.new(@client)
@@ -20,6 +20,27 @@ class OuraDashboardController < ApplicationController
 
     # Fetch heart rate data
     @heart_rate_data = oura.heart_rate(start_datetime: 12.hours.ago.iso8601, end_datetime: Time.current.iso8601)["data"].last(100)
+  end
+
+  def sleep_scores
+    range = params[:range]
+    if range == "custom"
+      start_date = Date.parse(params[:start]) rescue 15.days.ago.to_date
+      end_date = Date.parse(params[:end]) rescue Date.current
+    else
+      days = range.to_i > 0 ? range.to_i : 7
+      start_date = days.days.ago.to_date
+      end_date = Date.current
+    end
+
+    records = @client.sleep_records
+                     .where(date: start_date..end_date)
+                     .order(:date)
+
+    labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
+    sleep_scores = records.pluck(:score)
+
+    render json: { labels: labels, sleep_scores: sleep_scores }
   end
 
   def dashboard_v2

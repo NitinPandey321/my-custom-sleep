@@ -57,6 +57,13 @@ class DashboardsController < ApplicationController
     @falling_behind_clients = @coach.clients.where(status: :falling_behind).count
   end
 
+  def client_view_for_coach
+    redirect_to root_path and return unless current_user.role == "coach"
+    @client = User.find(params[:client_id])
+    @coach = current_user
+    @plans_by_pillar = @client.plans.group_by(&:wellness_pillar)
+  end
+
   def admin
     # Admin dashboard - placeholder
     @total_users = User.count

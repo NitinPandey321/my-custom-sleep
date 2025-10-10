@@ -1,13 +1,22 @@
 <div class="client-item">
   <div class="client-info">
+    <% profile_path = dashboards_client_view_for_coach_path(client_id: client.id) %>
+
     <% if client.profile_picture.attached? %>
-      <img id="profile-pic" 
-           src="<%= rails_blob_url(client.profile_picture, disposition: 'inline') %>" 
-           alt="Profile picture"
-           style="width: 40px; height: 40px; border: none;"
-           class="profile-picture" />
+      <%= link_to profile_path, class: "no-link" do %>
+        <img id="profile-pic" 
+            src="<%= rails_blob_url(client.profile_picture, disposition: 'inline') %>" 
+            alt="Profile picture"
+            style="width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;"
+            class="profile-picture" />
+      <% end %>
     <% else %>
-      <div class="client-avatar red"><%= client.initials %></div>
+      <%= link_to profile_path, class: "no-link" do %>
+        <div class="client-avatar red" 
+            style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: white; cursor: pointer;">
+          <%= client.initials %>
+        </div>
+      <% end %>
     <% end %>
 
     <div class="client-text">
@@ -25,13 +34,6 @@
 
   <% if show_actions %>
     <div class="client-actions">
-      <% if client.oura_access_token? %>
-        <%= link_to dashboard_v2_oura_dashboard_index_path(client_id: client.id), class: "btn btn-connected" , data: { turbo: false } do %>
-          <i class="fas fa-heartbeat"></i>
-          Oura
-        <% end %>
-      <% end %>
-
       <%= link_to dashboards_logs_path(client_id: client.id), class: "btn btn-logs", data: { turbo: false } do %>
         <i class="fas fa-list"></i>
         

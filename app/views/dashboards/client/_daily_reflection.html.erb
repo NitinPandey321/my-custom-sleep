@@ -1,8 +1,8 @@
 <div class="daily-reflection-card" data-controller="reflection">
   <h3>Daily Reflection</h3>
 
-  <% if current_user.daily_reflections.exists?(created_at: Date.today.all_day) %>
-    <% reflection = current_user.daily_reflections.find_by(created_at: Date.today.all_day) %>
+  <% if @client.daily_reflections.exists?(created_at: Date.today.all_day) %>
+    <% reflection = @client.daily_reflections.find_by(created_at: Date.today.all_day) %>
 
     <div class="reflection-success">
       <span class="checkmark"></span>
@@ -24,7 +24,7 @@
   <% else %>
     <p>How is your program flow going today?</p>
 
-    <%= form_with model: current_user.daily_reflections.new, url: daily_reflection_path, local: true, data: { controller: "reflection" } do |f| %>
+    <%= form_with model: @client.daily_reflections.new, url: daily_reflection_path, local: true, data: { controller: "reflection" } do |f| %>
       <div class="emojis">
         <span data-action="click->reflection#selectEmoji" data-reflection-emoji="happy">😊</span>
         <span data-action="click->reflection#selectEmoji" data-reflection-emoji="neutral">😐</span>

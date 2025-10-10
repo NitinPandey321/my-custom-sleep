@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   namespace :dashboards do
     get :client
     get :coach
+    get :client_view_for_coach
     get :admin
     get :logs
   end
@@ -85,6 +86,7 @@ Rails.application.routes.draw do
   resources :oura_dashboard, only: [ :index ] do
     collection do
       get :dashboard_v2
+      get :sleep_scores
     end
   end
 

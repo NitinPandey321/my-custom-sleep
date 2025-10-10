@@ -78,7 +78,23 @@
   <!-- Chart Section -->
   <section class="dashboard-chart-section">
     <div class="chart-card">
-      <h3 class="chart-title">Sleep Score Progress</h3>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h3 class="chart-title">Sleep Score Progress</h3>
+        <div class="chart-filter" style="background: #f3f4f6; border-radius: 18px; padding: 6px 10px; display: flex; gap: 8px;">
+          <button class="filter-btn active" data-days="7">7 Days</button>
+          <button class="filter-btn" data-days="14">14 Days</button>
+          <button class="filter-btn" data-days="30">30 Days</button>
+          <button class="filter-btn" data-days="90">90 Days</button>
+          <button class="filter-btn" id="customBtn" data-days="custom">
+            <svg style="vertical-align: middle;" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="4"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Custom
+          </button>
+          <input type="date" id="customStart" style="display:none; margin-left:4px;">
+          <span style="display:none;" id="toLabel">to</span>
+          <input type="date" id="customEnd" style="display:none; margin-left:4px;">
+          <button id="applyCustom" style="display:none; margin-left:4px;">Apply</button>
+        </div>
+      </div>
       <p class="chart-sub">Daily sleep scores compared to baseline</p>
       <canvas id="sleepChart"></canvas>
     </div>
@@ -163,18 +179,70 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // ...existing chart code...
+
+  // Filter logic
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const customBtn = document.getElementById('customBtn');
+  const customStart = document.getElementById('customStart');
+  const customEnd = document.getElementById('customEnd');
+  const toLabel = document.getElementById('toLabel');
+  const applyCustom = document.getElementById('applyCustom');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.dataset.days === 'custom') {
+        customStart.style.display = '';
+        customEnd.style.display = '';
+        toLabel.style.display = '';
+        applyCustom.style.display = '';
+      } else {
+        customStart.style.display = 'none';
+        customEnd.style.display = 'none';
+        toLabel.style.display = 'none';
+        applyCustom.style.display = 'none';
+        // Call API or reload data for selected days
+        fetchChartData(btn.dataset.days);
+      }
+    });
+  });
+
+  applyCustom.addEventListener('click', function() {
+    if (customStart.value && customEnd.value) {
+      // Call API or reload data for custom range
+      fetchChartData('custom', customStart.value, customEnd.value);
+    }
+  });
+
+  function fetchChartData(range, startDate, endDate) {
+    // Example: Use AJAX to fetch data and update chart
+    // You should implement this endpoint in your Rails controller
+    let url = `/oura_dashboard/sleep_scores?range=${range}&client_id=<%= @client.id %>`;
+    if (range === 'custom') {
+      url += `&start=${customStart.value}&end=${customEnd.value}`;
+    }
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        // Update chart with new data
+        window.sleepChart.data.labels = data.labels;
+        window.sleepChart.data.datasets[0].data = data.sleep_scores;
+        window.sleepChart.update();
+      });
+  }
+
+  // Store chart instance globally for updates
   const ctx = document.getElementById('sleepChart').getContext('2d');
-
-  const sleepScores = <%= raw @sleep_scores.to_json %>;
-  const labels = <%= raw @labels.to_json %>;
-
-  new Chart(ctx, {
+  window.sleepChart = new Chart(ctx, {
+    // ...existing chart config...
     type: 'line',
     data: {
-      labels: labels,
+      labels: <%= raw @labels.to_json %>,
       datasets: [{
         label: "Sleep Score",
-        data: sleepScores,
+        data: <%= raw @sleep_scores.to_json %>,
         borderColor: "#2563eb",
         backgroundColor: "#2563eb",
         tension: 0.4,
@@ -200,10 +268,10 @@ document.addEventListener('DOMContentLoaded', function() {
           borderWidth: 1,
           titleColor: "#374151",
           titleFont: { weight: '600', size: 13 },
-          bodyColor: "#1d4ed8", // Blue text for Sleep Score
+          bodyColor: "#1d4ed8",
           bodyFont: { size: 13 },
           padding: 10,
-          displayColors: false, // removes the color box
+          displayColors: false,
           usePointStyle: false,
           cornerRadius: 6,
           callbacks: {
@@ -226,11 +294,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     plugins: [{
-      // Add a baseline red dashed line
       id: 'baselineLine',
       afterDraw: (chart) => {
         const { ctx, chartArea: { left, right }, scales: { y } } = chart;
-        const baseline = <%= @sleep_metric&.baseline_score %>; // baseline value
+        const baseline = <%= @sleep_metric&.baseline_score %>;
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(left, y.getPixelForValue(baseline));
@@ -240,8 +307,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.setLineDash([6, 6]);
         ctx.stroke();
         ctx.restore();
-
-        // Add label "Baseline"
         ctx.fillStyle = "#6b7280";
         ctx.font = "12px sans-serif";
         ctx.fillText("Baseline", right - 55, y.getPixelForValue(baseline) - 5);
