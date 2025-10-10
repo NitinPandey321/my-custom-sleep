@@ -132,11 +132,25 @@
       </div>
       <script>
         document.addEventListener("turbo:load", () => {
-          const checkbox = document.getElementById("agree_terms_coach");
+          const updatesCheckbox = document.getElementById("agree_updates_client");
+          const termsCheckbox = document.getElementById("agree_terms_coach");
           const signupBtn = document.getElementById("signup_button_coach");
-          if (checkbox && signupBtn) {
-            signupBtn.disabled = !checkbox.checked;
-            checkbox.addEventListener("change", () => {
+          if (updatesCheckbox && termsCheckbox && signupBtn) {
+            signupBtn.disabled = !(updatesCheckbox.checked && termsCheckbox.checked);
+            updatesCheckbox.addEventListener("change", () => {
+              signupBtn.disabled = !(updatesCheckbox.checked && termsCheckbox.checked);
+            });
+            termsCheckbox.addEventListener("change", () => {
+              signupBtn.disabled = !(updatesCheckbox.checked && termsCheckbox.checked);
+            });
+          }
+        });
+      </script>
+    <% end %>
+
+    <!-- Display server-side validation errors -->
+    <% if @user&.errors&.any? %>
+      <script>
               signupBtn.disabled = !checkbox.checked;
             });
           }
