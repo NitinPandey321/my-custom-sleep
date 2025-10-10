@@ -121,6 +121,12 @@
           <%= link_to "Terms & Conditions", "https://mycustomsleepjourney.com/terms-and-conditions", target: "_blank", rel: "noopener" %>.
         </label>
       </div>
+      <div class="form-disclaimer">
+  <%= check_box_tag :agree_updates, "1", false, id: "agree_updates_client" %>
+  <label for="agree_updates_client">
+    I would like to receive important updates and notifications.
+  </label>
+</div>
       <div class="form-actions">
         <%= form.submit "Create Coach Account", class: "btn btn-primary btn-full", id: "signup_button_coach", data: { form_validation_target: "submitButton" }, disabled: true %>
       </div>

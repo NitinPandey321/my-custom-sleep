@@ -66,6 +66,14 @@ export default class extends Controller {
       this.preferredCoachGenderInputTarget.addEventListener('blur', () => this.validatePreferredCoachGender())
       this.preferredCoachGenderInputTarget.addEventListener('change', () => this.validatePreferredCoachGender())
     }
+
+    const termsCheckbox = document.getElementById("agree_terms_client");
+    const updatesCheckbox = document.getElementById("agree_updates_client");
+if (termsCheckbox && updatesCheckbox) {
+  termsCheckbox.addEventListener("change", () => this.updateSubmitButton());
+  updatesCheckbox.addEventListener("change", () => this.updateSubmitButton());
+}
+
   }
 
   debounceValidation(field, validationFn) {
@@ -81,15 +89,21 @@ export default class extends Controller {
 
     if (!value) {
       this.showError('firstName', 'First name is required.')
+      this.updateSubmitButton()
       return false
     } else if (!namePattern.test(value)) {
       this.showError('firstName', 'First name can only contain letters, hyphens, and apostrophes.')
+      this.updateSubmitButton()
       return false
     } else if (value.length > 50) {
       this.showError('firstName', 'First name cannot exceed 50 characters.')
+      this.updateSubmitButton()
+
       return false
     } else {
       this.clearError('firstName')
+      this.updateSubmitButton()
+
       return true
     }
   }
@@ -100,15 +114,19 @@ export default class extends Controller {
 
     if (!value) {
       this.showError('lastName', 'Last name is required.')
+      this.updateSubmitButton()
       return false
     } else if (!namePattern.test(value)) {
       this.showError('lastName', 'Last name can only contain letters, hyphens, and apostrophes.')
+      this.updateSubmitButton()
       return false
     } else if (value.length > 50) {
       this.showError('lastName', 'Last name cannot exceed 50 characters.')
+      this.updateSubmitButton()
       return false
     } else {
       this.clearError('lastName')
+      this.updateSubmitButton()
       return true
     }
   }
@@ -119,15 +137,19 @@ export default class extends Controller {
 
     if (!value) {
       this.showError('email', 'Email is required.')
+      this.updateSubmitButton()
       return false
     } else if (!emailPattern.test(value)) {
       this.showError('email', 'Enter a valid email address.')
+      this.updateSubmitButton()
       return false
     } else if (value.length > 255) {
       this.showError('email', 'Email cannot exceed 255 characters.')
+      this.updateSubmitButton()
       return false
     } else {
       this.clearError('email')
+      this.updateSubmitButton()
       return true
     }
   }
@@ -137,15 +159,19 @@ export default class extends Controller {
 
     if (!value) {
       this.showError('password', 'Password is required.')
+      this.updateSubmitButton()
       return false
     } else if (value.length < 8) {
       this.showError('password', 'Password must be at least 8 characters long.')
+      this.updateSubmitButton()
       return false
     } else if (!this.checkPasswordComplexity(value)) {
       this.showError('password', 'Password must include uppercase, lowercase, number, and special character (@$!%*?&).')
+      this.updateSubmitButton()
       return false
     } else {
       this.clearError('password')
+      this.updateSubmitButton()
       return true
     }
   }
@@ -156,12 +182,15 @@ export default class extends Controller {
 
     if (!confirmation) {
       this.showError('passwordConfirmation', 'Confirm your password.')
+      this.updateSubmitButton()
       return false
     } else if (password !== confirmation) {
       this.showError('passwordConfirmation', 'Passwords do not match.')
+      this.updateSubmitButton()
       return false
     } else {
       this.clearError('passwordConfirmation')
+      this.updateSubmitButton()
       return true
     }
   }
@@ -175,11 +204,13 @@ export default class extends Controller {
 
     if (!phoneValue) {
       this.showError('phone', 'Phone number is required.')
+      this.updateSubmitButton()
       return false
     }
 
     if (!countryCode) {
       this.showError('phone', 'Country code is required.')
+      this.updateSubmitButton()
       return false
     }
 
@@ -187,10 +218,12 @@ export default class extends Controller {
     const phonePattern = /^\d{10,15}$/
     if (!phonePattern.test(phoneValue.replace(/[\s\-\(\)]/g, ''))) {
       this.showError('phone', 'Enter a valid phone number.')
+      this.updateSubmitButton()
       return false
     }
 
     this.clearError('phone')
+    this.updateSubmitButton()
     return true
   }
 
@@ -199,12 +232,15 @@ export default class extends Controller {
 
     if (!value || value === '') {
       this.showError('preferredCoachGender', 'Please select your preferred coach gender.')
+      this.updateSubmitButton()
       return false
     } else if (!['male', 'female'].includes(value)) {
       this.showError('preferredCoachGender', 'Please select a valid coach gender preference.')
+      this.updateSubmitButton()
       return false
     } else {
       this.clearError('preferredCoachGender')
+      this.updateSubmitButton()
       return true
     }
   }
@@ -291,7 +327,8 @@ export default class extends Controller {
       event.preventDefault()
       this.focusFirstError()
     }
-    
+    this.updateSubmitButton()
+
     return isValid
   }
 
@@ -361,4 +398,37 @@ export default class extends Controller {
     
     this.focusFirstError()
   }
+
+  hasErrors() {
+  const errorTargets = [
+    this.firstNameErrorTarget,
+    this.lastNameErrorTarget,
+    this.emailErrorTarget,
+    this.passwordErrorTarget,
+    this.passwordConfirmationErrorTarget,
+    this.phoneErrorTarget,
+    this.preferredCoachGenderErrorTarget
+  ];
+
+  return errorTargets.some(el => el && el.textContent.trim() !== "");
 }
+
+
+  // ✅ ADD THIS NEW METHOD
+ updateSubmitButton() {
+  const termsCheckbox = document.getElementById("agree_terms_client");
+  const updatesCheckbox = document.getElementById("agree_updates_client");
+
+  const allFieldsFilled = this.firstNameInputTarget.value.trim() &&
+                          this.lastNameInputTarget.value.trim() &&
+                          this.emailInputTarget.value.trim() &&
+                          this.passwordInputTarget.value.trim() &&
+                          this.passwordConfirmationInputTarget.value.trim() &&
+                          this.phoneInputTarget.value.trim() &&
+                          this.preferredCoachGenderInputTarget.value;
+
+  this.submitButtonTarget.disabled = this.hasErrors() || !allFieldsFilled || !(termsCheckbox?.checked && updatesCheckbox?.checked);
+}
+
+}
+
