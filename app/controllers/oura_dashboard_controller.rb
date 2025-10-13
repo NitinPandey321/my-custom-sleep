@@ -34,12 +34,12 @@ class OuraDashboardController < ApplicationController
     end
 
     records = @client.sleep_records
-                      .distinct
+                     .distinct
                      .where(date: start_date..end_date)
                      .order(:date)
 
     labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
-    sleep_scores = records.pluck(:score)
+    sleep_scores = records.map(&:score)
 
     render json: { labels: labels, sleep_scores: sleep_scores }
   end
@@ -52,7 +52,7 @@ class OuraDashboardController < ApplicationController
                         .where("date >= ?", 15.days.ago.to_date)
                         .order(:date)
 
-    @sleep_scores = records.pluck(:score)
+    @sleep_scores = records.map(&:score)
     @labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
     todays_record = records.last
     @todays_score = todays_record&.score
