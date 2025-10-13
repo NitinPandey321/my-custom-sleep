@@ -34,11 +34,11 @@ class OuraDashboardController < ApplicationController
     end
 
     records = @client.sleep_records
-                      .select('DISTINCT ON (date) *')
+                      .distinct
                      .where(date: start_date..end_date)
                      .order(:date)
 
-    labels = records.pluck(:date).map { |d| d.strftime("%b %e") }.uniq
+    labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
     sleep_scores = records.pluck(:score)
 
     render json: { labels: labels, sleep_scores: sleep_scores }
@@ -48,7 +48,7 @@ class OuraDashboardController < ApplicationController
     oura = OuraClient.new(@client)
     @sleep_metric = @client.sleep_metric
     records = @client.sleep_records
-                        .select('DISTINCT ON (date) *')
+                        .distinct
                         .where("date >= ?", 15.days.ago.to_date)
                         .order(:date)
 
