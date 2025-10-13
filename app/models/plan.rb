@@ -39,7 +39,7 @@ class Plan < ApplicationRecord
   end
 
   def proof_required_for_specific_pillars
-    if %w[exercise nutrition].include?(wellness_pillar) && !proof.attached?
+    if %w[exercise nutrition].include?(wellness_pillar) && !proofs.attached?
       errors.add(:proof, "is required for this type of plan")
     end
   end
