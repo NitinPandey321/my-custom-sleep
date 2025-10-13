@@ -9,11 +9,6 @@ class OuraSleepSyncJob
         response = oura.sleep_scores(start_date: date, end_date: date)
         if response["data"].present?
           score = response["data"].first["score"]
-          user.sleep_records.create!(
-            date: date,
-            score: score,
-            raw_data: response["data"].first
-          )
           sleep_record = user.sleep_records.find_or_initialize_by(date: date)
           sleep_record.update!(
             score: score,
