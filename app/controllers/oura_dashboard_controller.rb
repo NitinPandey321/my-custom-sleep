@@ -34,6 +34,7 @@ class OuraDashboardController < ApplicationController
     end
 
     records = @client.sleep_records
+                      .select('DISTINCT ON (date) *')
                      .where(date: start_date..end_date)
                      .order(:date)
 
@@ -47,6 +48,7 @@ class OuraDashboardController < ApplicationController
     oura = OuraClient.new(@client)
     @sleep_metric = @client.sleep_metric
     records = @client.sleep_records
+                        .select('DISTINCT ON (date) *')
                         .where("date >= ?", 15.days.ago.to_date)
                         .order(:date)
 
