@@ -38,7 +38,7 @@ class OuraDashboardController < ApplicationController
                      .where(date: start_date..end_date)
                      .order(:date)
 
-    labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
+    labels = records.pluck(:date).map { |d| d.strftime("%b %e") }.uniq
     sleep_scores = records.pluck(:score)
 
     render json: { labels: labels, sleep_scores: sleep_scores }
