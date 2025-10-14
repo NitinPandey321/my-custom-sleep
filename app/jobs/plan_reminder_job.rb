@@ -26,9 +26,9 @@ class PlanReminderJob
     return unless user.full_phone.present?
     return unless user.country_code == "+1"
 
-    full_url = "http://localhost:3000/dashboards/client"
+    full_url = "#{ENV['BASE_URL']}/dashboards/client"
 
-    message = "Hi #{user.full_name}, your plan for #{plan.wellness_pillar} is due in #{plan.reminder_time} hours. Complete it here: #{full_url}"
+    message = "Hi #{user.full_name}, yo ur plan for #{plan.wellness_pillar} is due in #{plan.reminder_time} hours. Complete it here: #{full_url}"
 
     TwilioClient.send_sms(to: user.full_phone, body: message)
     Rails.logger.info "Sent reminder to #{user.full_phone} for Plan #{plan.id}"
