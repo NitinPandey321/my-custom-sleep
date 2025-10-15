@@ -37,7 +37,7 @@
             <div class="navbar-right">
               <nav class="nav-menu">
                 <div class="user-info">
-                  <span class="welcome-text">Welcome, <%= current_user.email.split('@').first.capitalize %></span>
+                  <span class="welcome-text">Hey <%= current_user.first_name.capitalize %>, welcome!</span>
                   <div class="profile-container">
                     <% if current_user.profile_picture.attached? %>
                       <img id="profile-pic" 
