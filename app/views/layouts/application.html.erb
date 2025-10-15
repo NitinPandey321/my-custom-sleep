@@ -24,8 +24,9 @@
 
   <body>
     <header class="app-header">
-      <div class="container">
+      <div class="container"
         <% if user_signed_in? %>
+         <%= render "shared/sidebar" %>
           <div class="navbar">
             <div class="navbar-left">
               <%= link_to root_path, class: "logo-link" do %>

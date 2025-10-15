@@ -134,6 +134,7 @@
   text-decoration: none;
   color: inherit;
   transition: opacity 0.3s ease;
+  margin-left: 90px;
 }
 
 .logo-link:hover {
