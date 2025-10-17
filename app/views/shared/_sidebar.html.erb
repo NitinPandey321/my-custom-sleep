@@ -1,0 +1,25 @@
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <% if current_user.profile_picture.attached? %>
+      <img id="profile-pic"
+           src="<%= rails_blob_url(current_user.profile_picture, disposition: 'inline') %>"
+           alt="Profile picture"
+           class="profile-picture" />
+    <% else %>
+      <div class="client-avatar red"
+           style="width: 40px; height: 40px; border-radius: 50%;
+                  display: flex; align-items: center; justify-content: center;
+                  font-weight: 600; color: white; cursor: pointer;">
+        <%= current_user.initials %>
+      </div>
+    <% end %>
+  </div>
+
+  <ul class="sidebar-list">
+    <li><%= link_to "Dashboard", root_path, class: "sidebar-link" %></li>
+    <li><%= link_to "logout_path", class: "sidebar-link" do %>
+      <i class="fas fa-sign-out-alt"></i>
+      <span class="sidebar-text">Logout</span>
+    <% end %></li>
+  </ul>
+</nav>
