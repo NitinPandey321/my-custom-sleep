@@ -22,11 +22,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
-  <body>
+  <body class="logged-in" if user_signed_in? >
     <header class="app-header">
-      <div class="container"
-        <% if user_signed_in? %>
-         <%= render "shared/sidebar" %>
+      <div class="container">
+        <%
+=begin%>
+ <% if user_signed_in? %>
           <div class="navbar">
             <div class="navbar-left">
               <%= link_to root_path, class: "logo-link" do %>
@@ -63,17 +64,24 @@
               </nav>
             </div>
           </div>
-        <% end %>
+        <% end %> 
+<%
+=end%>
       </div>
     </header>
 
-    <main class="main-content">
+    <main class="main-content oasdas">
+      <% if user_signed_in? %>
+        <%= render "shared/sidebar" %>
+      <% end %>
       <%= render 'shared/flash_messages' if flash.any? %>
       <%= turbo_stream_from "user_#{current_user.id}" if current_user %>
       <turbo-frame id="escalation_popup"></turbo-frame>
       <turbo-frame id="coach_requests"></turbo-frame>
       <div id="coach_redirect"></div>
-      <%= yield %>
+      <div class="container-main">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>
