@@ -6,7 +6,6 @@ export default class extends Controller {
 
   connect() {
     this.initTabs()
-    this.initResubmitToggles()
   }
 
   // Tabs handling

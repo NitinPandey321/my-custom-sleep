@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   end
 
   resources :exercise_gallery, only: [ :index ]
+  resources :activity_logs, only: [:create]
 
   # Root
   root "sessions#new"

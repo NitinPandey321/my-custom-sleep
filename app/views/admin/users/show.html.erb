@@ -33,6 +33,20 @@
     <% end %>
 
     <hr>
+
+    <div class="admin-subsection">
+      <h2>Platform Usage</h2>
+      <p>
+        <span class="label">Today's Time Spent:</span>
+        <%= number_with_precision(@user.today_time_spent_minutes, precision: 1) %> minutes
+      </p>
+      <p>
+        <span class="label">Average Daily Time Spent:</span>
+        <%= number_with_precision(@user.avg_daily_time_spent_minutes, precision: 1) %> minutes
+      </p>
+    </div>
+
+    <hr>
     <p><span class="label">Average Response Time:</span> <%= format_response_time(@user.avg_response_time) %></p>
 
     <hr>

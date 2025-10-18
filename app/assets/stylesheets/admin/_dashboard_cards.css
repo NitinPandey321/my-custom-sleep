@@ -225,3 +225,65 @@
     font-size: 1.75rem;
   }
 }
+
+/* Top Coaches Table / Section */
+.dashboard-top-coaches {
+  margin-top: 3rem;
+}
+
+.dashboard-top-coaches h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.top-coaches-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.top-coaches-table th,
+.top-coaches-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.top-coaches-table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #374151;
+}
+
+.top-coaches-table td {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.top-coaches-table tr:hover {
+  background-color: #f1f5f9;
+}
+
+.top-coaches-table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .top-coaches-table th,
+  .top-coaches-table td {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-coaches-table {
+    font-size: 0.875rem;
+  }
+}
+

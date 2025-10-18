@@ -572,12 +572,3 @@
   }
 }
 
-/* Sidebar alignment for logged-in users */
-body.logged-in .logo-link {
-  margin-left: 80px;
-  transition: margin-left 0.3s;
-}
-
-body.logged-in #sidebar:hover ~ .logo-link {
-  margin-left: 220px;
-}

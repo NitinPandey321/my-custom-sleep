@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :sleep_records, dependent: :destroy
   has_one :sleep_metric, dependent: :destroy
+  has_many :user_activity_logs, dependent: :destroy
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
