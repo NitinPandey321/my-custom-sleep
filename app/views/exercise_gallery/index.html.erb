@@ -1,0 +1,35 @@
+<div class="gallery-container" data-controller="exercise-gallery">
+  <div class="gallery-header">
+    <h2>Exercise Gallery</h2>
+    <% if current_user.coach? %>
+      <div class="client-filter">
+        <%= form_with url: exercise_gallery_index_path, method: :get, local: true do %>
+          <%= select_tag :client_id, options_for_select([["All Clients", "all"]] + @clients.map { |c| [c.full_name, c.id] }, params[:client_id] || "all"), onchange: "this.form.submit();" %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="sort-toggle">
+      <button data-action="click->exercise-gallery#toggleSort" class="sort-btn">
+        Sort: <span data-exercise-gallery-target="sortLabel">Newest First</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="plans-container" data-exercise-gallery-target="plansContainer">
+    <%= render partial: "week_section", locals: { grouped: @grouped_plans } %>
+  </div>
+
+  <div class="pagination">
+    <%= link_to "Previous", url_for(page: @grouped_plans.prev_page), class: "pagination-link" if @grouped_plans.prev_page %>
+    <%= link_to "Next", url_for(page: @grouped_plans.next_page), class: "pagination-link" if @grouped_plans.next_page %>
+  </div>
+
+  <div class="modal" data-exercise-gallery-target="modal">
+    <span class="close" data-action="click->exercise-gallery#closeModal">&times;</span>
+    
+    <!-- Sticky buttons independent of image size -->
+    <button class="prev-btn" data-action="click->exercise-gallery#prevImage">&#10094;</button>
+    <img class="modal-content" data-exercise-gallery-target="modalImage">
+    <button class="next-btn" data-action="click->exercise-gallery#nextImage">&#10095;</button>
+  </div>
+</div>

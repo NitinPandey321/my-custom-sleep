@@ -1,3 +1,35 @@
+/* Sidebar top (toggle area) */
+.sidebar-top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 10px 0 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.expanded .sidebar-toggle i {
+  transform: rotate(90deg);
+}
+
+/* Sidebar header (profile) */
+.sidebar-header {
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -7,7 +39,7 @@
   background: linear-gradient(180deg, #1d3557 0%, #457b9d 100%);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align from top */
+  justify-content: flex-start;
   transition: width 0.3s ease;
   box-shadow: 2px 0 6px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -15,13 +47,8 @@
   color: #fff;
 }
 
-/* ---- Header / Profile ---- */
-.sidebar-header {
-  padding: 20px 0 10px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+.sidebar.expanded {
+  width: 220px;
 }
 
 .profile-wrapper {
@@ -49,26 +76,27 @@
   font-weight: 600;
 }
 
-.profile-name {
+.profile-name,
+.sidebar-text {
   opacity: 0;
   margin-left: 0;
-  font-size: 15px;
-  font-weight: 500;
   white-space: nowrap;
   transition: opacity 0.3s, margin-left 0.3s;
 }
 
-.sidebar:hover .profile-name {
+/* Show when expanded */
+.sidebar.expanded .profile-name,
+.sidebar.expanded .sidebar-text {
   opacity: 1;
   margin-left: 10px;
 }
 
-/* ---- Navigation ---- */
+/* List Items */
 .sidebar-list {
   list-style: none;
   margin: 20px 0 0 0;
   padding: 0;
-  flex-grow: 1; /* Fill vertical space */
+  flex-grow: 1;
 }
 
 .sidebar-list li {
@@ -84,34 +112,9 @@
   font-size: 16px;
   text-decoration: none;
   transition: all 0.25s ease;
+  position: relative;
 }
 
-.sidebar-link i {
-  font-size: 20px;
-  min-width: 28px;
-  text-align: center;
-  margin-right: 0;
-  transition: margin 0.3s;
-}
-
-.sidebar-text {
-  opacity: 0;
-  margin-left: 0;
-  font-size: 15px;
-  white-space: nowrap;
-  transition: opacity 0.3s, margin-left 0.3s;
-}
-
-.sidebar:hover {
-  width: 220px;
-}
-
-.sidebar:hover .sidebar-text {
-  opacity: 1;
-  margin-left: 12px;
-}
-
-/* Hover / Active Styles */
 .sidebar-link:hover {
   background: rgba(255, 255, 255, 0.15);
 }
@@ -119,7 +122,6 @@
 .sidebar-link.active {
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  position: relative;
 }
 
 .sidebar-link.active::before {
@@ -130,50 +132,34 @@
   bottom: 8px;
   width: 4px;
   border-radius: 4px;
-  background: #27c2d6; /* Brand blue highlight */
+  background: #27c2d6;
 }
 
-/* ---- Bottom Section ---- */
+/* Sidebar Bottom */
 .sidebar-bottom {
-  margin-top: auto; /* Push to bottom */
+  margin-top: auto;
   padding-bottom: 20px;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.sidebar,
-.sidebar * {
-  user-select: none;       /* Avoid accidental text selection */
-}
-
-.sidebar a {
-  transition: background 0.2s, color 0.2s; /* Remove width re-trigger */
-}
-
-/* Disable hover width animation if already hovered */
-.sidebar.hover-locked {
-  width: 220px !important;
-}
-
-
-/* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 70px;
-  }
-  .sidebar:hover {
-    width: 70px; /* Disable expand on hover for mobile */
-  }
-  .sidebar-text,
-  .profile-name {
-    display: none;
-  }
-}
-
-/* ---- Prevent overlap with main content ---- */
+/* Main content push */
 body.logged-in .main-content {
   margin-left: 70px;
   transition: margin-left 0.3s ease;
 }
-body.logged-in #sidebar:hover ~ .main-content {
+
+body.logged-in .sidebar.expanded ~ .main-content {
   margin-left: 220px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px;
+  }
+  .sidebar.expanded {
+    width: 200px;
+    position: absolute;
+    z-index: 2000;
+  }
 }

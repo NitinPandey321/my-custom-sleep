@@ -1,4 +1,16 @@
-<nav id="sidebar" class="sidebar">
+<nav id="sidebar" class="sidebar" data-controller="sidebar">
+  <!-- Toggle button section -->
+  <div class="sidebar-top">
+    <button
+      data-sidebar-target="toggle"
+      data-action="click->sidebar#toggle"
+      class="sidebar-toggle"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Profile header section -->
   <div class="sidebar-header">
     <% if current_user.profile_picture.attached? %>
       <div class="profile-wrapper">
@@ -31,7 +43,6 @@
         <span class="sidebar-text">View Profile</span>
       <% end %>
     </li>
-
     <li>
       <%= link_to edit_user_path(current_user), class: "sidebar-link #{current_page?(edit_user_path(current_user)) ? 'active' : ''}" do %>
         <i class="fas fa-user-edit"></i>
@@ -39,7 +50,7 @@
       <% end %>
     </li>
     <li>
-      <%= link_to '#', class: "sidebar-link" do %>
+      <%= link_to exercise_gallery_index_path, class: "sidebar-link #{current_page?(exercise_gallery_index_path) ? 'active' : ''}" do %>
         <i class="fas fa-dumbbell"></i>
         <span class="sidebar-text">Exercise Gallery</span>
       <% end %>

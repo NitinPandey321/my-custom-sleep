@@ -2376,16 +2376,18 @@ body[data-action="new_coach"] .auth-card {
 /* Sidebar alignment for logged-in users */
 body.logged-in .container-main {
   margin-left: 80px;
-  transition: margin-left 0.3s;
+  transition: margin-left 0.3s ease;
 }
 
-body.logged-in #sidebar:hover ~ .container-main {
-  margin-left: 220px;
+body.logged-in .sidebar.expanded ~ .container-main {
+  margin-left: 230px;
 }
 
-/* Responsive adjustment for mobile */
 @media (max-width: 768px) {
   body.logged-in .container-main {
     margin-left: 56px;
+  }
+  body.logged-in .sidebar.expanded ~ .container-main {
+    margin-left: 180px; 
   }
 }
