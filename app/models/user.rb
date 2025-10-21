@@ -201,6 +201,12 @@ class User < ApplicationRecord
       { coach: coach, client_count: coach.clients.count }
     end.sort_by { |c| [ c[:client_count], c[:coach].id ] }
 
+    if coaches_with_counts.empty?
+      coaches_with_counts = User.coaches.map do |coach|
+        { coach: coach, client_count: coach.clients.count }
+      end.sort_by { |c| [ c[:client_count], c[:coach].id ] }
+    end
+
     # Assign to the coach with the fewest clients
     if coaches_with_counts.any?
       coach = coaches_with_counts.first[:coach]
