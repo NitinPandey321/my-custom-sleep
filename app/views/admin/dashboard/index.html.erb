@@ -50,3 +50,32 @@
   <%= link_to "Manage Users", admin_users_path, class: "admin-btn" %>
   <%= link_to "Manage Plans", admin_plans_path, class: "admin-btn" %>
 </div>
+
+<section class="dashboard-top-coaches">
+  <h2>Top Coaches by Platform Usage</h2>
+
+  <% if @top_coaches.any? %>
+    <table class="top-coaches-table">
+      <thead>
+        <tr>
+          <th>Coach Name</th>
+          <th>Email</th>
+          <th>Total Time Spent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @top_coaches.each do |coach| %>
+          <tr>
+            <td><%= coach.full_name %></td>
+            <td><%= coach.email %></td>
+            <td>
+              <%= hours_minutes(coach.total_seconds) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No coaches have logged activity yet.</p>
+  <% end %>
+</section>

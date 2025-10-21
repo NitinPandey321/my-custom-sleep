@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :users
     resources :plans
     resources :audit_logs, only: [ :index, :show ]
+    resources :exercise_gallery, only: [ :index ]
   end
 
 
@@ -89,6 +90,9 @@ Rails.application.routes.draw do
       get :sleep_scores
     end
   end
+
+  resources :exercise_gallery, only: [ :index ]
+  resources :activity_logs, only: [:create]
 
   # Root
   root "sessions#new"

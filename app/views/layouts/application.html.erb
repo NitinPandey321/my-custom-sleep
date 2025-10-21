@@ -22,57 +22,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
-  <body>
+  <body class="<%= 'logged-in' if user_signed_in? %>" data-controller="activity">
     <header class="app-header">
-      <div class="container">
-        <% if user_signed_in? %>
-          <div class="navbar">
-            <div class="navbar-left">
-              <%= link_to root_path, class: "logo-link" do %>
-                <div class="logo">
-                  <%= image_tag "my-custom-logo.jpeg", alt: "My Custom Sleep Journey", class: "brand-logo navbar-logo" %>
-                </div>
-              <% end %>
-            </div>
-            <div class="navbar-right">
-              <nav class="nav-menu">
-                <div class="user-info">
-                  <span class="welcome-text">Hey <%= current_user.first_name.capitalize %>, welcome!</span>
-                  <div class="profile-container">
-                    <% if current_user.profile_picture.attached? %>
-                      <img id="profile-pic" 
-                           src="<%= rails_blob_url(current_user.profile_picture, disposition: 'inline') %>" 
-                           alt="Profile picture" 
-                           class="profile-picture" />
-                    <% else %>
-                      <%= image_tag "default-avatar.svg", 
-                                    alt: "Default profile picture", 
-                                    id: "profile-pic",
-                                    class: "profile-picture" %>
-                    <% end %>
-                    <label class="edit-icon" title="Change profile picture">
-                      <%= link_to "✎", user_path(current_user), class: "no-link-style" %>
-                    </label>
-                  </div>
-                  <%= button_to "Logout", logout_path, 
-                      method: :delete, 
-                      class: "logout-btn",
-                      data: { turbo: true, confirm: "Are you sure you want to logout?" } %>
-                </div>
-              </nav>
-            </div>
-          </div>
-        <% end %>
-      </div>
     </header>
-
-    <main class="main-content">
+    <main class="main-content oasdas">
+      <% if user_signed_in? %>
+        <%= render "shared/sidebar" %>
+      <% end %>
       <%= render 'shared/flash_messages' if flash.any? %>
       <%= turbo_stream_from "user_#{current_user.id}" if current_user %>
       <turbo-frame id="escalation_popup"></turbo-frame>
       <turbo-frame id="coach_requests"></turbo-frame>
       <div id="coach_redirect"></div>
-      <%= yield %>
+      <div class="container-main">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>

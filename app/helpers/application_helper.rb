@@ -90,4 +90,18 @@ module ApplicationHelper
     parsed = Phonelib.parse(phone_e164)
     parsed.valid? ? parsed.national : phone_e164
   end
+
+  def hours_minutes(total_seconds)
+    return "0m" if total_seconds.nil? || total_seconds.zero?
+
+    total_minutes = (total_seconds / 60).to_i
+    hours = total_minutes / 60
+    minutes = total_minutes % 60
+
+    if hours > 0
+      "#{hours}h #{minutes}m"
+    else
+      "#{minutes}m"
+    end
+  end
 end

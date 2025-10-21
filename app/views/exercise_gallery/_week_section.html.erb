@@ -1,0 +1,21 @@
+<% grouped.each do |week_start, plans| %>
+  <div class="week-section">
+    <h3>Week of <%= week_start.strftime("%b %d, %Y") %></h3>
+    <div class="proof-grid">
+      <% plans.each do |plan| %>
+        <% plan.proofs.each do |proof| %>
+          <div class="proof-card" 
+               data-action="click->exercise-gallery#openModal" 
+               data-url="<%= url_for(proof) %>"
+               data-plan-status="<%= plan.status %>">
+            <span class="status-label <%= plan.status %>"><%= plan.status.capitalize %></span>
+            <%= image_tag proof, class: "proof-image", loading: "lazy" %>
+            <div class="proof-info">
+              <span class="proof-date"><%= plan.updated_at.strftime("%b %d, %Y") %></span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

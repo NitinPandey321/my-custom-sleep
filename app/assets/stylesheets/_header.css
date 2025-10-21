@@ -224,7 +224,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 0;
+    padding: 3px;
     flex-wrap: wrap;
   }
 
@@ -414,7 +414,7 @@
 
 @media (min-width: 769px) and (max-width: 1199px) {
   .navbar {
-    padding: 0.75rem 0;
+    padding: 3px;
   }
 
   .navbar-logo {
@@ -571,3 +571,4 @@
     right: -2px;
   }
 }
+

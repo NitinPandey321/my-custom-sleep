@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :sleep_records, dependent: :destroy
   has_one :sleep_metric, dependent: :destroy
+  has_many :user_activity_logs, dependent: :destroy
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
@@ -199,6 +200,12 @@ class User < ApplicationRecord
     coaches_with_counts = User.coaches.where(gender: client.gender).map do |coach|
       { coach: coach, client_count: coach.clients.count }
     end.sort_by { |c| [ c[:client_count], c[:coach].id ] }
+
+    if coaches_with_counts.empty?
+      coaches_with_counts = User.coaches.map do |coach|
+        { coach: coach, client_count: coach.clients.count }
+      end.sort_by { |c| [ c[:client_count], c[:coach].id ] }
+    end
 
     # Assign to the coach with the fewest clients
     if coaches_with_counts.any?
