@@ -22,7 +22,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
-  <body class="<%= 'logged-in' if user_signed_in? %>" data-controller="activity">
+  <body
+    class="<%= 'logged-in' if user_signed_in? %>"
+    <% if user_signed_in? && current_user.coach? %>
+      data-controller="activity"
+    <% end %>
+  >
     <header class="app-header">
     </header>
     <main class="main-content oasdas">
