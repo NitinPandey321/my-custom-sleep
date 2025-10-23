@@ -60,7 +60,7 @@ class OuraClient
     get("readiness", start_date:, end_date:)
   end
 
-  def heart_rate(start_datetime: 2.hours.ago, end_datetime: Time.now)
+  def heart_rate(start_datetime: 2.hours.ago, end_datetime: Time.current)
     get("heartrate", start_datetime: start_datetime, end_datetime: end_datetime)
   end
 

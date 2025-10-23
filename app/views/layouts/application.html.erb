@@ -20,6 +20,13 @@
     
     <script src="<%= asset_path('profile_picture.js') %>" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.cookie = `user_time_zone=${tz}; path=/`;
+      });
+    </script>
   </head>
 
   <body
