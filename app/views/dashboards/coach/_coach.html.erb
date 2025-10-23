@@ -17,7 +17,9 @@
         <h3><%= user_to_show.full_name %>
         <span class="coach-role"><%= current_user.client? ? '(Your Coach)' : '' %></span></h3>
         <p class="<%= is_online ? 'status-online' : 'status-offline' %>"><%= is_online ? "Online" : "Offline" %></p>
-        <p class="coach-speciality">Sleep Specialist</p>
+        <% if current_user.client? %>
+          <p class="coach-speciality">Sleep Specialist</p>
+        <% end %>
       </div>
     </div>
 
