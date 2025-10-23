@@ -83,7 +83,7 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ]
   end
 
-  resources :oura_dashboard, only: [ :index ] do
+  resources :oura_dashboard, only: [] do
     collection do
       get :dashboard_v2
       get :sleep_scores
