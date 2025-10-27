@@ -1,8 +1,14 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
+  around_action :use_browser_time_zone
 
   private
+
+  def use_browser_time_zone
+    time_zone = cookies[:user_time_zone].presence || "UTC"
+    time_zone = TimeZoneNormalizer.normalize(time_zone)
+    Time.use_zone(time_zone) { yield }
+  end
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]

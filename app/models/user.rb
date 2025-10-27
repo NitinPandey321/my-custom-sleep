@@ -197,7 +197,7 @@ class User < ApplicationRecord
     return unless client.client? && client.coach.nil?
 
     # Get all coaches with their client counts, sorted by count ascending, then by ID
-    coaches_with_counts = User.coaches.where(gender: client.gender).map do |coach|
+    coaches_with_counts = User.coaches.where(gender: client.preferred_coach_gender).map do |coach|
       { coach: coach, client_count: coach.clients.count }
     end.sort_by { |c| [ c[:client_count], c[:coach].id ] }
 

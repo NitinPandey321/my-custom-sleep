@@ -1,4 +1,6 @@
 class PlansController < ApplicationController
+  before_action :require_login
+
   def create
     @plan = Plan.new(plan_params)
     if @plan.save

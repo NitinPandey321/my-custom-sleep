@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
         role: user.role,
         action: :logged_in,
         auditable: user,
-        details: "User logged in at #{Time.current}",
+        details: "User logged in at #{Time.current} #{Time.zone.name}",
         updated_by: user.id
       )
       redirect_to dashboard_path_for(user.role)
@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
       role: current_user.role,
       action: :logged_out,
       auditable: current_user,
-      details: "User logged out at #{Time.current}",
+      details: "User logged out at #{Time.current} #{Time.zone.name}",
       updated_by: current_user.id
     )
     session[:user_id] = nil

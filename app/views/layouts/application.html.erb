@@ -20,9 +20,21 @@
     
     <script src="<%= asset_path('profile_picture.js') %>" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.cookie = `user_time_zone=${tz}; path=/`;
+      });
+    </script>
   </head>
 
-  <body class="<%= 'logged-in' if user_signed_in? %>" data-controller="activity">
+  <body
+    class="<%= 'logged-in' if user_signed_in? %>"
+    <% if user_signed_in? && current_user.coach? %>
+      data-controller="activity"
+    <% end %>
+  >
     <header class="app-header">
     </header>
     <main class="main-content oasdas">
