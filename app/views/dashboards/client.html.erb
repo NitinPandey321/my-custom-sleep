@@ -7,7 +7,7 @@
     <div class="wellness-cards">
       <% Plan.wellness_pillars.keys.each do |pillar| %>
         <% plans = @plans_by_pillar[pillar] || [] %>
-        <% progress = plans.count > 0 ? (plans.count { |p| p.status != "created" } * 100 / plans.count) : 0 %>
+        <% progress = plans.count > 0 ? (plans.count { |p| !p.status.in?(["created", 'needs_resubmission']) } * 100 / plans.count) : 0 %>
         <div class="wellness-card <%= pillar %> <%= "#{pillar}-card" %>">
           <div class="wellness-card-icon <%= "#{pillar}-icon" %>">
             <%# You can use a helper or hash for icons if you want %>
