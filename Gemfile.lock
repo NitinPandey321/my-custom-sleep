@@ -474,6 +474,7 @@ DEPENDENCIES
   groupdate
   importmap-rails
   jbuilder
+  jwt
   kamal
   kaminari
   letter_opener

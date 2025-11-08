@@ -33,6 +33,18 @@ Rails.application.routes.draw do
     resources :exercise_gallery, only: [ :index ]
   end
 
+  namespace :api do
+    namespace :v1 do
+      resource :sessions, only: [:create, :destroy]
+      resource :registrations, only: [:create]
+      resources :dashboard, only: [:index] do
+        collection do
+          get :coach_dashboard
+        end
+      end
+    end
+  end
+
 
   # Dashboards
   namespace :dashboards do
