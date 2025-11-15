@@ -1,4 +1,12 @@
 class Plan < ApplicationRecord
+  ICONS = {
+        "nutrition"    => "🥗",
+        "supplements"  => "🍽️",
+        "hypnosis"     => "🧘",
+        "caffeine"     => "☕",
+        "exercise"     => "💪"
+      }.freeze
+
   belongs_to :user
   validates :wellness_pillar, presence: true
   validates :details, presence: true
@@ -24,6 +32,10 @@ class Plan < ApplicationRecord
   after_create :log_creation
   after_update :log_status_change
 
+  def proof_required?
+    %w[exercise nutrition].include?(wellness_pillar)
+  end
+
   private
 
   # When coach creates plan
@@ -38,8 +50,15 @@ class Plan < ApplicationRecord
     )
   end
 
+  def exercise_proof_submitted_this_week
+    user.plans.where(wellness_pillar: "exercise")
+              .where(status: :approved)
+              .where("plans.created_at >= ?", 1.week.ago)
+              .select { |plan| plan.proofs.attached? }
+  end
+
   def proof_required_for_specific_pillars
-    if %w[exercise nutrition].include?(wellness_pillar) && !proofs.attached?
+    if proof_required? && !proofs.attached? && exercise_proof_submitted_this_week.empty?
       errors.add(:proof, "is required for this type of plan")
     end
   end

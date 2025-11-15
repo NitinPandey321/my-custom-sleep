@@ -42,6 +42,11 @@ Rails.application.routes.draw do
           get :coach_dashboard
         end
       end
+      resources :plans, only: [:index, :create, :update] do
+        collection do
+          get :clients
+        end
+      end
     end
   end
 
