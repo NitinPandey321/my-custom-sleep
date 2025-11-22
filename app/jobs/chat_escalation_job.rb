@@ -16,6 +16,18 @@ class ChatEscalationJob < ApplicationJob
         partial: "conversations/escalation_popup",
         locals: { conversation: conversation }
       )
+      
+      ActionCable.server.broadcast(
+        "user_#{message.user.id}_mobile",
+        {
+          type: "escalation",
+          conversation_id: conversation.id,
+          message_id: message.id,
+          title: "New escalation",
+          body: "Coach did not reply in time",
+          created_at: message.created_at
+        }
+      )
     end
   end
 end

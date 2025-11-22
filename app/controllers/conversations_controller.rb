@@ -24,10 +24,16 @@ class ConversationsController < ApplicationController
   end
 
   def escalate
+    client = @conversation.conversation_participants.role_client.first&.user
     Turbo::StreamsChannel.broadcast_update_to(
-      "user_#{@conversation.users.where(role: :client).first.id}",
+      "user_#{client.id}",
       target: "escalation_popup",
       partial: "conversations/escalation_waiting"
+    )
+
+    ActionCable.server.broadcast(
+      "user_#{client.id}_mobile",
+      { type: "ESCALATION_WAITING" }
     )
 
     User.coaches.where.not(id: @conversation.coach.id).each do |coach|
@@ -37,14 +43,29 @@ class ConversationsController < ApplicationController
         partial: "conversations/coach_request",
         locals: { conversation: @conversation, client: @conversation.users.where(role: :client).first }
       )
+
+      ActionCable.server.broadcast(
+        "user_#{coach.id}_mobile",
+        {
+          type: "NEW_REQUEST",
+          conversation_id: @conversation.id,
+          client_name: client.full_name
+        }
+      )
     end
   end
 
   def dismiss
+    client = @conversation.conversation_participants.role_client.first&.user
     Turbo::StreamsChannel.broadcast_update_to(
-      "user_#{@conversation.users.where(role: :client).first.id}",
+      "user_#{client.id}",
       target: "escalation_popup",
       html: "" # empties the frame
+    )
+
+    ActionCable.server.broadcast(
+      "user_#{client.id}_mobile",
+      { type: "DISMISS_ESCALATION" }
     )
   end
 
@@ -69,6 +90,11 @@ class ConversationsController < ApplicationController
         target: "coach_request_#{@conversation.id}",
         html: "" # clears request card but keeps container alive
       )
+
+      ActionCable.server.broadcast(
+        "user_#{coach.id}_mobile",
+        { type: "DISMISS_ESCALATION" }
+      )
     end
 
     Turbo::StreamsChannel.broadcast_update_to(
@@ -76,6 +102,11 @@ class ConversationsController < ApplicationController
       target: "escalation_popup",
       partial: "conversations/new_coach_joined",
       locals: { coach: current_user }
+    )
+
+    ActionCable.server.broadcast(
+      "user_#{client_id}_mobile",
+      { type: "COACH_JOINED" }
     )
     respond_to do |format|
       format.turbo_stream do
@@ -94,6 +125,11 @@ class ConversationsController < ApplicationController
       "user_#{current_user.id}",
       target: "coach_request_#{params[:id]}",
       html: "" # clears request card for this coach only
+    )
+
+    ActionCable.server.broadcast(
+      "user_#{current_user.id}_mobile",
+      { type: "DISMISS_ESCALATION" }
     )
   end
 
