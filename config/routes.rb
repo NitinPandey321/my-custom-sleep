@@ -1,6 +1,7 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
   mount Sidekiq::Web => "/sidekiq"
   get "/oura/connect", to: "oura#connect"
   get "/oura/callback", to: "oura#callback"
@@ -46,6 +47,22 @@ Rails.application.routes.draw do
         collection do
           get :clients
         end
+      end
+
+      resources :conversations, only: [:index, :show] do
+        member do
+          post :escalate
+          post :dismiss
+          post :accept_request
+          post :dismiss_request
+          post :mark_as_read
+        end
+
+        collection do
+          get :unread_count
+        end
+
+        resources :messages, only: [:index, :create]
       end
     end
   end
