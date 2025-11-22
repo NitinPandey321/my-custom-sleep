@@ -92,4 +92,7 @@ Rails.application.configure do
     authentication: :plain,
     enable_starttls_auto: true
   }
+
+  config.action_cable.allowed_request_origins = [ 'https://app.mycustomsleepjourney.com' ]
+  config.action_cable.mount_path = "/cable"
 end

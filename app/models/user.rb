@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :sleep_records, dependent: :destroy
   has_one :sleep_metric, dependent: :destroy
   has_many :user_activity_logs, dependent: :destroy
+  has_many :conversation_participants, dependent: :destroy
+  has_many :conversations, through: :conversation_participants
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
@@ -120,21 +122,25 @@ class User < ApplicationRecord
   def unread_messages_count(viewer)
     return 0 if viewer.nil? || self == viewer
 
-    Message.joins(conversation: :users)
-      .where(users: { id: [ id, viewer.id ] })
-      .where.not(user_id: self.id) # exclude viewer's own messages
-      .where(read_at: nil).uniq
-      .count
+    conversation = Conversation.between(self.id, viewer.id)
+    return 0 unless conversation
+
+    conversation.messages
+                .where.not(user_id: self.id) # messages sent by the other user
+                .where(read_at: nil)
+                .count
   end
 
   def mark_messages_as_read(viewer)
-    return if self == viewer
+    return if viewer.nil? || self == viewer
 
-    Message.joins(conversation: :users)
-      .where(users: { id: [ id, viewer.id ] })
-      .where.not(user_id: self.id)
-      .where(read_at: nil)
-      .update_all(read_at: Time.current)
+    conversation = Conversation.between(self.id, viewer.id)
+    return unless conversation
+
+    conversation.messages
+                .where.not(user_id: self.id)
+                .where(read_at: nil)
+                .update_all(read_at: Time.current)
   end
 
   def client?
