@@ -22,6 +22,7 @@ module Api
             profile_picture_url: current_user.profile_picture.attached? ? url_for(current_user.profile_picture) : nil,
             coach: coach_info,
             oura_data: oura_data,
+            oura_connected: current_user.oura_access_token.present?,
             active_plans: active_plans.as_json(only: %i[id wellness_pillar status details created_at])
           }
         }, status: :ok
