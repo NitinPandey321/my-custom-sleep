@@ -64,6 +64,15 @@ Rails.application.routes.draw do
 
         resources :messages, only: [:index, :create]
       end
+      resources :oura, only: [ :index ]
+
+      resources :oura_auth, only: [] do
+        collection do
+          post :session
+          get :connect
+          get :callback
+        end
+      end
     end
   end
 
