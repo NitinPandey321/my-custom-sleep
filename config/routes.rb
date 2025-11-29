@@ -73,6 +73,19 @@ Rails.application.routes.draw do
           get :callback
         end
       end
+
+      resources :passwords, only: [] do
+        collection do
+          post :send_otp
+          post :verify_otp
+          post :reset
+        end
+      end
+      resources :users, only: [ :show, :update ] do
+        collection do
+          put :change_password
+        end
+      end
     end
   end
 
