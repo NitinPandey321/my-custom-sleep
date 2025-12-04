@@ -18,14 +18,28 @@ module Api
           token = JwtService.encode(user_id: user.id)
           render json: {
             token:,
-            user: {
-              id: user.id,
-              email: user.email,
-              role: user.role,
-              name: user.first_name
-            }
+            user: user_response(user)
           }, status: :ok
         end
+      end
+
+      private
+
+      def user_response(user)
+        {
+          id: user.id,
+          email: user.email,
+          name: user.first_name,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          gender: user.gender,
+          preferred_coach_gender: user.preferred_coach_gender,
+          mobile_number: user.mobile_number,
+          country_code: user.country_code,
+          phone_country_iso2: user.phone_country_iso2,
+          profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil,
+          role: user.role
+        }
       end
     end
   end
