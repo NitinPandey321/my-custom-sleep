@@ -10,9 +10,9 @@ module Api
 
         records = @client.sleep_records
                         .where("date >= ?", 21.days.ago.to_date)
-                        .order(:date)
+                        .order(date: :desc)
 
-        labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
+        labels = records.pluck(:date).map { |d| d.strftime("%-m/%-d") }
         sleep_scores = records.pluck(:score)
         todays_score = records.last&.score
 
