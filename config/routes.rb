@@ -86,6 +86,8 @@ Rails.application.routes.draw do
           put :change_password
         end
       end
+
+      resources :exercise_gallery, only: [ :index ]
     end
   end
 
