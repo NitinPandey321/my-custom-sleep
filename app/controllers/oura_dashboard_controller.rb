@@ -29,7 +29,6 @@ class OuraDashboardController < ApplicationController
     records = @client.sleep_records
                         .where("date >= ?", 15.days.ago.to_date)
                         .order(:date)
-
     @sleep_scores = records.pluck(:score)
     @labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
     todays_record = records.last
