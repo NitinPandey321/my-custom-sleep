@@ -2,6 +2,12 @@ module Api
   module V1
     class UsersController < Api::V1::BaseController
 
+      def index
+        render json: { error: "Unauthorized" }, status: :unauthorized and return unless current_user.coach?
+        users = current_user.clients
+        render json: users.map { |user| user_response(user) }, status: :ok
+      end
+
       # GET /api/v1/user
       def show
         render json: user_response(current_user), status: :ok
@@ -71,6 +77,7 @@ module Api
           id: user.id,
           email: user.email,
           name: user.first_name,
+          full_name: user.full_name,
           first_name: user.first_name,
           last_name: user.last_name,
           gender: user.gender,
@@ -79,7 +86,9 @@ module Api
           country_code: user.country_code,
           phone_country_iso2: user.phone_country_iso2,
           profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil,
-          role: user.role
+          role: user.role,
+          oura_connected: user.oura_access_token.present?,
+          latest_sleep_score: user.sleep_records.last&.score
         }
       end
 

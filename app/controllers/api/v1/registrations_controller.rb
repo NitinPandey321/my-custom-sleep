@@ -7,6 +7,7 @@ module Api
         user = User.new(profile_params)
 
         if user.save
+          User.assign_coach_to_client(user)
           token = JwtService.encode(user_id: user.id)
           render json: {
             message: "Account created successfully",

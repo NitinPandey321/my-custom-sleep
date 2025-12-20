@@ -122,7 +122,7 @@
           </svg>
         </div>
         <h3 class="metric-title">Total Sleep</h3>
-        <p class="metric-value"><%= Time.at(@today_sleep["total_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        <p class="metric-value"><%= @today_sleep["total_sleep_duration"] && Time.at(@today_sleep["total_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Duration</p>
       </div>
 
@@ -135,7 +135,7 @@
           </svg>
         </div>
         <h3 class="metric-title">Efficiency</h3>
-        <p class="metric-value"><%= @today_sleep["efficiency"] %>%</p>
+        <p class="metric-value"><%=  @today_sleep["efficiency"] %>%</p>
         <p class="metric-subtitle">Sleep quality</p>
       </div>
 
@@ -152,19 +152,19 @@
 
       <div class="metric-card">
         <h3 class="metric-title">Deep Sleep</h3>
-        <p class="metric-value"><%= Time.at(@today_sleep["deep_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        <p class="metric-value"><%= @today_sleep["deep_sleep_duration"] && Time.at(@today_sleep["deep_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Restorative phase</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">Light Sleep</h3>
-        <p class="metric-value"><%= Time.at(@today_sleep["light_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        <p class="metric-value"><%= @today_sleep["light_sleep_duration"] && Time.at(@today_sleep["light_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Transition phase</p>
       </div>
 
       <div class="metric-card">
         <h3 class="metric-title">REM Sleep</h3>
-        <p class="metric-value"><%= Time.at(@today_sleep["rem_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
+        <p class="metric-value"><%= @today_sleep["rem_sleep_duration"] && Time.at(@today_sleep["rem_sleep_duration"]).utc.strftime("%Hh %Mm") %></p>
         <p class="metric-subtitle">Dream phase</p>
       </div>
 

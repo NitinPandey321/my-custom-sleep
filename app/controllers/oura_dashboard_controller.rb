@@ -29,13 +29,12 @@ class OuraDashboardController < ApplicationController
     records = @client.sleep_records
                         .where("date >= ?", 15.days.ago.to_date)
                         .order(:date)
-
     @sleep_scores = records.pluck(:score)
     @labels = records.pluck(:date).map { |d| d.strftime("%b %e") }
     todays_record = records.last
     @todays_score = todays_record&.score
     @sleep_data = oura.sleep(start_date: Date.yesterday, end_date: Date.current)["data"]
-    @today_sleep = @sleep_data.find { |d| d["day"] == Date.yesterday.to_s }
+    @today_sleep = @sleep_data.find { |d| d["day"] == Date.yesterday.to_s } || {}
   end
 
   private
