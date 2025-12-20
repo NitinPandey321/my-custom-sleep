@@ -34,7 +34,7 @@ class OuraDashboardController < ApplicationController
     todays_record = records.last
     @todays_score = todays_record&.score
     @sleep_data = oura.sleep(start_date: Date.yesterday, end_date: Date.current)["data"]
-    @today_sleep = @sleep_data.find { |d| d["day"] == Date.yesterday.to_s }
+    @today_sleep = @sleep_data.find { |d| d["day"] == Date.yesterday.to_s } || {}
   end
 
   private
