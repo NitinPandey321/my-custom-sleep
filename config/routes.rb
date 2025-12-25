@@ -88,6 +88,10 @@ Rails.application.routes.draw do
       end
 
       resources :exercise_gallery, only: [ :index ]
+
+      # Gamification & Daily Reflection API for mobile clients
+      resource :gamification, only: [:show], controller: 'gamification'
+      resource :daily_reflection, only: [:show, :create], controller: 'daily_reflections'
     end
   end
 
