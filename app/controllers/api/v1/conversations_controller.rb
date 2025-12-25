@@ -8,7 +8,7 @@ module Api
       def index
         conversations = current_user.conversations
           .includes(:users, :messages)
-          .order("messages.created_at DESC NULLS LAST")
+          .order("messages.created_at DESC NULLS LAST").distinct
 
         render json: conversations.map { |c| conversation_json(c) }
       end
