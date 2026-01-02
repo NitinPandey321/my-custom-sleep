@@ -1,0 +1,59 @@
+<%= render "mailers/shared/header",
+    title: "Your New #{@pillar_name} Strategy is Ready",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Dear <strong>Dr. <%= @user.last_name %></strong>,
+  </p>
+
+  <p>
+    Your coach has just published a new tailored strategy within your
+    <strong><%= @pillar_name %></strong> module.
+  </p>
+
+  <p>
+    We know your shift schedule is demanding, so this plan has been specifically
+    designed to integrate into your upcoming routine without adding unnecessary stress.
+  </p>
+
+  <p style="margin-top: 20px; font-weight: bold;">
+    What’s inside your updated plan:
+  </p>
+
+  <ul style="padding-left: 20px;">
+    <li>
+      <strong>Targeted Actions:</strong>
+      Specific steps for your next 24–48 hours.
+    </li>
+    <li>
+      <strong>Biometric Focus:</strong>
+      How this plan will help stabilize your Oura scores.
+    </li>
+    <li>
+      <strong>Adherence Requirements:</strong>
+      Details on the proof you’ll need to upload to stay on track.
+    </li>
+  </ul>
+
+  <p style="margin-top: 20px;">
+    <strong>Next Step:</strong><br>
+    Please log in to the Custom Sleep Journey dashboard to review the instructions
+    and prepare for your next shift.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "View My New Plan",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    To your health and recovery,<br>
+    <strong style="color:#0e3264;">The My Custom Sleep Journey Team</strong>
+  </p>
+
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This email was sent to #{@user.email}",
+    company_name: "My Custom Sleep Journey" %>

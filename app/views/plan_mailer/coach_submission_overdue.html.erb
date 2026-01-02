@@ -1,0 +1,47 @@
+<%= render "mailers/shared/header",
+    title: "Submission Review Overdue",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>Hello Coach <strong><%= @coach.last_name %></strong>,</p>
+
+  <p>
+    This is an automated priority alert. The proof submitted by
+    <strong><%= @client.full_name %></strong> has remained unreviewed for over
+    <strong><%= @elapsed_hours %> hours</strong>.
+  </p>
+
+  <p>
+    As our clients are medical professionals working high-stress shifts, they rely
+    on rapid feedback to adjust their daily pillars. Delayed feedback can disrupt
+    their biological timing and decrease engagement with the program.
+  </p>
+
+  <p style="margin-top: 20px; font-weight:bold;">Action Required:</p>
+  <p>
+    Please review the pending submission immediately to maintain our service standard
+    and ensure the client remains on track with their recovery plan.
+  </p>
+
+  <ul>
+    <li><strong>Client:</strong> <%= @client.full_name %></li>
+    <li><strong>Pillar:</strong> <%= @pillar_name %></li>
+    <li><strong>Time Elapsed:</strong> <%= @elapsed_hours %> Hours</li>
+  </ul>
+
+  <%= render "mailers/shared/button",
+      text: "Review Submission Now",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    Thank you for your prompt attention.<br>
+    <strong style="color:#0e3264;">
+      My Custom Sleep Journey Admin System
+    </strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This is an automated reminder. No reply is required.",
+    company_name: "My Custom Sleep Journey" %>

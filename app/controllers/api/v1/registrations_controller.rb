@@ -36,7 +36,7 @@ module Api
       end
 
       def format_errors(errors)
-        errors.to_hash.transform_values { |msg| msg.join(', ') }
+        errors.to_hash.transform_values { |msg| msg.join(", ") }
       end
     end
   end

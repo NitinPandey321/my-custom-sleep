@@ -16,7 +16,7 @@ class ChatEscalationJob < ApplicationJob
         partial: "conversations/escalation_popup",
         locals: { conversation: conversation }
       )
-      
+
       ActionCable.server.broadcast(
         "user_#{message.user.id}_mobile",
         {

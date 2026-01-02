@@ -1,0 +1,51 @@
+<%= render "mailers/shared/header",
+    title: "Achievement Unlocked!",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>Dear Dr. <strong><%= @user.last_name %></strong>,</p>
+
+  <p>
+    Hard work and consistency deserve recognition. We are thrilled to announce
+    that you have officially earned the <strong><%= @badge_name %></strong> badge!
+  </p>
+
+  <p>
+    This milestone is a testament to your dedication to your health, despite
+    the challenges of your demanding medical schedule. Whether it’s hitting
+    a streak of perfect nutrition or consistently syncing your Oura data, you
+    are making measurable progress toward peak recovery.
+  </p>
+
+  <h3>Your Progress Snapshot:</h3>
+  <ul>
+    <li><strong>New Badge:</strong> <%= @badge_name %></li>
+    <li><strong>Milestone Achieved:</strong> <%= @milestone %></li>
+    <li><strong>Total Badges Earned:</strong> <%= @total_badges %></li>
+  </ul>
+
+  <p style="margin-top: 20px; font-weight: bold;">
+    Keep the Momentum Going:
+  </p>
+
+  <p>
+    Log in to your dashboard to view your trophy case and see what’s next on your journey
+    to better sleep and performance.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "View My Achievements",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    Congratulations on this achievement!<br>
+    <strong style="color:#0e3264;">
+      The My Custom Sleep Journey Team
+    </strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This is an automated notification. No reply is required.",
+    company_name: "My Custom Sleep Journey" %>

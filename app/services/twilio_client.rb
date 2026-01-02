@@ -10,6 +10,8 @@ class TwilioClient
 
   # Send SMS
   def self.send_sms(to:, body:)
+    return nil unless to.include?("+1") # Only US/Canada numbers supported
+
     client.messages.create(
       from: ENV["TWILIO_PHONE_NUMBER"],
       to: to,

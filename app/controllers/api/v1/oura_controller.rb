@@ -61,9 +61,9 @@ module Api
       def set_client
         @client = if current_user.role == "coach"
                     current_user.clients.find(params[:client_id])
-                  else
+        else
                     current_user
-                  end
+        end
       end
 
       def human_duration(seconds)
@@ -75,18 +75,18 @@ module Api
       end
 
       def format_improvement(value)
-        sign = value > 0 ? '+' : ''
+        sign = value > 0 ? "+" : ""
         "#{sign}#{value.round(1)}%"
       end
 
       def compute_program_status(improvement)
         case improvement
         when -Float::INFINITY...10
-          { status: "needs_attention", label: "🚨 Needs Attention", progress_to_25: [(improvement / 25.0 * 100).round, 100].min, progress_color: "#ef4444" }
+          { status: "needs_attention", label: "🚨 Needs Attention", progress_to_25: [ (improvement / 25.0 * 100).round, 100 ].min, progress_color: "#ef4444" }
         when 10...25
-          { status: "on_the_way", label: "⚠️ On the Way", progress_to_25: [(improvement / 25.0 * 100).round, 100].min, progress_color: "#f59e42" }
+          { status: "on_the_way", label: "⚠️ On the Way", progress_to_25: [ (improvement / 25.0 * 100).round, 100 ].min, progress_color: "#f59e42" }
         when 25...50
-          { status: "great_progress", label: "🌟 Great Progress", progress_to_50: [(improvement / 50.0 * 100).round, 100].min, progress_color: "#22c55e" }
+          { status: "great_progress", label: "🌟 Great Progress", progress_to_50: [ (improvement / 50.0 * 100).round, 100 ].min, progress_color: "#22c55e" }
         else
           { status: "outstanding", label: "🏆 Outstanding", progress_to_50: 100, progress_color: "#2563eb" }
         end

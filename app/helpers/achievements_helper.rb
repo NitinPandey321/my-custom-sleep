@@ -1,10 +1,10 @@
 module AchievementsHelper
   REST_LEVELS = {
-    rest_resident: { icon: "🌙", title: "Rest Resident" },
-    sleep_scholar: { icon: "📚", title: "Sleep Scholar" },
-    circadian_champion: { icon: "🏆", title: "Circadian Champion" },
-    chief_rest_officer: { icon: "👑", title: "Chief Rest Officer" },
-    recovery_luminary: { icon: "⭐", title: "Recovery Luminary" }
+    rest_resident: { icon: "🌙", title: "Rest Resident", total_earned: 1, milestone_description: "Complete 1 plan" },
+    sleep_scholar: { icon: "📚", title: "Sleep Scholar", total_earned: 2, milestone_description: "Complete 2 plans" },
+    circadian_champion: { icon: "🏆", title: "Circadian Champion", total_earned: 3, milestone_description: "Complete 3 plans" },
+    chief_rest_officer: { icon: "👑", title: "Chief Rest Officer", total_earned: 4, milestone_description: "Complete 4 plans" },
+    recovery_luminary: { icon: "⭐", title: "Recovery Luminary", total_earned: 5, milestone_description: "Complete 5 plans" }
   }
 
   def rest_levels

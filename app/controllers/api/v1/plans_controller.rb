@@ -16,7 +16,7 @@ module Api
       end
 
       def client_plans
-        active_plans = @plans.where(status: [:created, :needs_resubmission])
+        active_plans = @plans.where(status: [ :created, :needs_resubmission ])
         all_plans = @plans.where.not(status: :created)
         exercise_proof_submitted_this_week = @plans
                                               .where(wellness_pillar: "exercise")
@@ -31,7 +31,7 @@ module Api
       end
 
       def coach_plans
-        active_plans = @plans.where(status: [:pending])
+        active_plans = @plans.where(status: [ :pending ])
         all_plans = @plans.where.not(status: :pending)
         render json: {
           active_plans: active_plans.map { |plan| json_response(plan) },
@@ -83,9 +83,9 @@ module Api
       def set_plan
         @plans = if current_user.role == "coach"
                     Plan.joins(:user).where(users: { id: current_user.clients.ids }).order(created_at: :desc)
-                  else
+        else
                     current_user.plans.order(created_at: :desc)
-                  end
+        end
       end
 
       def plan_params

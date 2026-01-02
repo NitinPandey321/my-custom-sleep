@@ -1,7 +1,6 @@
 module Api
   module V1
     class ExerciseGalleryController < Api::V1::BaseController
-
       PLANS_PER_PAGE = 2
 
       def index

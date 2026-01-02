@@ -1,7 +1,6 @@
 module Api
   module V1
     class UsersController < Api::V1::BaseController
-
       def index
         render json: { error: "Unauthorized" }, status: :unauthorized and return unless current_user.coach?
         users = current_user.clients

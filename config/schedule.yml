@@ -21,3 +21,27 @@ sleep_sync_job:
   class: "OuraSleepSyncJob"
   queue: default
   description: "Oura sleep sync job"
+
+plan_proof_upload_reminder_job:
+  cron: "*/10 * * * *"   # every 10 minutes
+  class: "PlanProofUploadReminderJob"
+  queue: default
+  description: "Send email reminder when 1 hour is left to upload plan proof"
+
+plan_overdue_notification_job:
+  cron: "0 * * * *"   # Run at the top of every hour
+  class: "PlanOverdueNotificationJob"
+  queue: default
+  description: "Check pending plans for overdue submissions and send coach/admin emails"
+
+# critical_recovery_alert_job:
+#   cron: "0 8 * * *"   # Every day at 8:00 AM
+#   class: "CriticalRecoveryAlertJob"
+#   queue: default
+#   description: "Send urgent recovery alerts to users with critical Oura scores"
+
+app_inactivity_alert_job:
+  cron: "0 9 * * *"   # Every day at 9:00 AM
+  class: "AppInactivityAlertJob"
+  queue: default
+  description: "Send SMS to users inactive in the app for 3 days"

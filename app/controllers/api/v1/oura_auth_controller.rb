@@ -1,7 +1,7 @@
 module Api
   module V1
     class Api::V1::OuraAuthController < Api::V1::BaseController
-      skip_before_action :authenticate_user!, only: [:callback, :connect]
+      skip_before_action :authenticate_user!, only: [ :callback, :connect ]
 
       def session
         token = SecureRandom.hex(32)
