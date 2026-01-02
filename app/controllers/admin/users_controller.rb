@@ -33,7 +33,7 @@ class Admin::UsersController < Admin::ApplicationController
     end
 
     @user.define_singleton_method(:avg_daily_time_spent_minutes) do
-      user_activity_logs.group(:date).sum(:total_seconds).values.sum / [user_activity_logs.select(:date).distinct.count, 1].max / 60.0
+      user_activity_logs.group(:date).sum(:total_seconds).values.sum / [ user_activity_logs.select(:date).distinct.count, 1 ].max / 60.0
     end
   end
 

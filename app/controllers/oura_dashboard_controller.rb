@@ -1,6 +1,6 @@
 class OuraDashboardController < ApplicationController
   before_action :require_login
-  before_action :set_client, only: [:dashboard_v2, :sleep_scores ]
+  before_action :set_client, only: [ :dashboard_v2, :sleep_scores ]
 
   def sleep_scores
     range = params[:range]

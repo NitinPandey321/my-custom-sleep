@@ -2,7 +2,7 @@ module Api
   module V1
     class PasswordsController < Api::V1::BaseController
       skip_before_action :authenticate_user!
-      before_action :find_user, only: [:send_otp, :verify_otp, :reset]
+      before_action :find_user, only: [ :send_otp, :verify_otp, :reset ]
 
       # Step 1: Send OTP
       def send_otp
@@ -74,7 +74,7 @@ module Api
 
       def find_user
         @user = User.find_by(email: params[:email]&.downcase)
-        return render json: { error: "Account not found" }, status: :ok unless @user
+        render json: { error: "Account not found" }, status: :ok unless @user
       end
     end
   end

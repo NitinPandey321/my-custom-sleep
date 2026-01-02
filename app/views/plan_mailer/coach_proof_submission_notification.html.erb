@@ -1,0 +1,48 @@
+<%= render "mailers/shared/header",
+    title: "Action Required: New Proof Submission",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Hello Coach <strong><%= @coach.last_name %></strong>,
+  </p>
+
+  <p>
+    Your client, <strong><%= @client.full_name %></strong>, has just submitted
+    proof for their <strong><%= @pillar_name %></strong> task.
+  </p>
+
+  <p>
+    Consistent monitoring is vital to their progress, especially with their
+    current shift schedule. Please review the submission to ensure it aligns
+    with the protocol and provides the necessary data for their Sleep Journey.
+  </p>
+
+  <p style="margin-top: 20px; font-weight: bold;">
+    Submission Details:
+  </p>
+
+  <ul>
+    <li><strong>Client:</strong> <%= @client.full_name %></li>
+    <li><strong>Pillar:</strong> <%= @pillar_name %></li>
+    <li><strong>Submitted At:</strong>
+      <%= @submitted_at.strftime("%d %b %Y, %I:%M %p") %>
+    </li>
+  </ul>
+
+  <%= render "mailers/shared/button",
+      text: "Review Submission",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    Best regards,<br>
+    <strong style="color:#0e3264;">
+      My Custom Sleep Journey Admin System
+    </strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This is an automated system notification.",
+    company_name: "My Custom Sleep Journey" %>

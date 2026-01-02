@@ -8,7 +8,7 @@ module Api
         mood_options = DailyReflection::MOODS.map { |key, label| { key: key, label: label } }
 
         if reflection
-          render json: { reflection: reflection.as_json(only: [:id, :mood, :note, :reflection_date]), mood_options: mood_options }
+          render json: { reflection: reflection.as_json(only: [ :id, :mood, :note, :reflection_date ]), mood_options: mood_options }
         else
           render json: { reflection: nil, mood_options: mood_options }
         end
@@ -18,7 +18,7 @@ module Api
         reflection = current_user.daily_reflections.new(reflection_params)
         reflection.reflection_date = Date.current
         if reflection.save
-          render json: reflection.as_json(only: [:id, :mood, :note, :reflection_date]), status: :created
+          render json: reflection.as_json(only: [ :id, :mood, :note, :reflection_date ]), status: :created
         else
           render json: { errors: reflection.errors.full_messages }, status: :unprocessable_entity
         end
@@ -33,9 +33,9 @@ module Api
       def set_client
         @client = if current_user.role == "coach"
                     current_user.clients.find(params[:client_id])
-                  else
+        else
                     current_user
-                  end
+        end
       end
     end
   end

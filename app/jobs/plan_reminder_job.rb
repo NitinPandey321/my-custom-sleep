@@ -24,10 +24,7 @@ class PlanReminderJob
   def send_reminder(plan)
     user = plan.user
     return unless user.full_phone.present?
-    return unless user.country_code == "+1"
-
     full_url = "#{ENV['BASE_URL']}/dashboards/client"
-
     message = "Hi #{user.full_name}, yo ur plan for #{plan.wellness_pillar} is due in #{plan.reminder_time} hours. Complete it here: #{full_url}"
 
     TwilioClient.send_sms(to: user.full_phone, body: message)

@@ -1,4 +1,5 @@
 class Plan < ApplicationRecord
+  include AchievementsHelper
   ICONS = {
         "nutrition"    => "🥗",
         "supplements"  => "🍽️",
@@ -48,6 +49,7 @@ class Plan < ApplicationRecord
       details: "Plan created for #{user.email} in #{wellness_pillar}",
       updated_by: user.coach_id
     )
+    PlanMailer.plan_ready(user, self).deliver_later
   end
 
   def exercise_proof_submitted_this_week
@@ -89,7 +91,7 @@ class Plan < ApplicationRecord
           updated_by: user.id
         )
       end
-
+      PlanMailer.coach_proof_submission_notification(user.coach, self, Time.current).deliver_later
     when "approved"
       AuditLog.create!(
         user: user,
@@ -99,11 +101,17 @@ class Plan < ApplicationRecord
         details: "Coach approved client’s plan",
         updated_by: user.coach_id
       )
+      message = """
+      Great work, Dr. #{user.full_name}! Your #{wellness_pillar} proof has been approved.
+      You’re one step closer to better recovery. Keep it up! #{ENV['BASE_URL']}/dashboards/client
+      """
+      TwilioClient.send_sms(to: user.full_phone, body: message)
 
       if client_submitted_at.present? && duration && client_submitted_at <= duration
         user.plan_streak += 1
         user.longest_plan_streak = [ user.longest_plan_streak, user.plan_streak ].max
         user.save!
+        PlanMailer.achievement_unlocked(user, rest_levels[user.rest_level.to_sym]).deliver_later
       else
         user.update!(plan_streak: 0)
       end
@@ -116,6 +124,13 @@ class Plan < ApplicationRecord
         details: "Coach requested resubmission (reason: #{resubmission_reason})",
         updated_by: user.coach_id
       )
+      message = """
+      Hi Dr. #{user.full_name}, your #{wellness_pillar} proof was not approved.
+      Please check the coach's feedback and re-upload here:
+      #{ENV['BASE_URL']}/dashboards/client
+      Let’s get this back on track!
+      """
+      TwilioClient.send_sms(to: user.full_phone, body: message)
     end
   end
 end

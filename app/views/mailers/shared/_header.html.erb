@@ -1,0 +1,11 @@
+<div style="padding: 30px; text-align: center;">
+  <%= image_tag "my-custom-logo.jpeg",
+        alt: defined?(company_name) ? company_name : "My Custom Sleep Journey",
+        style: "max-width: 180px; height: auto;" %>
+
+  <% if title.present? %>
+    <h1 style="color:#0e3264; font-size:24px; margin:20px 0 0;">
+      <%= title %>
+    </h1>
+  <% end %>
+</div>

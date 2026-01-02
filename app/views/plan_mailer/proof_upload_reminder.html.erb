@@ -1,0 +1,55 @@
+<%= render "mailers/shared/header",
+    title: "Action Required: 1 Hour Left",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Dear <strong>Dr. <%= @user.last_name %></strong>,
+  </p>
+
+  <p>
+    This is an automated reminder that the window for your current
+    <strong><%= @pillar_name %></strong> task is closing soon.
+  </p>
+
+  <p>
+    To maintain the integrity of your data and stay aligned with your custom
+    strategy, please upload your proof within the next
+    <strong>60 minutes</strong>.
+    Consistent adherence is the key to seeing improvements in your
+    Oura recovery scores.
+  </p>
+
+  <p style="margin-top: 20px; font-weight: bold;">
+    How to complete this:
+  </p>
+
+  <ol style="padding-left: 20px;">
+    <li>Open the Custom Sleep Journey app</li>
+    <li>Go to the <strong><%= @pillar_name %></strong> section</li>
+    <li>Snap a photo or upload your screenshot and tap <strong>Submit</strong></li>
+  </ol>
+
+  <p style="margin-top: 15px; font-size: 14px; color: #555;">
+    <strong>Note:</strong>
+    If you are currently in an emergency or surgical procedure,
+    please disregard this reminder and update your coach as soon as
+    you are off-shift.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "Upload Proof Now",
+      url: @upload_url %>
+
+  <p style="margin-top: 25px;">
+    Stay on track,<br>
+    <strong style="color:#0e3264;">
+      The My Custom Sleep Journey Team
+    </strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This is an automated reminder. No reply is required.",
+    company_name: "My Custom Sleep Journey" %>

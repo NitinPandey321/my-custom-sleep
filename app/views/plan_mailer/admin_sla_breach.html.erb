@@ -1,0 +1,45 @@
+<%= render "mailers/shared/header",
+    title: "SLA Breach Notification",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>Attention Admin,</p>
+
+  <p>
+    This is an automated notification of a Service Level Agreement (SLA) breach.
+    A submission from <strong>Dr. <%= @client.last_name %></strong> has remained
+    unreviewed for more than <strong><%= @delay_hours %> hours</strong>.
+    This exceeds our maximum response time and may negatively impact the client's
+    experience and their health protocol adherence.
+  </p>
+
+  <h3>Breach Details:</h3>
+  <ul>
+    <li><strong>Assigned Coach:</strong> <%= @coach.full_name %></li>
+    <li><strong>Client Name:</strong> <%= @client.full_name %></li>
+    <li><strong>Pillar Task:</strong> <%= @pillar_name %></li>
+    <li><strong>Delay Duration:</strong> <%= @delay_hours %>+ Hours</li>
+  </ul>
+
+  <p style="margin-top: 20px; font-weight:bold;">Required Action:</p>
+  <p>
+    Please investigate the status of this coach immediately. You may need to manually
+    approve the proof or reassign the task to ensure the client is not neglected.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "Open Admin Dashboard",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    Thank you for your attention.<br>
+    <strong style="color:#0e3264;">
+      My Custom Sleep Journey Quality Control System
+    </strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This is an automated notification. No reply is required.",
+    company_name: "My Custom Sleep Journey" %>

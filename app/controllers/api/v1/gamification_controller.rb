@@ -8,7 +8,7 @@ module Api
         user = @client
         current = current_level_info(user)
         nxt = next_level_info(user)
-        progress_percent = [((user.on_time_weeks.to_f / 2) * 100), 100].min
+        progress_percent = [ ((user.on_time_weeks.to_f / 2) * 100), 100 ].min
 
         badges = rest_levels.map do |key, level|
           {
@@ -32,9 +32,9 @@ module Api
       def set_client
         @client = if current_user.role == "coach"
                     current_user.clients.find(params[:client_id])
-                  else
+        else
                     current_user
-                  end
+        end
       end
     end
   end

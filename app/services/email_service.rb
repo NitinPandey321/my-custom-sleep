@@ -1,78 +1,52 @@
 class EmailService
-  def self.send_welcome_email(user)
-    return unless user.role == "client"
+  EMAILS = {
+    welcome: {
+      subject: "Welcome to My Custom Sleep Journey",
+      mailer: ->(user, _) { UserMailer.welcome_email(user) }
+    },
+    verification: {
+      subject: "Please verify your new email address",
+      mailer: ->(user, new_email) { UserMailer.verification_email(user, new_email) }
+    }
+  }.freeze
 
-    begin
-      # Check if SMTP is properly configured
-      if smtp_configured?
-        UserMailer.welcome_email(user).deliver_now
-        Rails.logger.info "✓ Welcome email sent successfully to #{user.email} via SMTP"
-      else
-        # Fallback to letter_opener for development
-        Rails.logger.warn "⚠ SMTP not configured, using letter_opener fallback"
-        configure_letter_opener_fallback
-        UserMailer.welcome_email(user).deliver_now
-        Rails.logger.info "✓ Welcome email opened in browser for #{user.email}"
-      end
+  class << self
+    def send_welcome_email(user)
+      return false unless user&.role == "client"
 
-      # Log successful email only if user is persisted (has an ID)
-      if user.persisted?
-        EmailLog.create!(
-          user: user,
-          email_type: "welcome",
-          subject: "Welcome to My Custom Sleep Journey",
-          status: "sent",
-          sent_at: Time.current
-        )
-      end
+      send_email(user: user, type: :welcome)
+    end
+
+    def send_verification_email(user, new_email)
+      send_email(user: user, type: :verification, extra_arg: new_email)
+    end
+
+    private
+
+    def send_email(user:, type:, extra_arg: nil)
+      config = EMAILS.fetch(type)
+
+      config[:mailer].call(user, extra_arg).deliver_now
+      log_email(user, type, config[:subject], "sent")
 
       true
     rescue => e
-      # Log failed email only if user is persisted (has an ID)
-      if user.persisted?
-        EmailLog.create!(
-          user: user,
-          email_type: "welcome",
-          subject: "Welcome to My Custom Sleep Journey",
-          status: "failed",
-          sent_at: Time.current,
-          error_message: e.message
-        )
-      end
-
-      Rails.logger.error "✗ Failed to send welcome email to #{user.email}: #{e.message}"
+      log_email(user, type, config[:subject], "failed", e.message)
+      Rails.logger.error "✗ Failed to send #{type} email: #{e.message}"
       false
     end
-  end
 
-  def self.send_verification_email(user, new_email)
-    begin
-      if smtp_configured?
-        UserMailer.verification_email(user, new_email).deliver_now
-        Rails.logger.info "✓ Verification email sent successfully to #{new_email} via SMTP"
-      else
-        Rails.logger.warn "⚠ SMTP not configured, using letter_opener fallback"
-        configure_letter_opener_fallback
-        UserMailer.verification_email(user, new_email).deliver_now
-        Rails.logger.info "✓ Verification email opened in browser for #{new_email}"
-      end
+    def log_email(user, type, subject, status, error = nil)
+      return unless user&.persisted?
 
-      true
-    rescue => e
-      Rails.logger.error "✗ Failed to send verification email to #{new_email}: #{e.message}"
-      false
+      EmailLog.create!(
+        user: user,
+        email_type: type,
+        subject: subject,
+        status: status,
+        sent_at: Time.current,
+        error_message: error
+      )
     end
-  end
-
-  private
-
-  def self.smtp_configured?
-    ENV["GMAIL_USERNAME"].present? &&
-    ENV["GMAIL_APP_PASSWORD"].present? &&
-    ENV["GMAIL_APP_PASSWORD"] != "temp_password_for_testing"
-  end
-
-  def self.configure_letter_opener_fallback
-    ActionMailer::Base.delivery_method = :letter_opener
   end
 end

@@ -1,8 +1,8 @@
 module Api
   module V1
     class ConversationsController < Api::V1::BaseController
-      before_action :set_conversation, only: 
-      [:show, :escalate, :dismiss, :accept_request, :dismiss_request, :mark_as_read]
+      before_action :set_conversation, only:
+      [ :show, :escalate, :dismiss, :accept_request, :dismiss_request, :mark_as_read ]
 
       # GET /api/v1/conversations
       def index
@@ -193,7 +193,7 @@ module Api
             name: other&.full_name,
             role: other&.role,
             online: other&.online?,
-            profile_picture_url: other&.profile_picture.attached? ? url_for(other.profile_picture) : nil,
+            profile_picture_url: other&.profile_picture.attached? ? url_for(other.profile_picture) : nil
           },
           last_message: last_message&.body,
           last_message_at: last_message&.created_at,
