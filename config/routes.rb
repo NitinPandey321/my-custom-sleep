@@ -81,7 +81,7 @@ Rails.application.routes.draw do
           post :reset
         end
       end
-      resources :users, only: [:index, :show, :update ] do
+      resources :users, only: [:index, :show, :update, :destroy ] do
         collection do
           put :change_password
         end

@@ -29,8 +29,8 @@ class SleepMetricsCalculatorService
       baseline_start: baseline_records.first.date,
       baseline_end: baseline_records.last.date,
       current_avg_score: current_score,
-      current_start: current_records.first.date,
-      current_end: current_records.last.date,
+      current_start: current_records.first&.date || Date.current,
+      current_end: current_records.last&.date || Date.current,
       improvement: improvement_pct,
       calculated_at: Time.current
     )

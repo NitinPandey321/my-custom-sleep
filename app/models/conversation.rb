@@ -19,6 +19,9 @@ class Conversation < ApplicationRecord
   end
 
   def self.new_conversation(sender_id:, recipient_id:)
+    existing = between(sender_id, recipient_id)
+    return existing if existing
+
     Conversation.create!(conversation_participants: [
       ConversationParticipant.new(user_id: sender_id, role: User.user_role(sender_id)),
       ConversationParticipant.new(user_id: recipient_id, role: User.user_role(recipient_id))
