@@ -12,13 +12,14 @@ class User < ApplicationRecord
   has_many :user_activity_logs, dependent: :destroy
   has_many :conversation_participants, dependent: :destroy
   has_many :conversations, through: :conversation_participants
+  has_many :audit_logs, dependent: :nullify
 
   # ActiveStorage association for profile picture
   has_one_attached :profile_picture
 
   # Coach-Client relationships
   belongs_to :coach, class_name: "User", optional: true
-  has_many :clients, class_name: "User", foreign_key: "coach_id"
+  has_many :clients, class_name: "User", foreign_key: "coach_id", dependent: :nullify
 
   validates :first_name, presence: { message: "First name is required." },
                         format: { with: /\A[a-zA-Z\-'\s]+\z/, message: "First name can only contain letters, hyphens, and apostrophes." },

@@ -60,6 +60,10 @@ class Plan < ApplicationRecord
   end
 
   def proof_required_for_specific_pillars
+    if status_change == ["pending", "needs_resubmission"]
+      return
+    end
+
     if proof_required? && !proofs.attached? && exercise_proof_submitted_this_week.empty?
       errors.add(:proof, "is required for this type of plan")
     end

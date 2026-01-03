@@ -62,6 +62,20 @@ module Api
         end
       end
 
+      def destroy
+        user = current_user
+        clients = user.clients.to_a
+
+        User.transaction do
+          user.destroy!
+        end
+        clients.each do |client|
+          client.reload
+          User.assign_coach_to_client(client)
+        end
+        render json: { message: "Account deleted successfully." }, status: :ok
+      end
+
       private
 
       def user_update_params

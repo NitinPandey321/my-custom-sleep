@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
       id: 'baselineLine',
       afterDraw: (chart) => {
         const { ctx, chartArea: { left, right }, scales: { y } } = chart;
-        const baseline = <%= @sleep_metric&.baseline_score %>;
+        const baseline = <%= @sleep_metric&.baseline_score %>
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(left, y.getPixelForValue(baseline));
