@@ -1,5 +1,4 @@
 class Plan < ApplicationRecord
-  include AchievementsHelper
   ICONS = {
         "nutrition"    => "🥗",
         "supplements"  => "🍽️",
@@ -115,7 +114,6 @@ class Plan < ApplicationRecord
         user.plan_streak += 1
         user.longest_plan_streak = [ user.longest_plan_streak, user.plan_streak ].max
         user.save!
-        PlanMailer.achievement_unlocked(user, rest_levels[user.rest_level.to_sym]).deliver_later
       else
         user.update!(plan_streak: 0)
       end

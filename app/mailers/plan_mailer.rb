@@ -36,9 +36,9 @@ class PlanMailer < ApplicationMailer
 
   def achievement_unlocked(user, badge)
     @user = user
-    @badge_name = badge.title
-    @milestone = badge.milestone_description
-    @total_badges = badge.total_earned
+    @badge_name = badge[:title]
+    @milestone = badge[:milestone_description]
+    @total_badges = badge[:total_earned]
     @dashboard_url = "#{ENV['BASE_URL']}/dashboards/client"
 
     mail(
