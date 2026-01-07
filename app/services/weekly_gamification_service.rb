@@ -35,6 +35,7 @@ class WeeklyGamificationService
     if @user.on_time_weeks >= PROMOTION_THRESHOLD && @user.rest_level_before_type_cast < User.rest_levels.values.max
       @user.rest_level = @user.rest_level_before_type_cast + 1
       @user.on_time_weeks = 0
+      PlanMailer.achievement_unlocked(@user, User.rest_levels[@user.rest_level.to_sym]).deliver_later
       AuditLog.create!(user: @user, role: "client", action: :level_up, details: "Promoted to #{@user.level_name}", updated_by: @user.id)
     end
 
