@@ -1,0 +1,39 @@
+<%= render "mailers/shared/header",
+    title: "Proof Feedback — Action Required",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Dear <strong>Dr. <%= @user.last_name %></strong>,
+  </p>
+
+  <p>
+    Your recent proof submission for the
+    <strong><%= @pillar_name %></strong> module has been reviewed, but was not approved.
+  </p>
+
+  <p>
+    No worries — your coach has shared feedback so you can adjust and upload again.
+    These refinements are part of the journey toward stronger recovery habits.
+  </p>
+
+  <p style="margin-top: 20px;">
+    <strong>Next Step:</strong><br>
+    Review the comments and re-upload your proof when you’re ready.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "Re-Upload Proof",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    You’ve got this,<br>
+    <strong style="color:#0e3264;">The My Custom Sleep Journey Team</strong>
+  </p>
+
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This email was sent to #{@user.email}",
+    company_name: "My Custom Sleep Journey" %>

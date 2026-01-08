@@ -1,0 +1,40 @@
+<%= render "mailers/shared/header",
+    title: "We Missed You in the App",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Dear <strong>Dr. <%= @user.last_name %></strong>,
+  </p>
+
+  <p>
+    We hope you’re doing well. We noticed it’s been a little while since you logged into the app and continued your personalized sleep journey.
+  </p>
+
+  <p>
+    We completely understand—long shifts and busy schedules can pull your attention away. When you’re ready, your plan is waiting, and we’ll guide you every step of the way.
+  </p>
+
+  <p style="margin-bottom: 30px;">
+    Tap below to pick up where you left off:
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "Resume My Plan",
+      url: @dashboard_url %>
+
+  <p>
+    If you ever have questions or need support, we’re always here to help.
+  </p>
+
+  <p>
+    Wishing you restful sleep ahead,  
+    <br>
+    <strong>The My Custom Sleep Journey Team</strong>
+  </p>
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This email was sent to #{@user.email}",
+    company_name: "My Custom Sleep Journey" %>

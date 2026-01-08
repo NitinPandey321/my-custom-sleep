@@ -23,7 +23,8 @@ class AppInactivityAlertJob
               "We’ve missed you in the app! Take a moment to check your plan and stay on track: #{dashboard_url}. " \
               "We’re here if you need us."
 
-    TwilioClient.send_sms(to: user.full_phone, body: message)
+    # TwilioClient.send_sms(to: user.full_phone, body: message)
+    UserMailer.inactivity_reminder(user).deliver_later
 
     Rails.logger.info "Sent inactivity alert to #{user.full_phone} (User ##{user.id})"
   end

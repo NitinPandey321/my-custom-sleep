@@ -59,7 +59,7 @@ class Plan < ApplicationRecord
   end
 
   def proof_required_for_specific_pillars
-    if status_change == ["pending", "needs_resubmission"]
+    if status_change == [ "pending", "needs_resubmission" ]
       return
     end
 
@@ -108,7 +108,8 @@ class Plan < ApplicationRecord
       Great work, Dr. #{user.full_name}! Your #{wellness_pillar} proof has been approved.
       You’re one step closer to better recovery. Keep it up! #{ENV['BASE_URL']}/dashboards/client
       """
-      TwilioClient.send_sms(to: user.full_phone, body: message)
+      # TwilioClient.send_sms(to: user.full_phone, body: message)
+      PlanMailer.proof_approved(user, self).deliver_later
 
       if client_submitted_at.present? && duration && client_submitted_at <= duration
         user.plan_streak += 1
@@ -132,7 +133,8 @@ class Plan < ApplicationRecord
       #{ENV['BASE_URL']}/dashboards/client
       Let’s get this back on track!
       """
-      TwilioClient.send_sms(to: user.full_phone, body: message)
+      # TwilioClient.send_sms(to: user.full_phone, body: message)
+      PlanMailer.proof_rejected(user, self).deliver_later
     end
   end
 end
