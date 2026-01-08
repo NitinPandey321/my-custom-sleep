@@ -10,11 +10,11 @@ update_user_status_job:
   queue: default
   description: "Update user status job"
 
-plan_reminder_job:
-  cron: "0 * * * *"   # run at the top of every hour
-  class: "PlanReminderJob"
-  queue: default
-  description: "Plan reminder job"
+# plan_reminder_job:
+#   cron: "0 * * * *"   # run at the top of every hour
+#   class: "PlanReminderJob"
+#   queue: default
+#   description: "Plan reminder job"
 
 sleep_sync_job:
   cron: "0 */3 * * *"   # every 3 hours

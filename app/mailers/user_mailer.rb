@@ -32,4 +32,10 @@ class UserMailer < ApplicationMailer
       subject: "Verify Your New Email Address - My Custom Sleep Journey"
     )
   end
+
+  def inactivity_reminder(user)
+    @user = user
+    @dashboard_url = root_url
+    mail(to: @user.email, subject: "We Missed You in the App")
+  end
 end

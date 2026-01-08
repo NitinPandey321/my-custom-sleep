@@ -1,0 +1,39 @@
+<%= render "mailers/shared/header",
+    title: "#{@pillar_name} Proof Approved!",
+    company_name: "My Custom Sleep Journey" %>
+
+<div style="padding: 0 30px 20px; font-size:16px; line-height:1.6;">
+
+  <p>
+    Dear <strong>Dr. <%= @user.last_name %></strong>,
+  </p>
+
+  <p>
+    Great work! Your latest proof submission for your
+    <strong><%= @pillar_name %></strong> module has been approved.
+  </p>
+
+  <p>
+    You're making measurable progress — stay consistent and continue putting
+    these routines in place around your shifts.
+  </p>
+
+  <p style="margin-top: 20px;">
+    <strong>Next Step:</strong><br>
+    Log in to the Custom Sleep Journey dashboard to check what’s coming next.
+  </p>
+
+  <%= render "mailers/shared/button",
+      text: "View Progress",
+      url: @dashboard_url %>
+
+  <p style="margin-top: 25px;">
+    To your continued recovery,<br>
+    <strong style="color:#0e3264;">The My Custom Sleep Journey Team</strong>
+  </p>
+
+</div>
+
+<%= render "mailers/shared/footer",
+    note: "This email was sent to #{@user.email}",
+    company_name: "My Custom Sleep Journey" %>

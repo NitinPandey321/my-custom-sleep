@@ -10,6 +10,20 @@ class PlanMailer < ApplicationMailer
     )
   end
 
+  def proof_approved(user, plan)
+    @user = user
+    @pillar_name = plan.wellness_pillar
+    @dashboard_url = root_url
+    mail(to: @user.email, subject: "#{@pillar_name} Proof Approved!")
+  end
+
+  def proof_rejected(user, plan)
+    @user = user
+    @pillar_name = plan.wellness_pillar
+    @dashboard_url = root_url
+    mail(to: @user.email, subject: "#{@pillar_name} Proof Requires Resubmission")
+  end
+
   def proof_upload_reminder(user, plan)
     @user = user
     @pillar_name = plan.wellness_pillar
