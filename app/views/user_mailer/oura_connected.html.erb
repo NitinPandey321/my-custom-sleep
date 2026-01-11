@@ -1,0 +1,23 @@
+<div style="padding: 30px;">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <%= image_tag "my-custom-logo.jpeg", alt: @company_name, style: "max-width: 200px; height: auto;" %>
+  </div>
+
+  <h1 style="color: #0e3264; font-size: 24px; margin-bottom: 20px; text-align: center;">Oura Connected!</h1>
+
+  <div style="font-size: 16px; margin-bottom: 20px;">
+    <p>Hi <span style="color: #0e3264; font-weight: bold;"><%= @user.first_name %></span>,</p>
+
+    <p>Great news — your Oura account is now connected to <strong><%= @company_name %></strong>! We'll begin syncing your sleep and activity data to help personalize your plan.</p>
+
+    <p>You can view your data and insights on your <a href="<%= @dashboard_url %>">dashboard</a>. If you have any trouble, please reach out to your coach.</p>
+
+    <p>Best regards,<br>
+    <span style="color: #0e3264; font-weight: bold;">The <%= @company_name %> Team</span></p>
+  </div>
+
+  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center;">
+    <p>This email was sent to <%= @user.email %></p>
+    <p>&copy; <%= Date.current.year %> <%= @company_name %>. All rights reserved.</p>
+  </div>
+</div>

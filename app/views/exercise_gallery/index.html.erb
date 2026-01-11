@@ -16,7 +16,13 @@
   </div>
 
   <div id="plans-container" data-exercise-gallery-target="plansContainer">
-    <%= render partial: "week_section", locals: { grouped: @grouped_plans } %>
+    <% if @grouped_plans.blank? %>
+      <div class="empty-gallery-message" style="padding: 40px; text-align: center; color: #666;">
+        No picture has been added to the Exercise Gallery yet.
+      </div>
+    <% else %>
+      <%= render partial: "week_section", locals: { grouped: @grouped_plans } %>
+    <% end %>
   </div>
 
   <div class="pagination">
@@ -24,12 +30,13 @@
     <%= link_to "Next", url_for(page: @grouped_plans.next_page), class: "pagination-link" if @grouped_plans.next_page %>
   </div>
 
-  <div class="modal" data-exercise-gallery-target="modal">
-    <span class="close" data-action="click->exercise-gallery#closeModal">&times;</span>
-    
-    <!-- Sticky buttons independent of image size -->
-    <button class="prev-btn" data-action="click->exercise-gallery#prevImage">&#10094;</button>
-    <img class="modal-content" data-exercise-gallery-target="modalImage">
-    <button class="next-btn" data-action="click->exercise-gallery#nextImage">&#10095;</button>
+  <div class="exercise-modal" data-exercise-gallery-target="modal">
+    <span class="exercise-close" data-action="click->exercise-gallery#closeModal">&times;</span>
+
+    <div class="exercise-modal-inner">
+      <button class="exercise-prev-btn" data-action="click->exercise-gallery#prevImage" aria-label="Previous image">&#10094;</button>
+      <img class="exercise-modal-content" data-exercise-gallery-target="modalImage" alt="Exercise image preview">
+      <button class="exercise-next-btn" data-action="click->exercise-gallery#nextImage" aria-label="Next image">&#10095;</button>
+    </div>
   </div>
 </div>

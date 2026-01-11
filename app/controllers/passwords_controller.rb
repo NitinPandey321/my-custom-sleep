@@ -26,8 +26,8 @@ class PasswordsController < ApplicationController
 
       redirect_to verify_otp_form_passwords_path, notice: "OTP sent to your email. Please check your inbox."
     else
-      flash.now[:alert] = "Email not registered. Please check your email address."
-      render :new
+      redirect_to new_password_path,
+              alert: "Email not registered. Please check your email address."
     end
   end
 
