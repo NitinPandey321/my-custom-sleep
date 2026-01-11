@@ -71,21 +71,14 @@
   <div class="validation-error" data-form-validation-target="phoneError"></div>
   
   <!-- Server-side Error Messages -->
-  <% if form.object.errors[:phone_e164].any? %>
-    <div class="validation-error" style="display: block;">
-      <%= form.object.errors[:phone_e164].first %>
-    </div>
-  <% end %>
-  
-  <% if form.object.errors[:mobile_number].any? %>
-    <div class="validation-error" style="display: block;">
-      <%= form.object.errors[:mobile_number].first %>
-    </div>
-  <% end %>
-  
-  <% if form.object.errors[:country_code].any? %>
-    <div class="validation-error" style="display: block;">
-      <%= form.object.errors[:country_code].first %>
+  <% phone_error =
+    form.object.errors[:phone_e164].first ||
+    form.object.errors[:mobile_number].first ||
+    form.object.errors[:country_code].first %>
+
+  <% if phone_error.present? %>
+    <div class="validation-error" data-form-validation-target="phoneError">
+      <%= phone_error %>
     </div>
   <% end %>
 </div>

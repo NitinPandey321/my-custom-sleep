@@ -14,7 +14,6 @@ module ApplicationHelper
   def country_code_options
     [
       { name: "United States", iso2: "US", dial_code: "+1", flag: "🇺🇸" },
-      { name: "Canada", iso2: "CA", dial_code: "+1", flag: "��" },
       { name: "United Kingdom", iso2: "GB", dial_code: "+44", flag: "��" },
       { name: "Australia", iso2: "AU", dial_code: "+61", flag: "🇦🇺" },
       { name: "Germany", iso2: "DE", dial_code: "+49", flag: "🇩🇪" },

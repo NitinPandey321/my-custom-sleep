@@ -43,6 +43,7 @@ Rails.application.configure do
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.asset_host = "http://localhost:3000"
 
   # Configure Action Mailer - try SMTP first, fallback to letter_opener
   # if ENV["GMAIL_USERNAME"].present? && ENV["GMAIL_APP_PASSWORD"].present? && ENV["GMAIL_APP_PASSWORD"] != "temp_password_for_testing"
