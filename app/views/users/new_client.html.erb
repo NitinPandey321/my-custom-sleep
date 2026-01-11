@@ -13,6 +13,7 @@
     </div>
 
     <%= form_with model: @user, url: signup_client_path, local: true, 
+        html: { novalidate: true },
         class: "auth-form", 
         data: { 
           controller: "form-validation",
@@ -63,7 +64,7 @@
         </div>
         
         <div class="input-group">
-          <%= render 'shared/phone_input', form: form %>
+        <%= render 'shared/phone_input', form: form %>
         </div>
       </div>
 
@@ -174,25 +175,31 @@ if (termsCheckbox && updatesCheckbox && signupBtn) {
     <!-- Display server-side validation errors -->
     <% if @user&.errors&.any? %>
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const controller = document.querySelector('[data-controller*="form-validation"]')?.formValidationController
-          if (controller) {
-            const errors = {
-              <% @user.errors.each do |error| %>
-                <% field_name = case error.attribute.to_s
-                   when 'first_name' then 'firstName'
-                   when 'last_name' then 'lastName'
-                   when 'mobile_number', 'country_code', 'phone_e164', 'phone_country_iso2' then 'phone'
-                   when 'password_confirmation' then 'passwordConfirmation'
-                   when 'gender' then 'gender'
-                   else error.attribute.to_s.camelcase(:lower)
-                   end %>
-                '<%= field_name %>': '<%= j(error.message) %>',
-              <% end %>
-            }
-            controller.handleServerErrors(errors)
+        document.addEventListener('turbo:render', function() {
+        runServerErrors()
+      })
+
+      document.addEventListener('DOMContentLoaded', function() {
+        runServerErrors()
+      })
+
+      function runServerErrors() {
+        const controller = document.querySelector('[data-controller*="form-validation"]')?.formValidationController
+        if (controller) {
+          const errors = {
+            <% @user.errors.each do |error| %>
+              '<%= case error.attribute.to_s
+                  when "first_name" then "firstName"
+                  when "last_name"  then "lastName"
+                  when "mobile_number", "country_code", "phone_e164", "phone_country_iso2" then "phone"
+                  when "password_confirmation" then "passwordConfirmation"
+                  else error.attribute.to_s.camelcase(:lower)
+                end %>': '<%= j(error.message) %>',
+            <% end %>
           }
-        })
+          controller.handleServerErrors(errors)
+        }
+      }
       </script>
     <% end %>
 

@@ -15,6 +15,7 @@ export default class extends Controller {
   connect() {
     this.setupValidation()
     this.debounceTimers = {}
+    this.element.formValidationController = this
   }
 
   disconnect() {
