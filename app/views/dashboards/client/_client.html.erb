@@ -20,7 +20,7 @@
     <% end %>
 
     <div class="client-text">
-      <h4><%= client.full_name %></h4>
+      <h4><%= client.last_name.present? ? "#{client.first_name} #{client.last_name.strip[0].upcase}." : client.first_name %></h4>
       <p><%=
               case client.today_reflection&.mood
               when "happy" then "😊 Happy"

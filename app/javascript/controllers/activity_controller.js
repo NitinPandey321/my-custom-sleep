@@ -2,7 +2,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { idleLimit: { type: Number, default: 300000 } } // 5 minutes
+  static values = { idleLimit: { type: Number, default: 900000 } } // 15 minutes
 
   connect() {
     this.active = true

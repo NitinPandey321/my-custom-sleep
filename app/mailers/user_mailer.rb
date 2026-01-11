@@ -33,6 +33,17 @@ class UserMailer < ApplicationMailer
     )
   end
 
+  def oura_connected(user)
+    @user = user
+    @company_name = "My Custom Sleep Journey"
+    @dashboard_url = root_url
+
+    mail(
+      to: @user.email,
+      subject: "Oura Connected — Your data will sync"
+    )
+  end
+
   def inactivity_reminder(user)
     @user = user
     @dashboard_url = root_url

@@ -37,6 +37,7 @@ class OuraController < ApplicationController
       )
 
       OuraBaselineSyncJob.perform_later(current_user.id)
+      UserMailer.oura_connected(current_user).deliver_later
       redirect_to dashboards_client_path, notice: "Oura connected!"
     else
       render plain: "Token exchange failed: #{token_data.inspect}", status: :unprocessable_entity

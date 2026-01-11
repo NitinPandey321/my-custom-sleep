@@ -1,0 +1,14 @@
+Oura Connected!
+
+Hi <%= @user.first_name %>,
+
+Great news — your Oura account is now connected to <%= @company_name %>! We'll begin syncing your sleep and activity data to help personalize your plan.
+
+View your data in your dashboard: <%= @dashboard_url %>
+
+Best regards,
+The <%= @company_name %> Team
+
+---
+This email was sent to <%= @user.email %>
+© <%= Date.current.year %> <%= @company_name %>. All rights reserved.

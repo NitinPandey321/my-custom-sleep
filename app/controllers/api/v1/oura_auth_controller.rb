@@ -59,6 +59,7 @@ module Api
           )
 
           OuraBaselineSyncJob.perform_later(user.id)
+          UserMailer.oura_connected(user).deliver_later
 
           redirect_to "sleepcoach://oura?status=success", allow_other_host: true
         else
