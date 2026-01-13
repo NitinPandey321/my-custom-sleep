@@ -19,7 +19,7 @@ class AppInactivityAlertJob
   def send_inactivity_sms(user)
     dashboard_url = "#{ENV['BASE_URL']}/dashboards/client"
 
-    message = "Hi Dr. #{user.last_name}, we know things get busy on-shift. " \
+    message = "Hi #{user.last_name}, we know things get busy on-shift. " \
               "We’ve missed you in the app! Take a moment to check your plan and stay on track: #{dashboard_url}. " \
               "We’re here if you need us."
 
