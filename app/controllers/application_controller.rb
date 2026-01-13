@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   private
 
   def use_browser_time_zone
-    time_zone = cookies[:user_time_zone].presence || "UTC"
+    time_zone = request.headers['X-Time-Zone'].presence
+    time_zone ||= cookies[:user_time_zone].presence || "UTC"
     time_zone = TimeZoneNormalizer.normalize(time_zone)
     Time.use_zone(time_zone) { yield }
   end
