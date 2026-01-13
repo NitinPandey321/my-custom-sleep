@@ -105,7 +105,7 @@ class Plan < ApplicationRecord
         updated_by: user.coach_id
       )
       message = """
-      Great work, Dr. #{user.full_name}! Your #{wellness_pillar} proof has been approved.
+      Great work, #{user.full_name}! Your #{wellness_pillar} proof has been approved.
       You’re one step closer to better recovery. Keep it up! #{ENV['BASE_URL']}/dashboards/client
       """
       # TwilioClient.send_sms(to: user.full_phone, body: message)
@@ -128,7 +128,7 @@ class Plan < ApplicationRecord
         updated_by: user.coach_id
       )
       message = """
-      Hi Dr. #{user.full_name}, your #{wellness_pillar} proof was not approved.
+      Hi #{user.full_name}, your #{wellness_pillar} proof was not approved.
       Please check the coach's feedback and re-upload here:
       #{ENV['BASE_URL']}/dashboards/client
       Let’s get this back on track!

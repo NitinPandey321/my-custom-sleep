@@ -15,7 +15,7 @@ class CriticalRecoveryAlertJob
   def send_client_alert(user)
     full_url = "#{ENV['BASE_URL']}/dashboards/client"
 
-    message = "URGENT SAFETY ALERT: Dr. #{user.last_name}, your Oura data shows a critical recovery score below 30. " \
+    message = "URGENT SAFETY ALERT: #{user.last_name}, your Oura data shows a critical recovery score below 30. " \
               "Your fatigue risk is high. Please prioritize rest immediately and notify your supervisor if on-shift. #{full_url}"
 
     TwilioClient.send_sms(to: user.full_phone, body: message)
