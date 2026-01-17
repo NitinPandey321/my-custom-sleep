@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   post   "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
   get "/logout", to: "sessions#destroy"
+  get "/account-deletion", to: "public#account_deletion"
+  post "/account-deletion", to: "public#request_account_deletion"
+  get  "/account-deletion/confirmation", to: "public#account_deletion_confirmation"
 
   # Signup flow
   get  "/signup",          to: "users#role_selection"

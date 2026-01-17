@@ -1,0 +1,41 @@
+<div style="max-width: 720px; margin: 40px auto; font-family: system-ui;">
+  <h1>Account & Data Deletion Request</h1>
+
+  <p>
+    You may request the deletion of your account and associated data at any time.
+  </p>
+
+  <h3>What data will be deleted</h3>
+  <ul>
+    <li>User profile and account information</li>
+    <li>Messages between client and assigned coach</li>
+    <li>App usage and related records</li>
+  </ul>
+
+  <p>
+    Some information may be retained if required by law.
+  </p>
+
+  <h3>How to request deletion</h3>
+  <p>
+    Submit your registered email address below.
+  </p>
+
+  <%= form_with url: account_deletion_path, method: :post do %>
+    <div style="margin-bottom: 12px;">
+      <label>Email address</label><br>
+      <%= email_field_tag :email, nil, required: true, style: "width:100%; padding:8px;" %>
+    </div>
+
+    <%= submit_tag "Request Account Deletion",
+          style: "padding:10px 16px; background:#0e3264; color:#fff; border:none;" %>
+  <% end %>
+
+  <p style="margin-top: 24px;">
+    Deletion requests are processed within <strong>30 days</strong>.
+  </p>
+
+  <p>
+    For help, contact: <a href="mailto:contact@mycustomsleepjourney.com">contact@mycustomsleepjourney.com</a>
+  </p>
+</div>
